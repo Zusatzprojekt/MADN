@@ -6,7 +6,7 @@
 
 ## Spielregeln
 
-* Wer eine Sechs hat, muss wenn möglich Figur aus seinen Feldern auf das Startfeld stellen, dannach kann man würfeln bis keine Sechs mehr kommt und um die Gewürfelte Zahl vorrücken. Die Züge können dabei aufgeteilt werden.
+* Wer eine Sechs hat, muss wenn möglich eine Figur aus seinen Feldern auf das Startfeld stellen, dannach kann man würfeln bis keine Sechs mehr kommt und um die Gewürfelte Zahl vorrücken. Die Züge können dabei aufgeteilt werden.
 Die Spieler, die bei der ersten Runde keine Sechs haben müssen dann wieder 3 mal würfeln, bis sie die erwünschte zahl würfeln
 
 * Sobald man eine Figur auf der Startposition hat, gilt es diese so schnell wie möglich ins Ziel zu bringen. Alle Startpositionen zählen hier als Ruhezohne, man kann dort also nicht geworden werden.
