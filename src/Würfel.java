@@ -21,16 +21,10 @@ public class Würfel
         // Instanzvariable initialisieren
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
     public int würfeln()
     {
         // tragen Sie hier den Code ein
-        int roll = rand.nextInt(7);
+        int roll = rand.nextInt(6) +1;
         return roll;
     }
 }
