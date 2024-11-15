@@ -7,7 +7,7 @@
  */
 import java.util.Random;
 
-public class Würfel
+public class Wuerfel
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private int augenanzahl;
@@ -16,15 +16,15 @@ public class Würfel
     /**
      * Konstruktor für Objekte der Klasse Würfel
      */
-    public Würfel()
+    public Wuerfel()
     {
         // Instanzvariable initialisieren
     }
 
-    public int würfeln()
+    public int wuerfeln()
     {
         // tragen Sie hier den Code ein
-        int roll = rand.nextInt(6) +1;
+        int roll = rand.nextInt(1, 7);
         return roll;
     }
 }
