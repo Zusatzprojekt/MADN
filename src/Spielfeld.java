@@ -189,4 +189,7 @@ public class Spielfeld
         System.out.println(path_red);
     }
     
+    public int get_positions(Spieler spieler){
+        return 1;
+    }
 }
