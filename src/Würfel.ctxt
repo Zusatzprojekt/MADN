@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=W\u00FCrfel
-comment1.params=
-comment1.target=W\u00FCrfel()
-comment1.text=\r\n\ Konstruktor\ f\u00FCr\ Objekte\ der\ Klasse\ W\u00FCrfel\r\n
-comment2.params=
-comment2.target=int\ w\u00FCrfeln()
-comment2.text=\r\n\ Ein\ Beispiel\ einer\ Methode\ -\ ersetzen\ Sie\ diesen\ Kommentar\ mit\ Ihrem\ eigenen\r\n\ \r\n\ @param\ \ y\ \ \ \ ein\ Beispielparameter\ f\u00FCr\ eine\ Methode\r\n\ @return\ \ \ \ \ \ \ \ die\ Summe\ aus\ x\ und\ y\r\n
-numComments=3
