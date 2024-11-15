@@ -42,4 +42,27 @@ public class Spielfeld {
         }
         return 0;
     }
+
+    private static int findIndex(int[] array, int target) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == target) {
+                return i;
+            }
+        }
+        return -1; // Element not found
+    }
+
+
+    public void werfen(int geworfenen, int augenzahl){
+        String current_farbe ="red"; //testen
+        String target_farbe = "blue"; //testen
+        int position_source = geworfenen-augenzahl;
+        int find_index_source = findIndex(get_positions(current_farbe), position_source);
+        int find_index_target = findIndex(get_positions(target_farbe), geworfenen);
+        int[] positions_source = positions.get(current_farbe);
+        int[] positions_target = positions.get(target_farbe);
+        positions_source[find_index_source] = geworfenen;
+
+
+    }
 }
