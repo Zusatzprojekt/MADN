@@ -1,7 +1,10 @@
 #BlueJ class context
 comment0.target=Spielfeld
-comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Spielfeld.\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
 comment1.params=
 comment1.target=Spielfeld()
 comment1.text=\r\n\ Konstruktor\ f\u00FCr\ Objekte\ der\ Klasse\ Spielfeld\r\n
-numComments=2
+comment2.params=farbe
+comment2.target=int[]\ get_positions(java.lang.String)
+comment3.params=farbe\ augenzahl
+comment3.target=int\ pruefe_werfen(java.lang.String,\ int)
+numComments=4
