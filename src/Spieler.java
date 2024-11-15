@@ -7,7 +7,6 @@ public class Spieler {
     }
     public int move(){
         int roll = wuerfel.wuerfeln();
-        spielfeld.get_positions();
         return roll;
     }
 }
