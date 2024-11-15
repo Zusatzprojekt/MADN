@@ -16,3 +16,9 @@
 * Steht auf einem Feld, auf das man vorrücken möchte, eine Eigene, muss man den Zug mit einer anderen Figur machen.
   
 * Es müssen alle Spielfiguren in die Zielfelder gebracht werden, dabei können die Figuren auch andere in dem Ziel überspringen
+
+## Spielende
+
+* Der Gewinner ist der Spieler, der als Erstes alle Figuren in seine Zielpositionen gebracht hat.
+
+* Sobald zwei weitere Spieler ihre Figuren in die Zielpositionen gebracht haben, endet das Spiel. Der letzte Spieler hat automatisch verloren und muss seine Figuren nicht mehr in die Zielpositionen bringen.
