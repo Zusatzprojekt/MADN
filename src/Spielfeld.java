@@ -28,7 +28,11 @@ public class Spielfeld {
         return positions.get(farbe);
     }
 
-    public int pruefe_werfen(String farbe,int figur, int augenzahl) {
+    public HashMap<String, int[]> get_positions(){
+        return positions;
+    }
+
+    public int pruefe_werfen(String farbe, int augenzahl) {
         int[] positions_farbe = positions.get(farbe);
         String[] farben = {"red", "blue", "yellow", "green"};
         for (String get_farbe : farben) {
@@ -44,7 +48,7 @@ public class Spielfeld {
         return 0;
     }
 
-    private static int findIndex(int[] array, int target) {
+    public static int findIndex(int[] array, int target) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == target) {
                 return i;
