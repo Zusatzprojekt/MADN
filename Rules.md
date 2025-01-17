@@ -7,7 +7,7 @@
 ## Spielregeln
 * Zu Beginn muss eine Figur auf das Spielbrett gebracht werden. Es darf bis zu 3-mal gewürfelt werden und bei einer Sechs muss der Spieler eine beliebige Figur von seiner Parkposition (Anfangsposition) auf das Spielbrett bewegen. Danach muss erneut gewürfelt werden.
 
-* Generell: Wer eine Sechs gewürfelt hat, muss - wenn möglich - eine Figur aus der Parkposition (Anfangsposition) auf das Spielbrett stellen. Dannach wird erneut gewürfelt und um die gewürfelte Zahl vorgerückt. Sollte erneut eine Sechs kommen, so darf wieder gewürfelt werden. Es gilt immer: Solange eine Figur sich in einer Parkposition befindet, muss diese herausgenommen werden.
+* Generell: Wer eine Sechs gewürfelt hat, muss - wenn möglich - eine Figur aus der Parkposition (Anfangsposition) auf das Spielbrett stellen. Danach wird erneut gewürfelt und um die gewürfelte Zahl vorgerückt. Sollte erneut eine Sechs kommen, so darf wieder gewürfelt werden. Es gilt immer: Solange eine Figur sich in einer Parkposition befindet, muss diese herausgenommen werden.
 
 * Sobald man eine Figur auf der Startposition auf dem Spielbrett hat, gilt es, diese so schnell wie möglich ins Ziel zu bringen.
   
