@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.target=Wuerfel
-comment1.params=
-comment1.target=Wuerfel()
-comment1.text=\r\n\ Konstruktor\ f\u00FCr\ Objekte\ der\ Klasse\ W\u00FCrfel\r\n
-comment2.params=
-comment2.target=int\ wuerfeln()
-numComments=3
