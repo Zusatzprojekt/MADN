@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Figure {
     private int currentField;
     private boolean onStart;
