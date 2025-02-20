@@ -13,7 +13,7 @@
     <Rectangle fill="#FFFF9A" height="1000" stroke="#000000" strokeType="INSIDE" strokeWidth="8" width="1000.0"/>
 
     <!--Field connection line-->
-    <Polygon fill="#FFFF9A00" points="340, 850, 340, 510, 0, 510, 0, 340, 340, 340, 340, 0, 510, 0, 510, 340, 850, 340, 850, 510, 510, 510, 510, 850" stroke="#000000" strokeWidth="8"/>
+    <Polygon fx:id="waypoints" fill="#FFFF9A00" points="340, 850, 340, 510, 0, 510, 0, 340, 340, 340, 340, 0, 510, 0, 510, 340, 850, 340, 850, 510, 510, 510, 510, 850" stroke="#000000" strokeWidth="8"/>
 
     <!--Base fields -->
     <AnchorPane>
