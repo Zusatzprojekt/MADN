@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controllers.StartmenuController">
+<!--Headline-->
+   <Label alignment="CENTER" layoutX="75.0" layoutY="29.0" prefHeight="47.0" prefWidth="449.0" text="Mensch ärgere dich nicht" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <font>
+         <Font name="Arial" size="40.0" />
+      </font>
+      <effect>
+         <Lighting bumpInput="$null" diffuseConstant="1.92" specularConstant="0.83" specularExponent="14.94" surfaceScale="3.8">
+            <light>
+               <Light.Distant />
+            </light>
+         </Lighting>
+      </effect>
+   </Label>
+<!--Main Content / Border-->
+   <StackPane style="-fx-border-color: #000000; -fx-border-radius: 15; -fx-border-width: 1.5;" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="95.0">
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <VBox alignment="CENTER" fillWidth="false" spacing="10.0">
+               <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Blau" />
+               <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Gelb" />
+               <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Grün" />
+               <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Rot" />
+            </VBox>
+            <Button fx:id="playButton" alignment="CENTER" disable="true" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" text="Spielen" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </StackPane>
+</AnchorPane>
