@@ -2,7 +2,7 @@
 
 ## Spielstart
 
-* Jeder Spieler muss 3 mal würfeln. Der Spieler mit der höchsten Zahl beginnt. Danach geht es im Uhrzeigersinn weiter.
+* Jeder Spieler muss 3-mal würfeln. Der Spieler mit der höchsten Zahl beginnt. Danach geht es im Uhrzeigersinn weiter.
 
 ## Spielregeln
 * Zu Beginn muss eine Figur auf das Spielbrett gebracht werden. Es darf bis zu 3 mal gewürfelt werden und bei einer Sechs muss der Spieler eine beliebige Figur von seiner Parkposition (Anfangsposition) auf das Spielbrett bewegen. Danach muss erneut gewürfelt werden.
