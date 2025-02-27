@@ -1,15 +1,12 @@
-package com.github.zusatzprojekt.madn.ui.controllers;
+package com.github.zusatzprojekt.madn.ui.controller;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class GameBoardController implements Initializable {
