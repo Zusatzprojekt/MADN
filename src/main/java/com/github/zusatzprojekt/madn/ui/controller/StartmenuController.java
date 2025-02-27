@@ -1,4 +1,4 @@
-package com.github.zusatzprojekt.madn.ui.controllers;
+package com.github.zusatzprojekt.madn.ui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
