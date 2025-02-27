@@ -1,80 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane maxWidth="1000" maxHeight="1000" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameBoardController">
+<StackPane maxHeight="1000" maxWidth="1000" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameBoardController">
 
     <!--Board background-->
-    <Rectangle fill="#FFFF9A" height="1000" stroke="#000000" strokeType="INSIDE" strokeWidth="8" width="1000.0"/>
+    <Rectangle fill="#FFFF9A" height="1000" stroke="#000000" strokeType="INSIDE" strokeWidth="8" width="1000.0" />
 
     <!--Field connection line-->
-    <Polygon fx:id="waypoints" fill="#FFFF9A00" points="340, 850, 340, 510, 0, 510, 0, 340, 340, 340, 340, 0, 510, 0, 510, 340, 850, 340, 850, 510, 510, 510, 510, 850" stroke="#000000" strokeWidth="8"/>
+    <Polygon fx:id="waypoints" fill="#FFFF9A00" points="
+        340, 850,
+        340, 765,
+        340, 680,
+        340, 595,
+        340, 510,
+        255, 510,
+        170, 510,
+        85, 510,
+        0, 510,
+        0, 425,
+        0, 340,
+        85, 340,
+        170, 340,
+        255, 340,
+        340, 340,
+        340, 255,
+        340, 170,
+        340, 85,
+        340, 0,
+        425, 0,
+        510, 0,
+        510, 85,
+        510, 170,
+        510, 255,
+        510, 340,
+        595, 340,
+        680, 340,
+        765, 340,
+        850, 340,
+        850, 425,
+        850, 510,
+        765, 510,
+        680, 510,
+        595, 510,
+        510, 510,
+        510, 595,
+        510, 680,
+        510, 765,
+        510, 850,
+        425, 850" stroke="#000000" strokeWidth="8" />
 
     <!--Base fields -->
     <AnchorPane>
         <!--Base of blue-->
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
             <Group>
-                <Circle centerX="30" centerY="30" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="30" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="30" centerY="115" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="115" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle centerX="30" centerY="30" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="30" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="30" centerY="115" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="115" fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             </Group>
             <Label text="B" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Base of yellow-->
         <StackPane AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group>
-                <Circle centerX="30" centerY="30" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="30" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="30" centerY="115" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="115" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle centerX="30" centerY="30" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="30" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="30" centerY="115" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="115" fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             </Group>
             <Label text="B" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Base of green-->
         <StackPane AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group>
-                <Circle centerX="30" centerY="30" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="30" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="30" centerY="115" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="115" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle centerX="30" centerY="30" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="30" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="30" centerY="115" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="115" fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             </Group>
             <Label text="B" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Base of red-->
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <Group>
-                <Circle centerX="30" centerY="30" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="30" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="30" centerY="115" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-                <Circle centerX="115" centerY="115" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle centerX="30" centerY="30" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="30" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="30" centerY="115" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+                <Circle centerX="115" centerY="115" fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             </Group>
             <Label text="B" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <padding>
-            <Insets bottom="45.0" left="45.0" right="45.0" top="45.0"/>
+            <Insets bottom="45.0" left="45.0" right="45.0" top="45.0" />
         </padding>
     </AnchorPane>
 
@@ -83,34 +123,34 @@
         <!--Home of blue-->
         <VBox layoutX="395" layoutY="480" spacing="25">
             <StackPane>
-                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="d" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="c" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="b" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#3254f5" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="a" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
@@ -118,34 +158,34 @@
         <!--Home of yellow-->
         <HBox layoutX="55" layoutY="395" spacing="25">
             <StackPane>
-                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="a" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="b" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="c" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FFFF00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="d" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
@@ -153,34 +193,34 @@
         <!--Home of green-->
         <VBox layoutX="395" layoutY="55" spacing="25">
             <StackPane>
-                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="a" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="b" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="c" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#009a00" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="d" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
@@ -188,34 +228,34 @@
         <!--Home of red-->
         <HBox layoutX="480" layoutY="395" spacing="25">
             <StackPane>
-                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="d" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="c" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="b" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
             <StackPane>
-                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+                <Circle fill="#FF0000" radius="30.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
                 <Label text="a" textFill="#000000">
                     <font>
-                        <Font name="Arial Bold" size="40.0"/>
+                        <Font name="Arial Bold" size="40.0" />
                     </font>
                 </Label>
             </StackPane>
@@ -226,37 +266,37 @@
     <Group>
         <!--Start field of blue-->
         <StackPane layoutX="340" layoutY="850">
-            <Circle fill="#3254f5" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+            <Circle fill="#3254f5" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             <Label text="A" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Start field of yellow-->
         <StackPane layoutX="0" layoutY="340">
-            <Circle fill="#FFFF00" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+            <Circle fill="#FFFF00" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             <Label text="A" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Start field of green-->
         <StackPane layoutX="510" layoutY="0">
-            <Circle fill="#009a00" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+            <Circle fill="#009a00" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             <Label text="A" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
         <!--Start field of red-->
         <StackPane layoutX="850" layoutY="510">
-            <Circle fill="#FF0000" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+            <Circle fill="#FF0000" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
             <Label text="A" textFill="#000000">
                 <font>
-                    <Font name="Arial Bold" size="50.0"/>
+                    <Font name="Arial Bold" size="50.0" />
                 </font>
             </Label>
         </StackPane>
@@ -264,45 +304,45 @@
 
     <!--Game Board-->
     <Group>
-        <Circle centerX="340" centerY="765" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="680" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="595" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="255" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="170" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="85" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="0" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="0" centerY="425" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="85" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="170" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="255" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="255" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="170" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="85" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="340" centerY="0" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="425" centerY="0" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="85" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="170" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="255" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="595" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="680" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="765" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="850" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="850" centerY="425" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="765" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="680" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="595" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="595" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="680" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="765" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="510" centerY="850" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
-        <Circle centerX="425" centerY="850" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4"/>
+        <Circle centerX="340" centerY="765" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="680" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="595" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="255" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="170" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="85" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="0" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="0" centerY="425" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="85" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="170" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="255" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="255" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="170" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="85" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="340" centerY="0" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="425" centerY="0" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="85" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="170" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="255" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="595" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="680" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="765" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="850" centerY="340" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="850" centerY="425" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="765" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="680" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="595" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="510" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="595" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="680" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="765" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="510" centerY="850" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
+        <Circle centerX="425" centerY="850" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
     </Group>
 
     <!--Player Layer-->
-    <Pane fx:id="playerPane"/>
+    <Pane fx:id="playerPane" maxHeight="850.0" maxWidth="850.0"/>
 
 </StackPane>
