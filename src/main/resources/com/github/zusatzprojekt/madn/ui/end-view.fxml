@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!--<?import com.github.zusatzprojekt.madn.ui.parts.ScalePane?>-->
+
+<AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #FFECD2;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.EndscreenController">
+    <!--Headline-->
+    <Label alignment="CENTER" layoutX="75.0" layoutY="29.0" prefHeight="47.0" prefWidth="449.0" text="Mensch ärgere dich nicht" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <font>
+            <Font name="Arial Bold" size="40.0" />
+        </font>
+        <effect>
+            <Glow />
+        </effect>
+    </Label>
+    <!--Main Content / Border-->
+    <StackPane style="-fx-border-color: #000000; -fx-border-radius: 15; -fx-border-width: 1.5;" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="95.0">
+       <Label alignment="CENTER" text="Spieler * hat gewonnen!" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" StackPane.alignment="TOP_CENTER">
+          <font>
+             <Font name="Arial" size="32.0" />
+          </font>
+         <StackPane.margin>
+            <Insets top="10.0" />
+         </StackPane.margin>
+       </Label>
+        <StackPane layoutX="260.0" layoutY="160.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
+            <ImageView fitHeight="180.0" fitWidth="197.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../../images/patrick.gif" />
+            </ImageView>
+        </StackPane>
+        <!--Main Content / Border-->
+        <HBox alignment="BOTTOM_CENTER" spacing="60.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Erneut Spielen" textAlignment="CENTER">
+                <font>
+                    <Font name="Arial" size="18.0" />
+                </font>
+             <cursor>
+                <Cursor fx:constant="HAND" />
+             </cursor>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#switchToStartmenu" prefHeight="50.0" prefWidth="150.0" text="Hauptmenü">
+                <font>
+                    <Font name="Arial" size="18.0" />
+                </font>
+             <cursor>
+                <Cursor fx:constant="HAND" />
+             </cursor>
+            </Button>
+          <Button mnemonicParsing="false" onMouseClicked="#quitMADN" prefHeight="50.0" prefWidth="150.0" text="Beenden" textAlignment="CENTER">
+             <font>
+                <Font name="Arial" size="18.0" />
+             </font>
+             <cursor>
+                <Cursor fx:constant="HAND" />
+             </cursor>
+          </Button>
+         <StackPane.margin>
+            <Insets bottom="10.0" />
+         </StackPane.margin>
+        </HBox>
+    </StackPane>
+</AnchorPane>

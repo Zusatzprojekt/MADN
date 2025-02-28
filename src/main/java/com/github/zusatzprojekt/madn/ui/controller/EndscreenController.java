@@ -6,5 +6,6 @@ public class EndscreenController {
     }
 
     public void switchToStartmenu() {
+
     }
 }
