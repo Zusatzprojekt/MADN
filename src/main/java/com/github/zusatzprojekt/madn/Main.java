@@ -11,9 +11,9 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/end-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/parts/startmenu.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 800, 450);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 
         stage.setTitle("Mensch Ärgere Dich Nicht");
         stage.setScene(scene);

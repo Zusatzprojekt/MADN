@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
+import java.io.IOException;
+
 public class StartmenuController {
     @FXML
     public Button playButton;
@@ -64,5 +66,9 @@ public class StartmenuController {
 
     public void changeButtonState(){
         playButton.setDisable(countPlayer < 2);
+    }
+
+    public void clickedPlayButton(ActionEvent actionEvent) {
+        
     }
 }
