@@ -38,14 +38,14 @@
             <!--            Check Boxes-->
             <Group>
                <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <CheckBox text="Blau" onAction="#blueCheckBox"/>
-                  <CheckBox text="Gelb" onAction="#yellowCheckBox"/>
-                  <CheckBox text="Grün" onAction="#greenCheckBox"/>
-                  <CheckBox text="Rot" onAction="#redCheckBox"/>
+                  <CheckBox onAction="#blueCheckBox" text="Blau" />
+                  <CheckBox onAction="#yellowCheckBox" text="Gelb" />
+                  <CheckBox onAction="#greenCheckBox" text="Grün" />
+                  <CheckBox onAction="#redCheckBox" text="Rot" />
                </VBox>
             </Group>
             <!--            Play Button-->
-            <Button fx:id="playButton" disable="true" prefHeight="44.0" prefWidth="106.0" text="Spielen">
+            <Button fx:id="playButton" disable="true" onAction="#clickedPlayButton" prefHeight="44.0" prefWidth="106.0" text="Spielen">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
