@@ -1,5 +1,7 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
+import com.github.zusatzprojekt.madn.interfaces.FxmlController;
+import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,7 +9,7 @@ import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
 
-public class StartmenuController {
+public class StartViewController implements FxmlController {
     @FXML
     public Button playButton;
     private int countPlayer;
@@ -15,6 +17,7 @@ public class StartmenuController {
     public boolean playerYellow;
     public boolean playerGreen;
     public boolean playerRed;
+    private FxmlControllerConnector connector;
 
     public void blueCheckBox(ActionEvent actionEvent) {
         CheckBox blue = (CheckBox) actionEvent.getSource();
@@ -68,7 +71,12 @@ public class StartmenuController {
         playButton.setDisable(countPlayer < 2);
     }
 
-    public void clickedPlayButton(ActionEvent actionEvent) {
-        
+    public void clickedPlayButton(ActionEvent actionEvent) throws IOException {
+        connector.loadScene("ui/game-view.fxml");
+    }
+
+    @Override
+    public void setConnector(FxmlControllerConnector connector) {
+        this.connector = connector;
     }
 }
