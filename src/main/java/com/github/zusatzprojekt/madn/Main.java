@@ -18,6 +18,8 @@ public class Main extends Application implements FxmlControllerConnector {
 
         stage.setTitle("Mensch Ärgere Dich Nicht");
         stage.setScene(mainScene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(450);
         stage.show();
 
     }
