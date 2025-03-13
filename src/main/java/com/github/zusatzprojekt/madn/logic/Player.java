@@ -13,21 +13,26 @@ public class Player extends Group {
     private int startField;
     private Color color;
 
-    // Visuals
-    Circle circle;
-    Stop startColor;
-//    Stop endColor; = new Stop(0, color);
-//    RadialGradient gradient; = new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, endColor);
-
     public Player(Figure[] figures, int playerID, int startField, Color color) {
         this.figures = figures;
         this.playerID = playerID;
         this.startField = startField;
         this.color = color;
 
+        setupFigure(color);
+    }
+
+    private void setupFigure(Color color) {
         // Visuals
-        circle = new Circle(20);
-        startColor = new Stop(0, color);
+        Circle circle = new Circle(20);
+        Stop startColor = new Stop(0, color);
+        Stop endColor  = new Stop(0, color.deriveColor(0, 1, 0.4, 1));
+        RadialGradient gradient = new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, endColor);
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(1);
+        circle.setFill(gradient);
+
+        this.getChildren().add(circle);
     }
 
     public Figure[] canFigureMove(int rolledValue){
