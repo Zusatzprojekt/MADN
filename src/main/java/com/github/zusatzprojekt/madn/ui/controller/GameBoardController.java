@@ -74,6 +74,7 @@ public class GameBoardController implements Initializable {
 
         player.getViewOrder();
 
+
         PathTransition transition = new PathTransition(Duration.seconds(3), path, player);
         transition.setInterpolator(Interpolator.EASE_BOTH);
 
