@@ -1,5 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
+import com.github.zusatzprojekt.madn.logic.Player;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -29,7 +30,9 @@ public class GameBoardController implements Initializable {
     Point2D[] greenHome = new Point2D[]{new Point2D(425, 85), new Point2D(425, 170), new Point2D(425, 255), new Point2D(425, 340)};
     Point2D[] redHome = new Point2D[]{new Point2D(510, 425), new Point2D(595, 425), new Point2D(680, 425), new Point2D(765, 425)};
 
-    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
+//    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
+
+    Player[] players = new Player[]{new Player()};
 
     @FXML
     public Pane playerPane;

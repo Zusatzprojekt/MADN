@@ -2,37 +2,32 @@ package com.github.zusatzprojekt.madn.logic;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Circle;
 
 public class Player extends Group {
+    public enum PlayerID {BLUE, YELLOW, GREEN, RED};
+
     private Figure[] figures;
-    private int playerID;
+    private PlayerID playerID;
     private int startField;
     private Color color;
 
-    public Player(Figure[] figures, int playerID, int startField, Color color) {
+    public Player(PlayerID playerID, int startField, Color color) {
+        this.figures = new Figure[]{
+                new Figure(-1, color),
+                new Figure(-2, color),
+                new Figure(-3, color),
+                new Figure(-4, color)
+        };
+        this.playerID = playerID;
+        this.startField = startField;
+        this.color = color;
+    }
+
+    public Player(Figure[] figures, PlayerID playerID, int startField, Color color) {
         this.figures = figures;
         this.playerID = playerID;
         this.startField = startField;
         this.color = color;
-
-        setupFigure(color);
-    }
-
-    private void setupFigure(Color color) {
-        // Visuals
-        Circle circle = new Circle(20);
-        Stop startColor = new Stop(0, color);
-        Stop endColor  = new Stop(0, color.deriveColor(0, 1, 0.4, 1));
-        RadialGradient gradient = new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, endColor);
-        circle.setStroke(Color.BLACK);
-        circle.setStrokeWidth(1);
-        circle.setFill(gradient);
-
-        this.getChildren().add(circle);
     }
 
     public Figure[] canFigureMove(int rolledValue){
