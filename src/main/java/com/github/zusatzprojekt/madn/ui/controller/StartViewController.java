@@ -13,10 +13,7 @@ import java.util.HashMap;
 
 public class StartViewController implements FxmlController {
     private int countPlayer;
-    public boolean playerBlue;
-    public boolean playerYellow;
-    public boolean playerGreen;
-    public boolean playerRed;
+    private boolean playerBlue, playerYellow, playerGreen, playerRed;
     private FxmlControllerConnector2 connector;
 
     @FXML

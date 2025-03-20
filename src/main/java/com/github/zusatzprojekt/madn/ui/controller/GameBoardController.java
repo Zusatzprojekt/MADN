@@ -1,5 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
+import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import com.github.zusatzprojekt.madn.logic.Player;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
@@ -8,7 +9,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
@@ -17,9 +23,10 @@ import javafx.scene.shape.*;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class GameBoardController implements Initializable {
+public class GameBoardController implements Initializable, FxmlValueReceiver {
     Point2D[] fields;
     Point2D[] blueBase = new Point2D[]{new Point2D(85, 850), new Point2D(85, 765), new Point2D(0, 765), new Point2D(0,850)};
     Point2D[] yellowBase = new Point2D[]{new Point2D(0, 85), new Point2D(85, 85), new Point2D(85, 0), new Point2D(0, 0)};
@@ -35,6 +42,8 @@ public class GameBoardController implements Initializable {
 //    Player[] players = new Player[]{new Player(Player.PlayerID.BLUE, 10, Color.BLUE)};
 
     @FXML
+    public StackPane rootPane;
+    @FXML
     public Pane playerPane;
     @FXML
     public Polygon waypoints;
@@ -47,7 +56,14 @@ public class GameBoardController implements Initializable {
         for (int i = 0; i < fields.length; i++) {
             fields[i] = new Point2D(allPoints[i * 2], allPoints[i * 2 + 1]);
         }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("MADN Tets");
+        alert.setContentText("Mach gefälligst was!!!!!!!!!!!!!!");
+        alert.show();
+//        Scene scene = rootPane;
 
+        System.out.println("Initialize nested");
 //        player.setTranslateX(redBase[0].getX() - 20);
 //        player.setTranslateY(redBase[0].getY() - 20);
 //        playerPane.getChildren().addAll(player);
@@ -82,6 +98,11 @@ public class GameBoardController implements Initializable {
 //        transition.setInterpolator(Interpolator.EASE_BOTH);
 //
 //        transition.play();
+    }
+
+    @Override
+    public void receiveValues(Map<String, Object> values) {
+
     }
 
 //    private Group setupGroup(Stop startColor, Stop stopColor) {
