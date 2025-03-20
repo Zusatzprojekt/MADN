@@ -30,9 +30,9 @@ public class GameBoardController implements Initializable {
     Point2D[] greenHome = new Point2D[]{new Point2D(425, 85), new Point2D(425, 170), new Point2D(425, 255), new Point2D(425, 340)};
     Point2D[] redHome = new Point2D[]{new Point2D(510, 425), new Point2D(595, 425), new Point2D(680, 425), new Point2D(765, 425)};
 
-    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
-
-    Player[] players = new Player[]{new Player(Player.PlayerID.BLUE, 10, Color.BLUE)};
+//    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
+//
+//    Player[] players = new Player[]{new Player(Player.PlayerID.BLUE, 10, Color.BLUE)};
 
     @FXML
     public Pane playerPane;
@@ -69,30 +69,30 @@ public class GameBoardController implements Initializable {
 //        };
 //        timer.start();
 
-        Path path = new Path();
-        path.getElements().add(new MoveTo(redHome[0].getX(), redHome[0].getY()));
-        for (int i = 1; i < redHome.length; i++) {
-            path.getElements().add(new LineTo(redHome[i].getX(), redHome[i].getY()));
-        }
+//        Path path = new Path();
+//        path.getElements().add(new MoveTo(redHome[0].getX(), redHome[0].getY()));
+//        for (int i = 1; i < redHome.length; i++) {
+//            path.getElements().add(new LineTo(redHome[i].getX(), redHome[i].getY()));
+//        }
 
 //        player.getViewOrder();
 
 
-        PathTransition transition = new PathTransition(Duration.seconds(3), path, player);
-        transition.setInterpolator(Interpolator.EASE_BOTH);
-
-        transition.play();
+//        PathTransition transition = new PathTransition(Duration.seconds(3), path, player);
+//        transition.setInterpolator(Interpolator.EASE_BOTH);
+//
+//        transition.play();
     }
 
-    private Group setupGroup(Stop startColor, Stop stopColor) {
-        Circle circle = new Circle(20);
-        circle.setCenterX(20);
-        circle.setCenterY(20);
-        circle.setStroke(Color.BLACK);
-        circle.setStrokeWidth(1);
-        circle.setFill(new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, stopColor));
-
-        return new Group(circle);
-    }
+//    private Group setupGroup(Stop startColor, Stop stopColor) {
+//        Circle circle = new Circle(20);
+//        circle.setCenterX(20);
+//        circle.setCenterY(20);
+//        circle.setStroke(Color.BLACK);
+//        circle.setStrokeWidth(1);
+//        circle.setFill(new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, stopColor));
+//
+//        return new Group(circle);
+//    }
 
 }

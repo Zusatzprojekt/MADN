@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Main extends Application implements FxmlControllerConnector2 {
-    Scene mainScene;
+    private Scene mainScene;
+
     @Override
     public void start(Stage stage) throws IOException {
         loadScene("ui/start-view.fxml", 1280, 720);

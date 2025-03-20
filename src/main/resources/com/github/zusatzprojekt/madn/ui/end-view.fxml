@@ -53,7 +53,7 @@
                 <Cursor fx:constant="HAND" />
              </cursor>
             </Button>
-          <Button mnemonicParsing="false" onMouseClicked="#quitMADN" prefHeight="50.0" prefWidth="150.0" text="Beenden" textAlignment="CENTER">
+          <Button mnemonicParsing="false" onMouseClicked="#quitGame" prefHeight="50.0" prefWidth="150.0" text="Beenden" textAlignment="CENTER">
              <font>
                 <Font name="Arial" size="18.0" />
              </font>

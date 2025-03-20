@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class StartViewController implements FxmlController {
-    @FXML
-    public Button playButton;
     private int countPlayer;
     public boolean playerBlue;
     public boolean playerYellow;
@@ -21,6 +19,10 @@ public class StartViewController implements FxmlController {
     public boolean playerRed;
     private FxmlControllerConnector2 connector;
 
+    @FXML
+    public Button playButton;
+
+    @FXML
     public void blueCheckBox(ActionEvent actionEvent) {
         CheckBox blue = (CheckBox) actionEvent.getSource();
         if (blue.isSelected()){
@@ -33,6 +35,7 @@ public class StartViewController implements FxmlController {
         changeButtonState();
     }
 
+    @FXML
     public void yellowCheckBox(ActionEvent actionEvent) {
         CheckBox yellow = (CheckBox) actionEvent.getSource();
         if (yellow.isSelected()){
@@ -45,6 +48,7 @@ public class StartViewController implements FxmlController {
         changeButtonState();
     }
 
+    @FXML
     public void greenCheckBox(ActionEvent actionEvent) {
         CheckBox green = (CheckBox) actionEvent.getSource();
         if (green.isSelected()){
@@ -57,6 +61,7 @@ public class StartViewController implements FxmlController {
         changeButtonState();
     }
 
+    @FXML
     public void redCheckBox(ActionEvent actionEvent) {
         CheckBox red = (CheckBox) actionEvent.getSource();
         if (red.isSelected()){
@@ -69,12 +74,13 @@ public class StartViewController implements FxmlController {
         changeButtonState();
     }
 
-    public void changeButtonState(){
-        playButton.setDisable(countPlayer < 2);
-    }
-
+    @FXML
     public void clickedPlayButton(ActionEvent actionEvent) throws IOException {
         connector.loadScene("ui/game-view.fxml",createDataPacket());
+    }
+
+    public void changeButtonState(){
+        playButton.setDisable(countPlayer < 2);
     }
 
     private HashMap<String, Object> createDataPacket(){
