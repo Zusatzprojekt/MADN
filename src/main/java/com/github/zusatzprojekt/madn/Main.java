@@ -1,7 +1,8 @@
 package com.github.zusatzprojekt.madn;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlController;
-import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
+import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
+import com.github.zusatzprojekt.madn.interfaces.FxmlControllerValueReceiver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,8 +10,9 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.Map;
 
-public class Main extends Application implements FxmlControllerConnector {
+public class Main extends Application implements FxmlControllerConnector2 {
     Scene mainScene;
     @Override
     public void start(Stage stage) throws IOException {
@@ -33,19 +35,19 @@ public class Main extends Application implements FxmlControllerConnector {
         ((Stage) mainScene.getWindow()).close();
     }
 
-    private void sceneLoader(String fxmlFile, Double width, Double height) throws IOException {
+    private FXMLLoader sceneLoader(String fxmlFile, Double width, Double height) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
 
         if (mainScene == null){
             mainScene = new Scene(loader.load(), width == null ? 100 : width, height == null ? 100 : height);
         } else {
             Stage mainStage = (Stage) mainScene.getWindow();
-            mainStage.setWidth(width == null ? mainScene.getWidth() : width);
-            mainStage.setHeight(height == null ? mainScene.getHeight() : height);
-            mainScene.setRoot(loader.load());
+            mainScene = new Scene(loader.load(), width == null ? mainScene.getWidth() : width, height == null ? mainScene.getHeight() : height);
+            mainStage.setScene(mainScene);
         }
 
         ((FxmlController) loader.getController()).setConnector(this);
+        return loader;
     }
 
     @Override
@@ -56,5 +58,19 @@ public class Main extends Application implements FxmlControllerConnector {
     @Override
     public void loadScene(String fxmlFile) throws IOException {
         sceneLoader(fxmlFile,null,null);
+    }
+
+    @Override
+    public void loadScene(String fxmlFile, double width, double height, Map<String, Object> values) throws IOException {
+        FXMLLoader loader = sceneLoader(fxmlFile,width,height);
+        FxmlControllerValueReceiver receiver = loader.getController();
+        receiver.receiveValues(values);
+    }
+
+    @Override
+    public void loadScene(String fxmlFile, Map<String, Object> values) throws IOException {
+        FXMLLoader loader = sceneLoader(fxmlFile,null,null);
+        FxmlControllerValueReceiver receiver = loader.getController();
+        receiver.receiveValues(values);
     }
 }

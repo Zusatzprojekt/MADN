@@ -11,7 +11,8 @@
                 <fx:include source="parts/game-board.fxml" />
             </ScalePane>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
+        </AnchorPane>
     </SplitPane>
 
 </AnchorPane>

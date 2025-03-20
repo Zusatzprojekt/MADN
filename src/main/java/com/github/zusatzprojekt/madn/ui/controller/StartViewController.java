@@ -2,12 +2,14 @@ package com.github.zusatzprojekt.madn.ui.controller;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlController;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
+import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class StartViewController implements FxmlController {
     @FXML
@@ -17,7 +19,7 @@ public class StartViewController implements FxmlController {
     public boolean playerYellow;
     public boolean playerGreen;
     public boolean playerRed;
-    private FxmlControllerConnector connector;
+    private FxmlControllerConnector2 connector;
 
     public void blueCheckBox(ActionEvent actionEvent) {
         CheckBox blue = (CheckBox) actionEvent.getSource();
@@ -72,11 +74,21 @@ public class StartViewController implements FxmlController {
     }
 
     public void clickedPlayButton(ActionEvent actionEvent) throws IOException {
-        connector.loadScene("ui/game-view.fxml");
+        connector.loadScene("ui/game-view.fxml",createDataPacket());
+    }
+
+    private HashMap<String, Object> createDataPacket(){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("playerBlue", playerBlue);
+        data.put("playerYellow", playerYellow);
+        data.put("playerGreen", playerGreen);
+        data.put("playerRed", playerRed);
+
+        return data;
     }
 
     @Override
     public void setConnector(FxmlControllerConnector connector) {
-        this.connector = connector;
+        this.connector = (FxmlControllerConnector2) connector;
     }
 }
