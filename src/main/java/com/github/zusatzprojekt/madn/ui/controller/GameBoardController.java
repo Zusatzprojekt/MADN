@@ -30,9 +30,9 @@ public class GameBoardController implements Initializable {
     Point2D[] greenHome = new Point2D[]{new Point2D(425, 85), new Point2D(425, 170), new Point2D(425, 255), new Point2D(425, 340)};
     Point2D[] redHome = new Point2D[]{new Point2D(510, 425), new Point2D(595, 425), new Point2D(680, 425), new Point2D(765, 425)};
 
-//    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
+    Group player = setupGroup(new Stop(0, Color.web("#FF0000")), new Stop(1, /*Color.web("#660000")*/Color.web("#FF0000").deriveColor(0, 1, 0.4, 1)));
 
-    Player[] players = new Player[]{new Player()};
+    Player[] players = new Player[]{new Player(Player.PlayerID.BLUE, 10, Color.BLUE)};
 
     @FXML
     public Pane playerPane;
@@ -48,9 +48,9 @@ public class GameBoardController implements Initializable {
             fields[i] = new Point2D(allPoints[i * 2], allPoints[i * 2 + 1]);
         }
 
-        player.setTranslateX(redBase[0].getX() - 20);
-        player.setTranslateY(redBase[0].getY() - 20);
-        playerPane.getChildren().addAll(player);
+//        player.setTranslateX(redBase[0].getX() - 20);
+//        player.setTranslateY(redBase[0].getY() - 20);
+//        playerPane.getChildren().addAll(player);
 
 //        AnimationTimer timer = new AnimationTimer() {
 //            long t = 0;
@@ -75,7 +75,7 @@ public class GameBoardController implements Initializable {
             path.getElements().add(new LineTo(redHome[i].getX(), redHome[i].getY()));
         }
 
-        player.getViewOrder();
+//        player.getViewOrder();
 
 
         PathTransition transition = new PathTransition(Duration.seconds(3), path, player);

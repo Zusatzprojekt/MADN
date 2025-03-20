@@ -9,6 +9,7 @@ public class Player extends Group {
     private Figure[] figures;
     private PlayerID playerID;
     private int startField;
+    private boolean hasFinished = false;
     private Color color;
 
     public Player(PlayerID playerID, int startField, Color color) {
