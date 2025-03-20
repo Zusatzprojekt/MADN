@@ -2,7 +2,7 @@ package com.github.zusatzprojekt.madn;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlController;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
-import com.github.zusatzprojekt.madn.interfaces.FxmlControllerValueReceiver;
+import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -64,14 +64,14 @@ public class Main extends Application implements FxmlControllerConnector2 {
     @Override
     public void loadScene(String fxmlFile, double width, double height, Map<String, Object> values) throws IOException {
         FXMLLoader loader = sceneLoader(fxmlFile,width,height);
-        FxmlControllerValueReceiver receiver = loader.getController();
+        FxmlValueReceiver receiver = loader.getController();
         receiver.receiveValues(values);
     }
 
     @Override
     public void loadScene(String fxmlFile, Map<String, Object> values) throws IOException {
         FXMLLoader loader = sceneLoader(fxmlFile,null,null);
-        FxmlControllerValueReceiver receiver = loader.getController();
+        FxmlValueReceiver receiver = loader.getController();
         receiver.receiveValues(values);
     }
 }

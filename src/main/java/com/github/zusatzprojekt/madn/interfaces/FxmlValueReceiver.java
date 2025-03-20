@@ -2,6 +2,6 @@ package com.github.zusatzprojekt.madn.interfaces;
 
 import java.util.Map;
 
-public interface FxmlControllerValueReceiver extends FxmlController{
+public interface FxmlValueReceiver {
     void receiveValues(Map<String, Object> values);
 }
