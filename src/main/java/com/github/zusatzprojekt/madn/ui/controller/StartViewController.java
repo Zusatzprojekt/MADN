@@ -86,6 +86,7 @@ public class StartViewController implements FxmlController {
         data.put("playerYellow", playerYellow);
         data.put("playerGreen", playerGreen);
         data.put("playerRed", playerRed);
+        data.put("playerCount", countPlayer);
 
         return data;
     }

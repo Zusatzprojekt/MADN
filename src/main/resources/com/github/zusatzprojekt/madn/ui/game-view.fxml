@@ -9,54 +9,69 @@
 
 <AnchorPane prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
     <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+<!--        Gameboard -->
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <ScalePane fx:id="gameBoard" prefHeight="500" prefWidth="500" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <fx:include source="parts/game-board.fxml" />
             </ScalePane>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
-         <children>
-            <VBox alignment="CENTER" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
-               <children>
-                  <Group>
-                     <children>
-                        <HBox alignment="CENTER">
-                           <children>
-                              <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
-                                 <font>
-                                    <Font name="Arial" size="48.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Label">
-                                 <font>
-                                    <Font name="Arial" size="40.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                     </children>
-                  </Group>
-                  <VBox alignment="CENTER">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="174.0" text="Würfeln">
-                           <font>
-                              <Font name="Arial" size="30.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" prefHeight="250.0" prefWidth="616.0" text="Würfel" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font name="Arial" size="96.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-            <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.topAnchor="428.0" />
-         </children></AnchorPane>
+<!--       Menu Items -->
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
+          <VBox alignment="CENTER" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+<!--             Current Player -->
+             <Group>
+                <HBox alignment="CENTER">
+                   <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
+                      <font>
+                         <Font name="Arial" size="48.0" />
+                      </font>
+                   </Label>
+                   <Label contentDisplay="CENTER" text="Label">
+                      <font>
+                         <Font name="Arial Bold" size="46.0" />
+                      </font>
+                   </Label>
+                </HBox>
+             </Group>
+             <VBox alignment="CENTER">
+<!--                Dice Button -->
+                <Button defaultButton="true" onAction="#dice" prefHeight="60.0" prefWidth="175.0" text="Würfeln">
+                   <font>
+                      <Font name="Arial" size="30.0" />
+                   </font>
+                   <VBox.margin>
+                      <Insets bottom="20.0" top="20.0" />
+                   </VBox.margin>
+                </Button>
+<!--                Placeholder: Dice -->
+                <Button maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" prefHeight="250.0" prefWidth="616.0" text="Würfel" VBox.vgrow="ALWAYS">
+                   <font>
+                      <Font name="Arial" size="96.0" />
+                   </font>
+                </Button>
+             </VBox>
+          </VBox>
+          <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="440.0">
+<!--             Restart Button -->
+             <Button mnemonicParsing="false" onAction="#restartGame" prefHeight="60.0" prefWidth="175.0" text="Neustart">
+                <font>
+                   <Font name="Arial" size="30.0" />
+                </font>
+                <VBox.margin>
+                   <Insets bottom="20.0" top="20.0" />
+                </VBox.margin>
+             </Button>
+<!--             Quit Button -->
+             <Button mnemonicParsing="false" onAction="#exitApplication" prefHeight="60.0" prefWidth="175.0" text="Beenden">
+                <font>
+                   <Font name="Arial" size="30.0" />
+                </font>
+                <VBox.margin>
+                   <Insets bottom="20.0" top="20.0" />
+                </VBox.margin>
+             </Button>
+          </VBox>
+       </AnchorPane>
     </SplitPane>
 
 </AnchorPane>
