@@ -1,4 +1,4 @@
-package com.github.zusatzprojekt.madn.ui.parts;
+package com.github.zusatzprojekt.madn.ui.components;
 
 import javafx.beans.DefaultProperty;
 import javafx.geometry.HPos;

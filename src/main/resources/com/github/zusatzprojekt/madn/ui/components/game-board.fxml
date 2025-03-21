@@ -7,53 +7,13 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="rootPane" maxHeight="1000" maxWidth="1000" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameBoardController">
+<fx:root fx:id="rootPane" maxHeight="1000" maxWidth="1000" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" type="javafx.scene.layout.StackPane"> <!-- fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameBoardController" -->
 
     <!--Board background-->
     <Rectangle fill="#FFFF9A" height="1000" stroke="#000000" strokeType="INSIDE" strokeWidth="8" width="1000.0" />
 
     <!--Field connection line-->
-    <Polygon fx:id="waypoints" fill="#FFFF9A00" points="
-        340, 850,
-        340, 765,
-        340, 680,
-        340, 595,
-        340, 510,
-        255, 510,
-        170, 510,
-        85, 510,
-        0, 510,
-        0, 425,
-        0, 340,
-        85, 340,
-        170, 340,
-        255, 340,
-        340, 340,
-        340, 255,
-        340, 170,
-        340, 85,
-        340, 0,
-        425, 0,
-        510, 0,
-        510, 85,
-        510, 170,
-        510, 255,
-        510, 340,
-        595, 340,
-        680, 340,
-        765, 340,
-        850, 340,
-        850, 425,
-        850, 510,
-        765, 510,
-        680, 510,
-        595, 510,
-        510, 510,
-        510, 595,
-        510, 680,
-        510, 765,
-        510, 850,
-        425, 850" stroke="#000000" strokeWidth="8" />
+    <Polygon fx:id="waypoints" fill="#FFFF9A00" points="340, 850, 340, 765, 340, 680, 340, 595, 340, 510, 255, 510, 170, 510, 85, 510, 0, 510, 0, 425, 0, 340, 85, 340, 170, 340, 255, 340, 340, 340, 340, 255, 340, 170, 340, 85, 340, 0, 425, 0, 510, 0, 510, 85, 510, 170, 510, 255, 510, 340, 595, 340, 680, 340, 765, 340, 850, 340, 850, 425, 850, 510, 765, 510, 680, 510, 595, 510, 510, 510, 510, 595, 510, 680, 510, 765, 510, 850, 425, 850" stroke="#000000" strokeWidth="8" />
 
     <!--Base fields -->
     <AnchorPane>
@@ -343,6 +303,6 @@
     </Group>
 
     <!--Player Layer-->
-    <Pane fx:id="playerPane" maxHeight="850.0" maxWidth="850.0"/>
+    <Pane fx:id="playerPane" maxHeight="850.0" maxWidth="850.0" />
 
-</StackPane>
+</fx:root>

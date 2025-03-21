@@ -12,7 +12,22 @@ public class Player extends Group {
     private boolean hasFinished = false;
     private Color color;
 
-    public Player(PlayerID playerID, int startField, Color color) {
+    public Player(PlayerID playerID, int startField) {
+        switch (playerID) {
+            case BLUE:
+                color = Color.web("#3254f5");
+                break;
+            case YELLOW:
+                color = Color.web("#FFFF00");
+                break;
+            case GREEN:
+                color = Color.web("#009A00");
+                break;
+            case RED:
+                color = Color.web("#FF0000");
+                break;
+        }
+
         this.figures = new Figure[]{
                 new Figure(-1, color),
                 new Figure(-2, color),
@@ -21,14 +36,27 @@ public class Player extends Group {
         };
         this.playerID = playerID;
         this.startField = startField;
-        this.color = color;
     }
 
-    public Player(Figure[] figures, PlayerID playerID, int startField, Color color) {
+    public Player(Figure[] figures, PlayerID playerID, int startField) {
+        switch (playerID) {
+            case BLUE:
+                color = Color.web("#3254f5");
+                break;
+            case YELLOW:
+                color = Color.web("#FFFF00");
+                break;
+            case GREEN:
+                color = Color.web("#009A00");
+                break;
+            case RED:
+                color = Color.web("#FF0000");
+                break;
+        }
+
         this.figures = figures;
         this.playerID = playerID;
         this.startField = startField;
-        this.color = color;
     }
 
     public Figure[] canFigureMove(int rolledValue){

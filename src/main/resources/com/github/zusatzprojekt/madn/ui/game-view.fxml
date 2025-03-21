@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.github.zusatzprojekt.madn.ui.parts.*?>
+<?import com.github.zusatzprojekt.madn.ui.components.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -11,8 +11,8 @@
     <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 <!--        Gameboard -->
        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-            <ScalePane fx:id="gameBoard" prefHeight="500" prefWidth="500" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <fx:include source="parts/game-board.fxml" />
+            <ScalePane prefHeight="500" prefWidth="500" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <GameBoard fx:id="gameBoard" />
             </ScalePane>
         </AnchorPane>
 <!--       Menu Items -->

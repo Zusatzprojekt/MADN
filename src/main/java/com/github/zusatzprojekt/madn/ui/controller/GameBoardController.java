@@ -56,11 +56,11 @@ public class GameBoardController implements Initializable, FxmlValueReceiver {
         for (int i = 0; i < fields.length; i++) {
             fields[i] = new Point2D(allPoints[i * 2], allPoints[i * 2 + 1]);
         }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setTitle("MADN Tets");
-        alert.setContentText("Mach gefälligst was!!!!!!!!!!!!!!");
-        alert.show();
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setHeaderText(null);
+//        alert.setTitle("MADN Test");
+//        alert.setContentText("Mach gefälligst was!!!!!!!!!!!!!!");
+//        alert.show();
 //        Scene scene = rootPane;
 
         System.out.println("Initialize nested");
