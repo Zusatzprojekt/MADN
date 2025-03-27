@@ -3,6 +3,7 @@ package com.github.zusatzprojekt.madn.ui.controller;
 import com.github.zusatzprojekt.madn.interfaces.FxmlController;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
+import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,19 +11,22 @@ import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
-public class StartViewController implements FxmlController {
+public class StartViewController implements FxmlController, FxmlValueReceiver {
     private int countPlayer;
     private boolean playerBlue, playerYellow, playerGreen, playerRed;
     private FxmlControllerConnector2 connector;
+    @FXML
+    private CheckBox cbBlue, cbYellow, cbRed, cbGreen;
+
 
     @FXML
     public Button playButton;
 
     @FXML
     public void blueCheckBox(ActionEvent actionEvent) {
-        CheckBox blue = (CheckBox) actionEvent.getSource();
-        if (blue.isSelected()){
+        if (cbBlue.isSelected()){
             playerBlue = true;
             countPlayer++;
         } else {
@@ -34,8 +38,7 @@ public class StartViewController implements FxmlController {
 
     @FXML
     public void yellowCheckBox(ActionEvent actionEvent) {
-        CheckBox yellow = (CheckBox) actionEvent.getSource();
-        if (yellow.isSelected()){
+        if (cbYellow.isSelected()){
             playerYellow = true;
             countPlayer++;
         } else {
@@ -47,8 +50,7 @@ public class StartViewController implements FxmlController {
 
     @FXML
     public void greenCheckBox(ActionEvent actionEvent) {
-        CheckBox green = (CheckBox) actionEvent.getSource();
-        if (green.isSelected()){
+        if (cbGreen.isSelected()){
             playerGreen = true;
             countPlayer++;
         } else {
@@ -60,8 +62,7 @@ public class StartViewController implements FxmlController {
 
     @FXML
     public void redCheckBox(ActionEvent actionEvent) {
-        CheckBox red = (CheckBox) actionEvent.getSource();
-        if (red.isSelected()){
+        if (cbRed.isSelected()){
             playerRed = true;
             countPlayer++;
         } else {
@@ -94,5 +95,16 @@ public class StartViewController implements FxmlController {
     @Override
     public void setConnector(FxmlControllerConnector connector) {
         this.connector = (FxmlControllerConnector2) connector;
+    }
+
+    @Override
+    public void receiveValues(Map<String, Object> values) {
+        cbBlue.setSelected((boolean) values.get("playerBlue"));
+        cbYellow.setSelected((boolean) values.get("playerYellow"));
+        cbGreen.setSelected((boolean) values.get("playerGreen"));
+        cbRed.setSelected((boolean) values.get("playerRed"));
+        countPlayer = (int) values.get("playerCount");
+
+        changeButtonState();
     }
 }

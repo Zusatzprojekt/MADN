@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFECD2;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.StartViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFECD2;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.StartViewController">
    <!--Headline-->
    <Label alignment="CENTER" layoutX="75.0" layoutY="29.0" prefHeight="47.0" prefWidth="449.0" text="Mensch ärgere dich nicht" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <font>
@@ -38,10 +38,10 @@
             <!--            Check Boxes-->
             <Group>
                <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <CheckBox onAction="#blueCheckBox" text="Blau" />
-                  <CheckBox onAction="#yellowCheckBox" text="Gelb" />
-                  <CheckBox onAction="#greenCheckBox" text="Grün" />
-                  <CheckBox onAction="#redCheckBox" text="Rot" />
+                  <CheckBox fx:id="cbBlue" onAction="#blueCheckBox" text="Blau" />
+                  <CheckBox fx:id="cbYellow" onAction="#yellowCheckBox" text="Gelb" />
+                  <CheckBox fx:id="cbGreen" onAction="#greenCheckBox" text="Grün" />
+                  <CheckBox fx:id="cbRed" onAction="#redCheckBox" text="Rot" />
                </VBox>
             </Group>
             <!--            Play Button-->
