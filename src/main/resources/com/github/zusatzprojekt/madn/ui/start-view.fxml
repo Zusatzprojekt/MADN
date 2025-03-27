@@ -38,10 +38,10 @@
             <!--            Check Boxes-->
             <Group>
                <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <CheckBox fx:id="cbBlue" onAction="#blueCheckBox" text="Blau" />
-                  <CheckBox fx:id="cbYellow" onAction="#yellowCheckBox" text="Gelb" />
-                  <CheckBox fx:id="cbGreen" onAction="#greenCheckBox" text="Grün" />
-                  <CheckBox fx:id="cbRed" onAction="#redCheckBox" text="Rot" />
+                  <CheckBox fx:id="cbBlue" text="Blau" />
+                  <CheckBox fx:id="cbYellow" text="Gelb" />
+                  <CheckBox fx:id="cbGreen" text="Grün" />
+                  <CheckBox fx:id="cbRed" text="Rot" />
                </VBox>
             </Group>
             <!--            Play Button-->

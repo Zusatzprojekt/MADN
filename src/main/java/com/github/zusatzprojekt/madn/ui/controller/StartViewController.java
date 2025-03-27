@@ -4,89 +4,93 @@ import com.github.zusatzprojekt.madn.interfaces.FxmlController;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class StartViewController implements FxmlController, FxmlValueReceiver {
+public class StartViewController implements Initializable, FxmlController, FxmlValueReceiver {
     private int countPlayer;
-    private boolean playerBlue, playerYellow, playerGreen, playerRed;
+    private final BooleanProperty playerBlue = new SimpleBooleanProperty(false);
+    private final BooleanProperty playerYellow = new SimpleBooleanProperty(false);
+    private final BooleanProperty playerGreen = new SimpleBooleanProperty(false);
+    private final BooleanProperty playerRed = new SimpleBooleanProperty(false);
     private FxmlControllerConnector2 connector;
+
     @FXML
     private CheckBox cbBlue, cbYellow, cbRed, cbGreen;
-
-
     @FXML
-    public Button playButton;
+    private Button playButton;
 
-    @FXML
-    public void blueCheckBox(ActionEvent actionEvent) {
-        if (cbBlue.isSelected()){
-            playerBlue = true;
-            countPlayer++;
-        } else {
-            playerBlue = false;
-            countPlayer--;
-        }
-        changeButtonState();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        cbBlue.selectedProperty().bindBidirectional(playerBlue);
+        cbYellow.selectedProperty().bindBidirectional(playerYellow);
+        cbGreen.selectedProperty().bindBidirectional(playerGreen);
+        cbRed.selectedProperty().bindBidirectional(playerRed);
+
+        playerBlue.addListener((observableValue, invertedValue, value) -> {
+            if (value) {
+                countPlayer++;
+            } else {
+                countPlayer--;
+            }
+            changeButtonState();
+        });
+
+        playerYellow.addListener((observableValue, invertedValue, value) -> {
+            if (value) {
+                countPlayer++;
+            } else {
+                countPlayer--;
+            }
+            changeButtonState();
+        });
+
+        playerGreen.addListener((observableValue, invertedValue, value) -> {
+            if (value) {
+                countPlayer++;
+            } else {
+                countPlayer--;
+            }
+            changeButtonState();
+        });
+
+        playerRed.addListener((observableValue, invertedValue, value) -> {
+            if (value) {
+                countPlayer++;
+            } else {
+                countPlayer--;
+            }
+            changeButtonState();
+        });
     }
 
     @FXML
-    public void yellowCheckBox(ActionEvent actionEvent) {
-        if (cbYellow.isSelected()){
-            playerYellow = true;
-            countPlayer++;
-        } else {
-            playerYellow = false;
-            countPlayer--;
-        }
-        changeButtonState();
-    }
-
-    @FXML
-    public void greenCheckBox(ActionEvent actionEvent) {
-        if (cbGreen.isSelected()){
-            playerGreen = true;
-            countPlayer++;
-        } else {
-            playerGreen = false;
-            countPlayer--;
-        }
-        changeButtonState();
-    }
-
-    @FXML
-    public void redCheckBox(ActionEvent actionEvent) {
-        if (cbRed.isSelected()){
-            playerRed = true;
-            countPlayer++;
-        } else {
-            playerRed = false;
-            countPlayer--;
-        }
-        changeButtonState();
-    }
-
-    @FXML
-    public void clickedPlayButton(ActionEvent actionEvent) throws IOException {
+    private void clickedPlayButton(ActionEvent actionEvent) throws IOException {
         connector.loadScene("ui/game-view.fxml",createDataPacket());
     }
 
-    public void changeButtonState(){
+    private void changeButtonState(){
         playButton.setDisable(countPlayer < 2);
     }
 
     private HashMap<String, Object> createDataPacket(){
         HashMap<String, Object> data = new HashMap<>();
-        data.put("playerBlue", playerBlue);
-        data.put("playerYellow", playerYellow);
-        data.put("playerGreen", playerGreen);
-        data.put("playerRed", playerRed);
+        data.put("playerBlue", playerBlue.get());
+        data.put("playerYellow", playerYellow.get());
+        data.put("playerGreen", playerGreen.get());
+        data.put("playerRed", playerRed.get());
         data.put("playerCount", countPlayer);
 
         return data;
@@ -99,12 +103,13 @@ public class StartViewController implements FxmlController, FxmlValueReceiver {
 
     @Override
     public void receiveValues(Map<String, Object> values) {
-        cbBlue.setSelected((boolean) values.get("playerBlue"));
-        cbYellow.setSelected((boolean) values.get("playerYellow"));
-        cbGreen.setSelected((boolean) values.get("playerGreen"));
-        cbRed.setSelected((boolean) values.get("playerRed"));
+        playerBlue.setValue((boolean) values.get("playerBlue"));
+        playerYellow.setValue((boolean) values.get("playerYellow"));
+        playerGreen.setValue((boolean) values.get("playerGreen"));
+        playerRed.setValue((boolean) values.get("playerRed"));
         countPlayer = (int) values.get("playerCount");
 
         changeButtonState();
     }
+
 }
