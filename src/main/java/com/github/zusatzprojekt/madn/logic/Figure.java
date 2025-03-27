@@ -11,11 +11,6 @@ public class Figure extends Group {
     private int currentField;
     private boolean onStart;
 
-    public Figure(int currentField) {
-        this.currentField = currentField;
-        this.onStart = false;
-    }
-
     public Figure(int currentField, Color color) {
         this.currentField = currentField;
         this.onStart = false;
@@ -27,7 +22,7 @@ public class Figure extends Group {
         // Visuals
         Circle circle = new Circle(20);
         Stop startColor = new Stop(0, color);
-        Stop endColor  = new Stop(0, color.deriveColor(0, 1, 0.4, 1));
+        Stop endColor  = new Stop(1, color.deriveColor(0, 1, 0.4, 1));
         RadialGradient gradient = new RadialGradient(0, 0.1, circle.getCenterX(), circle.getCenterY(), circle.getRadius(), false, CycleMethod.NO_CYCLE, startColor, endColor);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1);

@@ -3,7 +3,7 @@ package com.github.zusatzprojekt.madn.logic;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
-public class Player extends Group {
+public class Player {
     public enum PlayerID {BLUE, YELLOW, GREEN, RED};
 
     private Figure[] figures;
@@ -34,6 +34,7 @@ public class Player extends Group {
                 new Figure(-3, color),
                 new Figure(-4, color)
         };
+
         this.playerID = playerID;
         this.startField = startField;
     }
@@ -67,5 +68,13 @@ public class Player extends Group {
     public boolean moveFigure(Figure movableFigure, int rolledValue){
         // TODO: Implementation
         return false;
+    }
+
+    public Figure[] getFigures() {
+        return figures;
+    }
+
+    public PlayerID getPlayerID() {
+        return playerID;
     }
 }
