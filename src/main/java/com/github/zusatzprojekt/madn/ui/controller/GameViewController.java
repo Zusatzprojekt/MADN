@@ -76,8 +76,8 @@ public class GameViewController implements Initializable, FxmlController, FxmlVa
             }
             return buttonType;
         });
-        closeDialog.show();
 
+        closeDialog.show();
     }
 
     public void backToMainMenu(ActionEvent actionEvent) {

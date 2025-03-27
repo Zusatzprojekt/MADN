@@ -1,6 +1,5 @@
 package com.github.zusatzprojekt.madn.logic;
 
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
 public class Player {
