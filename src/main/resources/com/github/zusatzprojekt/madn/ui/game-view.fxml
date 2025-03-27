@@ -16,7 +16,7 @@
             </ScalePane>
         </AnchorPane>
 <!--       Menu Items -->
-       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
+       <AnchorPane maxWidth="367.0" minHeight="0.0" minWidth="367.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
           <VBox alignment="CENTER" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
 <!--             Current Player -->
              <Group>
@@ -37,7 +37,7 @@
 <!--                Dice Button -->
                 <Button defaultButton="true" onAction="#dice" prefHeight="60.0" prefWidth="175.0" text="Würfeln">
                    <font>
-                      <Font name="Arial" size="30.0" />
+                      <Font name="Arial" size="25.0" />
                    </font>
                    <VBox.margin>
                       <Insets bottom="20.0" top="20.0" />
@@ -64,7 +64,7 @@
 <!--             Quit Button -->
              <Button mnemonicParsing="false" onAction="#exitApplication" prefHeight="60.0" prefWidth="175.0" text="Beenden">
                 <font>
-                   <Font name="Arial" size="30.0" />
+                   <Font name="Arial" size="25.0" />
                 </font>
                 <VBox.margin>
                    <Insets bottom="20.0" top="20.0" />
