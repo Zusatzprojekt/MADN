@@ -29,8 +29,6 @@ public class GameBoard extends StackPane implements FxmlValueReceiver {
     private Game game;
 
     @FXML
-    private StackPane rootPane;
-    @FXML
     private Pane playerPane;
     @FXML
     private Polygon waypoints;
