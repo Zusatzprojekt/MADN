@@ -30,7 +30,7 @@
        </Label>
         <StackPane layoutX="260.0" layoutY="160.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
             <ImageView fitHeight="180.0" fitWidth="197.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../../images/patrick.gif" />
+                <Image url="@../images/patrick.gif" />
             </ImageView>
         </StackPane>
         <!--Main Content / Border-->
