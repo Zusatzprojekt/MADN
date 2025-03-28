@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zusatzprojekt.madn.ui.components.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -17,59 +15,49 @@
         </AnchorPane>
 <!--       Menu Items -->
        <AnchorPane maxWidth="367.0" minHeight="0.0" minWidth="367.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
-          <VBox alignment="CENTER" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+          <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
 <!--             Current Player -->
-             <Group>
-                <HBox alignment="CENTER">
+                <VBox alignment="CENTER" spacing="10.0">
                    <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
                       <font>
-                         <Font name="Arial" size="48.0" />
+                         <Font name="Arial" size="25.0" />
                       </font>
                    </Label>
                    <Label contentDisplay="CENTER" text="Label">
                       <font>
-                         <Font name="Arial Bold" size="46.0" />
+                         <Font name="Arial" size="30.0" />
                       </font>
                    </Label>
-                </HBox>
-             </Group>
-             <VBox alignment="CENTER">
-<!--                Dice Button -->
-                <Button defaultButton="true" onAction="#dice" prefHeight="60.0" prefWidth="175.0" text="Würfeln">
+                </VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Label contentDisplay="CENTER" text="aktueller Würfelwert">
+                     <font>
+                        <Font name="Arial" size="30.0" />
+                     </font>
+                  </Label>
+      <!--                Placeholder: Dice -->
+                   <Button maxWidth="1.7976931348623157E308" minWidth="0.0" text="Würfel">
+                      <font>
+                         <Font name="Arial" size="96.0" />
+                      </font>
+                   </Button>
+               </children>
+            </VBox>
+             <VBox alignment="BOTTOM_CENTER" spacing="20.0">
+   <!--             MainMenu Button -->
+                <Button onAction="#backToMainMenu" prefHeight="50.0" prefWidth="150.0" text="Hauptmenü">
                    <font>
-                      <Font name="Arial" size="25.0" />
+                      <Font name="Arial" size="18.0" />
                    </font>
-                   <VBox.margin>
-                      <Insets bottom="20.0" top="20.0" />
-                   </VBox.margin>
                 </Button>
-<!--                Placeholder: Dice -->
-                <Button maxWidth="1.7976931348623157E308" minWidth="0.0" mnemonicParsing="false" prefHeight="250.0" prefWidth="616.0" text="Würfel" VBox.vgrow="ALWAYS">
+   <!--             Quit Button -->
+                <Button onAction="#exitApplication" prefHeight="50.0" prefWidth="150.0" text="Beenden">
                    <font>
-                      <Font name="Arial" size="96.0" />
+                      <Font name="Arial" size="18.0" />
                    </font>
                 </Button>
              </VBox>
-          </VBox>
-          <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="440.0">
-<!--             MainMenu Button -->
-             <Button mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="60.0" prefWidth="175.0" text="Hauptmenü">
-                <font>
-                   <Font name="Arial" size="25.0" />
-                </font>
-                <VBox.margin>
-                   <Insets bottom="20.0" top="20.0" />
-                </VBox.margin>
-             </Button>
-<!--             Quit Button -->
-             <Button mnemonicParsing="false" onAction="#exitApplication" prefHeight="60.0" prefWidth="175.0" text="Beenden">
-                <font>
-                   <Font name="Arial" size="25.0" />
-                </font>
-                <VBox.margin>
-                   <Insets bottom="20.0" top="20.0" />
-                </VBox.margin>
-             </Button>
           </VBox>
        </AnchorPane>
     </SplitPane>
