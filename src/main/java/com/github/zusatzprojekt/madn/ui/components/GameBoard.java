@@ -2,37 +2,40 @@ package com.github.zusatzprojekt.madn.ui.components;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import com.github.zusatzprojekt.madn.logic.Figure;
+import com.github.zusatzprojekt.madn.logic.Game;
 import com.github.zusatzprojekt.madn.logic.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class GameBoard extends StackPane implements FxmlValueReceiver {
-    Point2D[] fields;
-    Point2D[] blueBase = new Point2D[]{new Point2D(85, 850), new Point2D(85, 765), new Point2D(0, 765), new Point2D(0,850)};
-    Point2D[] yellowBase = new Point2D[]{new Point2D(0, 85), new Point2D(85, 85), new Point2D(85, 0), new Point2D(0, 0)};
-    Point2D[] greenBase = new Point2D[]{new Point2D(765, 0), new Point2D(765, 85), new Point2D(850, 85), new Point2D(850, 0)};
-    Point2D[] redBase = new Point2D[]{new Point2D(765, 850), new Point2D(765, 765), new Point2D(850, 765), new Point2D(850, 850)};
-    Point2D[] blueHome = new Point2D[]{new Point2D(425, 765), new Point2D(425, 680), new Point2D(425, 595), new Point2D(425,510)};
-    Point2D[] yellowHome = new Point2D[]{new Point2D(85, 425), new Point2D(170, 425), new Point2D(255, 425), new Point2D(340, 425)};
-    Point2D[] greenHome = new Point2D[]{new Point2D(425, 85), new Point2D(425, 170), new Point2D(425, 255), new Point2D(425, 340)};
-    Point2D[] redHome = new Point2D[]{new Point2D(510, 425), new Point2D(595, 425), new Point2D(680, 425), new Point2D(765, 425)};
-    Player[] players;
+    private Point2D[] fields;
+    private Point2D[] blueBase = new Point2D[]{new Point2D(85, 850), new Point2D(85, 765), new Point2D(0, 765), new Point2D(0,850)};
+    private Point2D[] yellowBase = new Point2D[]{new Point2D(0, 85), new Point2D(85, 85), new Point2D(85, 0), new Point2D(0, 0)};
+    private Point2D[] greenBase = new Point2D[]{new Point2D(765, 0), new Point2D(765, 85), new Point2D(850, 85), new Point2D(850, 0)};
+    private Point2D[] redBase = new Point2D[]{new Point2D(765, 850), new Point2D(765, 765), new Point2D(850, 765), new Point2D(850, 850)};
+    private Point2D[] blueHome = new Point2D[]{new Point2D(425, 765), new Point2D(425, 680), new Point2D(425, 595), new Point2D(425,510)};
+    private Point2D[] yellowHome = new Point2D[]{new Point2D(85, 425), new Point2D(170, 425), new Point2D(255, 425), new Point2D(340, 425)};
+    private Point2D[] greenHome = new Point2D[]{new Point2D(425, 85), new Point2D(425, 170), new Point2D(425, 255), new Point2D(425, 340)};
+    private Point2D[] redHome = new Point2D[]{new Point2D(510, 425), new Point2D(595, 425), new Point2D(680, 425), new Point2D(765, 425)};
+    private Player[] players;
+    private Game game;
 
     @FXML
-    public StackPane rootPane;
+    private StackPane rootPane;
     @FXML
-    public Pane playerPane;
+    private Pane playerPane;
     @FXML
-    public Polygon waypoints;
+    private Polygon waypoints;
+    @FXML
+    private Rectangle overlayRect;
 
     public GameBoard() throws IOException {
         // Load game-board.fxml file
@@ -91,6 +94,8 @@ public class GameBoard extends StackPane implements FxmlValueReceiver {
             playerPane.getChildren().addAll(p.getFigures());
             setupPlayer(p);
         }
+
+        game = new Game(players);
     }
 
     private void setupPlayer(Player player) {

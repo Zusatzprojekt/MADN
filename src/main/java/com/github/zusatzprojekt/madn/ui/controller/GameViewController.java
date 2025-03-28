@@ -17,18 +17,13 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class GameViewController implements Initializable, FxmlController, FxmlValueReceiver {
+public class GameViewController implements FxmlController, FxmlValueReceiver {
     private FxmlValueReceiver gameBoardValueReceiver;
     private FxmlControllerConnector2 connector;
     private Map<String, Object> activePlayerColors;
 
     @FXML
     public GameBoard gameBoard;
-
-//    @FXML
-//    public Window gameBoardContainer;
-//    @FXML
-//    public GameBoardController gameBoardController;
 
     @Override
     public void setConnector(FxmlControllerConnector connector) {
@@ -43,20 +38,8 @@ public class GameViewController implements Initializable, FxmlController, FxmlVa
         gameBoardValueReceiver.receiveValues(values);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        Stage test = (Stage) gameBoardContainer;
-//        gameBoardValueReceiver = (FxmlValueReceiver) (Parent) gameBoardContainer.getChildren()[0];
-
-//        FxmlValueReceiver gameBoardValueReceiver = gameBoard;
-//        gameBoardValueReceiver.receiveValues(createDataPacket());
-
-        System.out.println("Initialize");
-    }
-
-
     public void dice(ActionEvent actionEvent) {
-
+        //TODO: implement rolling the dice
     }
 
     public void exitApplication(ActionEvent actionEvent) {

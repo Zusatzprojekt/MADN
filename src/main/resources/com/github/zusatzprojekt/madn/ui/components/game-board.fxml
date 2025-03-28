@@ -7,7 +7,8 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root fx:id="rootPane" maxHeight="1000" maxWidth="1000" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" type="javafx.scene.layout.StackPane"> <!-- fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameBoardController" -->
+<!--fx:id="rootPane"-->
+<fx:root fx:id="rootPane" maxHeight="1000" maxWidth="1000" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">r
 
     <!--Board background-->
     <Rectangle fill="#FFFF9A" height="1000" stroke="#000000" strokeType="INSIDE" strokeWidth="8" width="1000.0" />
@@ -262,7 +263,7 @@
         </StackPane>
     </Group>
 
-    <!--Game Board-->
+    <!--Game board-->
     <Group>
         <Circle centerX="340" centerY="765" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
         <Circle centerX="340" centerY="680" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
@@ -302,7 +303,10 @@
         <Circle centerX="425" centerY="850" fill="#FFFFFF" radius="35.0" stroke="#000000" strokeType="INSIDE" strokeWidth="4" />
     </Group>
 
-    <!--Player Layer-->
+    <!--Player layer-->
     <Pane fx:id="playerPane" maxHeight="850.0" maxWidth="850.0" />
+
+    <!--Dimm layer-->
+<!--    <Rectangle fx:id="overlayRect" height="1000.0" opacity="0.5" visible="false" width="1000.0" />-->
 
 </fx:root>
