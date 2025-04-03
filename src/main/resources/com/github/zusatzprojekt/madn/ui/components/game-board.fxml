@@ -306,6 +306,6 @@
     <Pane fx:id="playerPane" maxHeight="850.0" maxWidth="850.0" />
 
     <!--Dimm layer-->
-<!--    <Rectangle fx:id="overlayRect" height="1000.0" opacity="0.5" visible="false" width="1000.0" />-->
+    <Rectangle fx:id="overlayRect" height="1000.0" opacity="0.5" visible="false" width="1000.0" />
 
 </fx:root>
