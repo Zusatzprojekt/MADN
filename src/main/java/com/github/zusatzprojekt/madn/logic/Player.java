@@ -8,8 +8,10 @@ public class Player {
     private Figure[] figures;
     private PlayerID playerID;
     private int startField;
-    private boolean hasFinished = false;
+    private boolean finished = false;
     private Color color;
+    private int lastRoll = 0;
+    private int rollCount = 0;
 
     public Player(PlayerID playerID, int startField) {
         switch (playerID) {
@@ -75,5 +77,25 @@ public class Player {
 
     public PlayerID getPlayerID() {
         return playerID;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public int getStartField() {
+        return startField;
+    }
+
+    public int getLastRoll() {
+        return lastRoll;
+    }
+
+    public void setLastRoll(int lastRoll) {
+        this.lastRoll = lastRoll;
     }
 }

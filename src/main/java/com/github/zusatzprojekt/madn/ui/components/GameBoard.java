@@ -4,6 +4,7 @@ import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import com.github.zusatzprojekt.madn.logic.Figure;
 import com.github.zusatzprojekt.madn.logic.Game;
 import com.github.zusatzprojekt.madn.logic.Player;
+import com.github.zusatzprojekt.madn.ui.controller.GameViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -93,7 +94,7 @@ public class GameBoard extends StackPane implements FxmlValueReceiver {
             setupPlayer(p);
         }
 
-        game = new Game(players);
+        game = new Game(this, (GameViewController) values.remove("gameViewController"));
     }
 
     private void setupPlayer(Player player) {
@@ -132,6 +133,10 @@ public class GameBoard extends StackPane implements FxmlValueReceiver {
                 //TODO ende
             }
         }
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 
 }

@@ -7,23 +7,24 @@ import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import javafx.event.ActionEvent;
 import com.github.zusatzprojekt.madn.ui.components.GameBoard;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class GameViewController implements FxmlController, FxmlValueReceiver {
-    private FxmlValueReceiver gameBoardValueReceiver;
     private FxmlControllerConnector2 connector;
     private Map<String, Object> activePlayerColors;
 
     @FXML
-    public GameBoard gameBoard;
+    private GameBoard gameBoard;
+    @FXML
+    private Label currentPlayerLabel;
+    @FXML
+    private Button rollButton;
 
     @Override
     public void setConnector(FxmlControllerConnector connector) {
@@ -33,6 +34,8 @@ public class GameViewController implements FxmlController, FxmlValueReceiver {
     @Override
     public void receiveValues(Map<String, Object> values) {
         activePlayerColors = values;
+
+        values.put("gameViewController", this);
 
         FxmlValueReceiver gameBoardValueReceiver = gameBoard;
         gameBoardValueReceiver.receiveValues(values);
@@ -85,5 +88,13 @@ public class GameViewController implements FxmlController, FxmlValueReceiver {
             return buttonType;
         });
         mainMenuDialog.show();
+    }
+
+    public Label getCurrentPlayerLabel() {
+        return currentPlayerLabel;
+    }
+
+    public Button getRollButton() {
+        return rollButton;
     }
 }

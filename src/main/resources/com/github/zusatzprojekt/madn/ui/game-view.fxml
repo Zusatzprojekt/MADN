@@ -7,51 +7,49 @@
 
 <AnchorPane prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
     <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-<!--        Gameboard -->
+       <!-- Game board -->
        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <ScalePane prefHeight="500" prefWidth="500" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <GameBoard fx:id="gameBoard" />
             </ScalePane>
         </AnchorPane>
-<!--       Menu Items -->
+       <!-- Menu items -->
        <AnchorPane maxWidth="367.0" minHeight="0.0" minWidth="367.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
           <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-<!--             Current Player -->
+                <!-- Current player -->
                 <VBox alignment="CENTER" spacing="10.0">
                    <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
                       <font>
                          <Font name="Arial" size="25.0" />
                       </font>
                    </Label>
-                   <Label contentDisplay="CENTER" text="Label">
+                   <Label contentDisplay="CENTER" text="{PLAYER_COLOR}" fx:id="currentPlayerLabel">
                       <font>
                          <Font name="Arial" size="30.0" />
                       </font>
                    </Label>
                 </VBox>
-            <VBox alignment="CENTER" spacing="10.0">
-               <children>
+              <VBox alignment="CENTER" spacing="10.0">
                   <Label contentDisplay="CENTER" text="aktueller Würfelwert">
-                     <font>
-                        <Font name="Arial" size="30.0" />
-                     </font>
-                  </Label>
-      <!--                Placeholder: Dice -->
-                   <Button maxWidth="1.7976931348623157E308" minWidth="0.0" text="Würfel">
                       <font>
-                         <Font name="Arial" size="96.0" />
+                          <Font name="Arial" size="30.0"/>
                       </font>
-                   </Button>
-               </children>
-            </VBox>
+                  </Label>
+                  <!-- Placeholder: dice -->
+                  <Button fx:id="rollButton" maxWidth="1.7976931348623157E308" minWidth="0.0" text="Würfel" disable="true">
+                     <font>
+                         <Font name="Arial" size="96.0"/>
+                     </font>
+                  </Button>
+              </VBox>
              <VBox alignment="BOTTOM_CENTER" spacing="20.0">
-   <!--             MainMenu Button -->
+                <!-- Main menu button -->
                 <Button onAction="#backToMainMenu" prefHeight="50.0" prefWidth="150.0" text="Hauptmenü">
                    <font>
                       <Font name="Arial" size="18.0" />
                    </font>
                 </Button>
-   <!--             Quit Button -->
+                <!-- Quit button -->
                 <Button onAction="#exitApplication" prefHeight="50.0" prefWidth="150.0" text="Beenden">
                    <font>
                       <Font name="Arial" size="18.0" />
