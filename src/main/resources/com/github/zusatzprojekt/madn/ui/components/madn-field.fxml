@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <Circle fx:id="circle" fill="dodgerblue" radius="30" />
+    <Text fx:id="text" boundsType="VISUAL" />
+</fx:root>

@@ -91,6 +91,7 @@ public class Game {
 
         Player highestRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElse(null);
 
+
         assert highestRoll != null;
         System.out.println("Höchste Zahl: " + highestRoll.getPlayerID());
 

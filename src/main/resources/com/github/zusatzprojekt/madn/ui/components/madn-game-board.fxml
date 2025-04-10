@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.github.zusatzprojekt.madn.ui.components.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.paint.Color?>
+<fx:root prefHeight="1000.0" prefWidth="1000.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!--Color codes-->
+    <fx:define>
+        <Color fx:id="color_blue" fx:value="#3254F5"/>
+        <Color fx:id="color_yellow" fx:value="#FFFF00"/>
+        <Color fx:id="color_green" fx:value="#009A00"/>
+        <Color fx:id="color_red" fx:value="#FF0000"/>
+        <Color fx:id="color_white" fx:value="#FFFFFF"/>
+        <Color fx:id="color_black" fx:value="#000000"/>
+        <Color fx:id="color_background" fx:value="#FFFF9A"/>
+    </fx:define>
+
+    <!--Background-->
+    <Rectangle fill="$color_background" height="1000" stroke="$color_black" strokeType="INSIDE" strokeWidth="8.0" width="1000" />
+
+    <!--Field connection line-->
+    <Polygon fill="$color_background" points="415, 925, 415, 585, 75, 585, 75, 415, 415, 415, 415, 75, 585, 75, 585, 415, 925, 415, 925, 585, 585, 585, 585, 925" stroke="$color_black" strokeWidth="8" />
+
+    <!--Base text-->
+    <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!--Base blue-->
+        <StackPane layoutX="75.0" layoutY="840.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="85.0">
+            <Text boundsType="VISUAL" text="B">
+                <font>
+                    <Font name="Arial Bold" size="50.0" />
+                </font>
+            </Text>
+        </StackPane>
+        <!--Base yellow-->
+        <StackPane layoutX="75.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="85.0">
+            <Text boundsType="VISUAL" text="B">
+                <font>
+                    <Font name="Arial Bold" size="50.0" />
+                </font>
+            </Text>
+        </StackPane>
+        <!--Base green-->
+        <StackPane layoutX="840.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="85.0">
+            <Text boundsType="VISUAL" text="B">
+                <font>
+                    <Font name="Arial Bold" size="50.0" />
+                </font>
+            </Text>
+        </StackPane>
+        <!--Base red-->
+        <StackPane layoutX="840.0" layoutY="840.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="85.0">
+            <Text boundsType="VISUAL" text="B">
+                <font>
+                    <Font name="Arial Bold" size="50.0" />
+                </font>
+            </Text>
+        </StackPane>
+    </Pane>
+
+    <!--Base fields blue-->
+    <Pane fx:id="baseContainerBlue" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="160.0" centerY="925.0" fieldDirection="NONE" fieldType="BASE" fill="$color_blue" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="925.0" fieldDirection="NONE" fieldType="BASE" fill="$color_blue" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="160.0" centerY="840.0" fieldDirection="NONE" fieldType="BASE" fill="$color_blue" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="840.0" fieldDirection="NONE" fieldType="BASE" fill="$color_blue" radius="30.0" strokeWidth="4.0" />
+    </Pane>
+
+    <!--Base fields yellow-->
+    <Pane fx:id="baseContainerYellow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="75.0" centerY="160.0" fieldDirection="NONE" fieldType="BASE" fill="$color_yellow" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="75.0" fieldDirection="NONE" fieldType="BASE" fill="$color_yellow" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="160.0" centerY="160.0" fieldDirection="NONE" fieldType="BASE" fill="$color_yellow" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="160.0" centerY="75.0" fieldDirection="NONE" fieldType="BASE" fill="$color_yellow" radius="30.0" strokeWidth="4.0" />
+    </Pane>
+
+    <!--Base fields green-->
+    <Pane fx:id="baseContainerGreen" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="840.0" centerY="75.0" fieldDirection="NONE" fieldType="BASE" fill="$color_green" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="75.0" fieldDirection="NONE" fieldType="BASE" fill="$color_green" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="840.0" centerY="160.0" fieldDirection="NONE" fieldType="BASE" fill="$color_green" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="160.0" fieldDirection="NONE" fieldType="BASE" fill="$color_green" radius="30.0" strokeWidth="4.0" />
+    </Pane>
+
+    <!--Base fields red-->
+    <Pane fx:id="baseContainerRed" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="925.0" centerY="840.0" fieldDirection="NONE" fieldType="BASE" fill="$color_red" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="925.0" fieldDirection="NONE" fieldType="BASE" fill="$color_red" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="840.0" centerY="840.0" fieldDirection="NONE" fieldType="BASE" fill="$color_red" radius="30.0" strokeWidth="4.0" />
+        <MadnField centerX="840.0" centerY="925.0" fieldDirection="NONE" fieldType="BASE" fill="$color_red" radius="30.0" strokeWidth="4.0" />
+    </Pane>
+
+    <!--Main fields-->
+    <Pane fx:id="waypointContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="415.0" centerY="925.0" fieldDirection="UP" fieldType="START" fill="$color_blue" radius="35.0" strokeWidth="4.0" text="A">
+         <font>
+            <Font name="Arial Bold" size="50.0" />
+         </font>
+        </MadnField>
+        <MadnField centerX="415.0" centerY="840.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="755.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="670.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="585.0" fieldDirection="LEFT" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="330.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="245.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="160.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="585.0" fieldDirection="UP" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="500.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="75.0" centerY="415.0" fieldDirection="RIGHT" fieldType="START" fill="$color_yellow" radius="35.0" strokeWidth="4.0" text="A">
+            <font>
+                <Font name="Arial Bold" size="50.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="160.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="245.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="330.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="415.0" fieldDirection="UP" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="330.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="245.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="160.0" fieldDirection="UP" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="415.0" centerY="75.0" fieldDirection="DOWN" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="500.0" centerY="75.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="75.0" fieldDirection="RIGHT" fieldType="START" fill="$color_green" radius="35.0" strokeWidth="4.0" text="A">
+            <font>
+                <Font name="Arial Bold" size="50.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="585.0" centerY="160.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="245.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="330.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="415.0" fieldDirection="RIGHT" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="670.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="755.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="840.0" centerY="415.0" fieldDirection="RIGHT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="415.0" fieldDirection="DOWN" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="500.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="925.0" centerY="585.0" fieldDirection="LEFT" fieldType="START" fill="$color_red" radius="35.0" strokeWidth="4.0" text="A">
+            <font>
+                <Font name="Arial Bold" size="50.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="840.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="755.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="670.0" centerY="585.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="585.0" fieldDirection="DOWN" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="670.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="755.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="840.0" fieldDirection="DOWN" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="585.0" centerY="925.0" fieldDirection="LEFT" fieldType="CORNER" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+        <MadnField centerX="500.0" centerY="925.0" fieldDirection="LEFT" fieldType="NORMAL" fill="$color_white" radius="35.0" strokeWidth="4.0" />
+    </Pane>
+
+    <!--Home fields blue-->
+    <Pane fx:id="homeContainerBlue" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="500.0" centerY="840.0" fieldDirection="NONE" fieldType="HOME" fill="$color_blue" radius="30.0" strokeWidth="4.0" text="a">
+         <font>
+            <Font name="Arial Bold" size="40.0" />
+         </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="755.0" fieldDirection="NONE" fieldType="HOME" fill="$color_blue" radius="30.0" strokeWidth="4.0" text="b">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="670.0" fieldDirection="NONE" fieldType="HOME" fill="$color_blue" radius="30.0" strokeWidth="4.0" text="c">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="585.0" fieldDirection="NONE" fieldType="HOME" fill="$color_blue" radius="30.0" strokeWidth="4.0" text="d">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+    </Pane>
+
+    <!--Home fields yellow-->
+    <Pane fx:id="homeContainerYellow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="160.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_yellow" radius="30.0" strokeWidth="4.0" text="a">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="245.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_yellow" radius="30.0" strokeWidth="4.0" text="b">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="330.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_yellow" radius="30.0" strokeWidth="4.0" text="c">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="415.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_yellow" radius="30.0" strokeWidth="4.0" text="d">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+    </Pane>
+
+    <!--Home fields green-->
+    <Pane fx:id="homeContainerGreen" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="500.0" centerY="160.0" fieldDirection="NONE" fieldType="HOME" fill="$color_green" radius="30.0" strokeWidth="4.0" text="a">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="245.0" fieldDirection="NONE" fieldType="HOME" fill="$color_green" radius="30.0" strokeWidth="4.0" text="b">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="330.0" fieldDirection="NONE" fieldType="HOME" fill="$color_green" radius="30.0" strokeWidth="4.0" text="c">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="500.0" centerY="415.0" fieldDirection="NONE" fieldType="HOME" fill="$color_green" radius="30.0" strokeWidth="4.0" text="d">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+    </Pane>
+
+    <!--Home fields red-->
+    <Pane fx:id="homeContainerRed" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MadnField centerX="840.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_red" radius="30.0" strokeWidth="4.0" text="a">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="755.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_red" radius="30.0" strokeWidth="4.0" text="b">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="670.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_red" radius="30.0" strokeWidth="4.0" text="c">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+        <MadnField centerX="585.0" centerY="500.0" fieldDirection="NONE" fieldType="HOME" fill="$color_red" radius="30.0" strokeWidth="4.0" text="d">
+            <font>
+                <Font name="Arial Bold" size="40.0" />
+            </font>
+        </MadnField>
+    </Pane>
+
+    <!--Player layer-->
+    <Pane fx:id="playerContainer" prefHeight="1000.0" prefWidth="1000.0" />
+
+    <!--Dimm layer-->
+    <Rectangle fx:id="overlayRect" height="1000.0" opacity="0.5" visible="false" width="1000.0" />
+
+</fx:root>

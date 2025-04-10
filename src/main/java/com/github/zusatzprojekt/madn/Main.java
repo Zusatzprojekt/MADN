@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
 import java.io.IOException;
@@ -20,7 +21,6 @@ public class Main extends Application implements FxmlControllerConnector2 {
     @Override
     public void start(Stage stage) throws IOException {
         loadScene("ui/start-view.fxml", 1280, 720);
-
 
         stage.setTitle("Mensch Ärgere Dich Nicht");
         stage.getIcons().add(new Image(requireNonNull(getClass().getResourceAsStream("images/madn_icon.png"))));
@@ -39,14 +39,24 @@ public class Main extends Application implements FxmlControllerConnector2 {
         ((Stage) mainScene.getWindow()).close();
     }
 
-    private FXMLLoader sceneLoader(String fxmlFile, Double width, Double height) throws IOException {
+    private FXMLLoader sceneLoader(String fxmlFile, Double width, Double height) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
 
         if (mainScene == null){
-            mainScene = new Scene(loader.load(), width == null ? 100 : width, height == null ? 100 : height);
+            try {
+                mainScene = new Scene(loader.load(), width == null ? 100 : width, height == null ? 100 : height);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             Stage mainStage = (Stage) mainScene.getWindow();
-            mainScene = new Scene(loader.load(), width == null ? mainScene.getWidth() : width, height == null ? mainScene.getHeight() : height);
+
+            try {
+                mainScene = new Scene(loader.load(), width == null ? mainScene.getWidth() : width, height == null ? mainScene.getHeight() : height);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             mainStage.setScene(mainScene);
         }
 
@@ -55,26 +65,32 @@ public class Main extends Application implements FxmlControllerConnector2 {
     }
 
     @Override
-    public void loadScene(String fxmlFile, double width, double height) throws IOException {
+    public void loadScene(String fxmlFile, double width, double height) {
         sceneLoader(fxmlFile,width,height);
     }
 
     @Override
-    public void loadScene(String fxmlFile) throws IOException {
+    public void loadScene(String fxmlFile) {
         sceneLoader(fxmlFile,null,null);
     }
 
     @Override
-    public void loadScene(String fxmlFile, double width, double height, Map<String, Object> values) throws IOException {
+    public void loadScene(String fxmlFile, double width, double height, Map<String, Object> values) {
         FXMLLoader loader = sceneLoader(fxmlFile,width,height);
         FxmlValueReceiver receiver = loader.getController();
         receiver.receiveValues(values);
     }
 
     @Override
-    public void loadScene(String fxmlFile, Map<String, Object> values) throws IOException {
+    public void loadScene(String fxmlFile, Map<String, Object> values) {
         FXMLLoader loader = sceneLoader(fxmlFile,null,null);
         FxmlValueReceiver receiver = loader.getController();
         receiver.receiveValues(values);
     }
+
+    @Override
+    public Window getWindow() {
+        return mainScene.getWindow();
+    }
+
 }
