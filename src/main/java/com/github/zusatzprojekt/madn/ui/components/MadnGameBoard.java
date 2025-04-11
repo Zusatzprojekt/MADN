@@ -1,6 +1,7 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
+import com.github.zusatzprojekt.madn.logic.Figure;
 import com.github.zusatzprojekt.madn.logic.Game;
 import com.github.zusatzprojekt.madn.logic.Player;
 import com.github.zusatzprojekt.madn.ui.controller.GameViewController;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
     private final MadnField[] baseBlue, baseYellow, baseGreen, baseRed, waypoints, homeBlue, homeYellow, homeGreen, homeRed;
     private Player[] players;
+    private Game game;
 
     @FXML
     private Pane baseContainerBlue, baseContainerYellow, baseContainerGreen, baseContainerRed;
@@ -30,7 +32,7 @@ public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
 
     @SuppressWarnings("SuspiciousToArrayCall")
     public MadnGameBoard() throws IOException {
-        // Load game-board.fxml file
+        // Load madn-game-board.fxml file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("madn-game-board.fxml"));
 
         // Set this class as root and controller for use as custom component
@@ -40,7 +42,6 @@ public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
         loader.load();
 
         // Get fields from board
-
         baseBlue = baseContainerBlue.getChildren().toArray(MadnField[]::new);
         baseYellow = baseContainerYellow.getChildren().toArray(MadnField[]::new);
         baseGreen = baseContainerGreen.getChildren().toArray(MadnField[]::new);
@@ -52,8 +53,6 @@ public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
         homeYellow = homeContainerYellow.getChildren().toArray(MadnField[]::new);
         homeGreen = homeContainerGreen.getChildren().toArray(MadnField[]::new);
         homeRed = homeContainerRed.getChildren().toArray(MadnField[]::new);
-
-//        playerContainer = player_container.getChildren();
     }
 
     @Override
@@ -95,11 +94,44 @@ public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
             setupPlayer(p);
         }
 
-//        game = new Game(this, (GameViewController) values.remove("gameViewController"));
+        game = new Game(this, (GameViewController) values.remove("gameViewController"));
     }
 
-    private void setupPlayer(Player p) {
-        // TODO: implement
+    private void setupPlayer(Player player) {
+        for (Figure figure : player.getFigures()) {
+            placeFigure(player.getPlayerID(), figure);
+        }
+    }
+
+    private void placeFigure(Player.PlayerID playerID, Figure figure) {
+        int currentField = figure.getCurrentField();
+
+        if (currentField < 0) {
+            MadnField[] fields = switch (playerID) {
+                case BLUE -> baseBlue;
+                case YELLOW -> baseYellow;
+                case GREEN -> baseGreen;
+                case RED -> baseRed;
+            };
+
+            setFigureCoordinates(figure, fields[-1 + Math.abs(currentField)]);
+        } else if (currentField < 40) {
+            setFigureCoordinates(figure, waypoints[currentField]);
+        } else if (currentField < 44){
+            MadnField[] fields = switch (playerID) {
+                case BLUE -> homeBlue;
+                case YELLOW -> homeYellow;
+                case GREEN -> homeGreen;
+                case RED -> homeRed;
+            };
+
+            setFigureCoordinates(figure, fields[currentField - 40]);
+        }
+    }
+
+    private void setFigureCoordinates(Figure figure, MadnField field) {
+        figure.setLayoutX(field.getCenterX());
+        figure.setLayoutY(field.getCenterY());
     }
 
     public MadnField[] getBaseBlue() {
@@ -136,5 +168,9 @@ public class MadnGameBoard extends AnchorPane implements FxmlValueReceiver {
 
     public MadnField[] getHomeRed() {
         return homeRed;
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 }

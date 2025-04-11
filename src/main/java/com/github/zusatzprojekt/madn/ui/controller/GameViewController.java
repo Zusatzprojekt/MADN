@@ -34,7 +34,7 @@ public class GameViewController implements FxmlController, FxmlValueReceiver {
     public void receiveValues(Map<String, Object> values) {
         activePlayerColors = values;
 
-//        values.put("gameViewController", this);
+        values.put("gameViewController", this);
 
         FxmlValueReceiver gameBoardValueReceiver = gameBoard;
         gameBoardValueReceiver.receiveValues(values);

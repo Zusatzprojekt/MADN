@@ -30,7 +30,7 @@ public class MadnField extends StackPane {
     private Text text;
 
     public MadnField() throws IOException {
-        // Load game-board.fxml file
+        // Load madn-game-board.fxml file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("madn-field.fxml"));
 
         // Set this class as root and controller for use as custom component

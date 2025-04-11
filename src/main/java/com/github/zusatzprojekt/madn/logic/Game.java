@@ -1,11 +1,10 @@
 package com.github.zusatzprojekt.madn.logic;
 
-import com.github.zusatzprojekt.madn.ui.components.GameBoard;
+import com.github.zusatzprojekt.madn.ui.components.MadnGameBoard;
 import com.github.zusatzprojekt.madn.ui.controller.GameViewController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
-import javafx.scene.control.SplitPane;
 
 import java.util.*;
 
@@ -13,14 +12,14 @@ public class Game {
 //    private final Player[] players;
     private Player currentPlayer;
     private final Dice dice;
-    private final GameBoard gameBoard;
+    private final MadnGameBoard gameBoard;
     private final GameViewController gameViewController;
     private final StringProperty currentPlayerString = new SimpleStringProperty();
     private final Button rollButton;
     private boolean startRoll = true;
     int a = 0;
 
-    public Game(GameBoard gameBoard, GameViewController gameViewController) {
+    public Game(MadnGameBoard gameBoard, GameViewController gameViewController) {
         this.gameBoard = gameBoard;
         this.gameViewController = gameViewController;
 
@@ -30,6 +29,8 @@ public class Game {
 
         setup();
         startGame();
+
+        gameViewController.getRollButton().setDisable(false);
     }
 
     private void setup() {
