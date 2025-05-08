@@ -66,13 +66,16 @@ public class Game {
 
     private void rollDice(Player[] players) {
 //        currentPlayer.setLastRoll(dice.roll());
-
-        if (a < players.length) {
+//
+//        if (a < players.length) {
             a++;
             currentPlayer.setLastRoll(dice.roll());
             switchPlayer(players);
             setCurrentPlayerLabel(currentPlayer);
-        } else {
+//        } else {
+//            getHighestRoll(players);
+//        }
+        if (a >= players.length) {
             getHighestRoll(players);
         }
     }
@@ -102,9 +105,11 @@ public class Game {
 
         if (highestRolls.length > 1) {
             rollButton.setOnAction(event -> rollDice(highestRolls));
+            setCurrentPlayerLabel(currentPlayer);
             a = 0;
         } else {
             startRoll = false;
+            rollButton.setDisable(true);
             // TODO: next method
         }
 
