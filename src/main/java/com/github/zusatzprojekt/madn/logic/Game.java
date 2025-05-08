@@ -17,7 +17,7 @@ public class Game {
     private final StringProperty currentPlayerString = new SimpleStringProperty();
     private final Button rollButton;
     private boolean startRoll = true;
-    int a = 0;
+//    int a = 0;
 
     public Game(MadnGameBoard gameBoard, GameViewController gameViewController) {
         this.gameBoard = gameBoard;
@@ -68,14 +68,14 @@ public class Game {
 //        currentPlayer.setLastRoll(dice.roll());
 //
 //        if (a < players.length) {
-            a++;
+//            a++;
             currentPlayer.setLastRoll(dice.roll());
             switchPlayer(players);
             setCurrentPlayerLabel(currentPlayer);
 //        } else {
 //            getHighestRoll(players);
 //        }
-        if (a >= players.length) {
+        if (/*a >= players.length*/ currentPlayer.equals(players[players.length - 1])) {
             getHighestRoll(players);
         }
     }
@@ -91,32 +91,19 @@ public class Game {
     }
 
     private void getHighestRoll(Player[] players) {
-//        Player[] sortedPlayers = Arrays.stream(gameBoard).sorted(Comparator.comparingInt(Player::getLastRoll)).toArray(Player[]::new);
-
         int maxRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElseThrow().getLastRoll();
-
         Player[] highestRolls = Arrays.stream(players).filter(player -> player.getLastRoll() == maxRoll).toArray(Player[]::new);
 
-        for (Player roll : highestRolls) {
-            System.out.println("Spieler: " + roll.getPlayerID() + ", Zahl: " + roll.getLastRoll());
-        }
-
         currentPlayer = highestRolls[0];
+        setCurrentPlayerLabel(currentPlayer);
 
         if (highestRolls.length > 1) {
             rollButton.setOnAction(event -> rollDice(highestRolls));
-            setCurrentPlayerLabel(currentPlayer);
-            a = 0;
+//            a = 0;
         } else {
             startRoll = false;
-            setCurrentPlayerLabel(currentPlayer);
             rollButton.setDisable(true);
             // TODO: next method
         }
-
-
-//        for (int i = 0; i < gameBoard.length; i++) {
-//            System.out.println("Spieler: " + gameBoard[i].getPlayerID() + ", Würfelzahl: " + gameBoard[i].getLastRoll());
-//        }
     }
 }
