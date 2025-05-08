@@ -73,6 +73,7 @@ public class Game {
             }
         } else {
             currentPlayer.setLastRoll(dice.roll());
+            System.out.println("Spieler " + currentPlayer.getPlayerID() + " hat eine " + currentPlayer.getLastRoll() + "gewürfelt und darf ziehen.");
             //TODO: Weiterschalten
         }
     }
