@@ -69,25 +69,29 @@ public class Game {
 //
 //        if (a < players.length) {
 //            a++;
+        if (startRoll) {
             currentPlayer.setLastRoll(dice.roll());
-            switchPlayer(players);
-            setCurrentPlayerLabel(currentPlayer);
 //        } else {
 //            getHighestRoll(players);
 //        }
-        if (/*a >= players.length*/ currentPlayer.equals(players[players.length - 1])) {
-            getHighestRoll(players);
+            if (/*a >= players.length*/ currentPlayer.equals(players[players.length - 1])) {
+                getHighestRoll(players);
+            } else {
+                switchPlayer(players);
+                setCurrentPlayerLabel(currentPlayer);
+            }
         }
     }
 
     private void switchPlayer(Player[] players) {
+        int pLength = players.length;
         int curIndex = Arrays.asList(players).indexOf(currentPlayer);
 
-        while (players[(curIndex + 1) % players.length].isFinished() && Arrays.stream(players).noneMatch(Player::isFinished)) {
-            curIndex = (curIndex + 1) % players.length;
+        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).noneMatch(Player::isFinished)) {
+            curIndex = (curIndex + 1) % pLength;
         }
 
-        currentPlayer = players[(curIndex + 1) % players.length];
+        currentPlayer = players[(curIndex + 1) % pLength];
     }
 
     private void getHighestRoll(Player[] players) {
@@ -96,6 +100,11 @@ public class Game {
 
         currentPlayer = highestRolls[0];
         setCurrentPlayerLabel(currentPlayer);
+
+        for (Player roll : highestRolls) {
+            System.out.println("Spieler: " + roll.getPlayerID() + ", Wurf: " + roll.getLastRoll());
+        }
+        System.out.println();
 
         if (highestRolls.length > 1) {
             rollButton.setOnAction(event -> rollDice(highestRolls));
