@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import java.util.*;
 
 public class Game {
-//    private final Player[] players;
+//    private final Player[] gameBoard;
     private Player currentPlayer;
     private final Dice dice;
     private final MadnGameBoard gameBoard;
@@ -36,7 +36,7 @@ public class Game {
     private void setup() {
         //TODO: Implementation
         gameViewController.getCurrentPlayerLabel().textProperty().bind(currentPlayerString);
-        rollButton.setOnAction(event -> rollDice());
+        rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
     }
 
     private void startGame(){
@@ -64,16 +64,16 @@ public class Game {
         };
     }
 
-    private void rollDice() {
+    private void rollDice(Player[] players) {
 //        currentPlayer.setLastRoll(dice.roll());
 
-        if (a < 4) {
+        if (a < players.length) {
             a++;
             currentPlayer.setLastRoll(dice.roll());
-            switchPlayer(gameBoard.getPlayers());
+            switchPlayer(players);
             setCurrentPlayerLabel(currentPlayer);
         } else {
-            getHighestRoll(gameBoard.getPlayers());
+            getHighestRoll(players);
         }
     }
 
@@ -87,19 +87,30 @@ public class Game {
         currentPlayer = players[(curIndex + 1) % players.length];
     }
 
-    private Player[] getHighestRoll(Player[] players) {
-//        Player[] sortedPlayers = Arrays.stream(players).sorted(Comparator.comparingInt(Player::getLastRoll)).toArray(Player[]::new);
+    private void getHighestRoll(Player[] players) {
+//        Player[] sortedPlayers = Arrays.stream(gameBoard).sorted(Comparator.comparingInt(Player::getLastRoll)).toArray(Player[]::new);
 
-        Player highestRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElse(null);
+        int maxRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElseThrow().getLastRoll();
 
+        Player[] highestRolls = Arrays.stream(players).filter(player -> player.getLastRoll() == maxRoll).toArray(Player[]::new);
 
-        assert highestRoll != null;
-        System.out.println("Höchste Zahl: " + highestRoll.getPlayerID());
-
-        for (int i = 0; i < players.length; i++) {
-            System.out.println("Spieler: " + players[i].getPlayerID() + ", Würfelzahl: " + players[i].getLastRoll());
+        for (Player roll : highestRolls) {
+            System.out.println("Spieler: " + roll.getPlayerID() + ", Zahl: " + roll.getLastRoll());
         }
 
-        return new Player[0];
+        currentPlayer = highestRolls[0];
+
+        if (highestRolls.length > 1) {
+            rollButton.setOnAction(event -> rollDice(highestRolls));
+            a = 0;
+        } else {
+            startRoll = false;
+            // TODO: next method
+        }
+
+
+//        for (int i = 0; i < gameBoard.length; i++) {
+//            System.out.println("Spieler: " + gameBoard[i].getPlayerID() + ", Würfelzahl: " + gameBoard[i].getLastRoll());
+//        }
     }
 }
