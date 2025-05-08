@@ -17,7 +17,6 @@ public class Game {
     private final StringProperty currentPlayerString = new SimpleStringProperty();
     private final Button rollButton;
     private boolean startRoll = true;
-//    int a = 0;
 
     public Game(MadnGameBoard gameBoard, GameViewController gameViewController) {
         this.gameBoard = gameBoard;
@@ -65,16 +64,9 @@ public class Game {
     }
 
     private void rollDice(Player[] players) {
-//        currentPlayer.setLastRoll(dice.roll());
-//
-//        if (a < players.length) {
-//            a++;
         if (startRoll) {
             currentPlayer.setLastRoll(dice.roll());
-//        } else {
-//            getHighestRoll(players);
-//        }
-            if (/*a >= players.length*/ currentPlayer.equals(players[players.length - 1])) {
+            if (currentPlayer.equals(players[players.length - 1])) {
                 getHighestRoll(players);
             } else {
                 switchPlayer(players);
@@ -108,7 +100,6 @@ public class Game {
 
         if (highestRolls.length > 1) {
             rollButton.setOnAction(event -> rollDice(highestRolls));
-//            a = 0;
         } else {
             startRoll = false;
             rollButton.setDisable(true);
