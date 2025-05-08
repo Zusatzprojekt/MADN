@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import java.util.*;
 
 public class Game {
-//    private final Player[] gameBoard;
+//    private final Player[] players;
     private Player currentPlayer;
     private final Dice dice;
     private final MadnGameBoard gameBoard;
@@ -43,7 +43,6 @@ public class Game {
 
         setCurrentPlayerLabel(currentPlayer);
         rollButton.setDisable(false);
-
     }
 
     private void setCurrentPlayerLabel(Player player) {
@@ -72,6 +71,9 @@ public class Game {
                 switchPlayer(players);
                 setCurrentPlayerLabel(currentPlayer);
             }
+        } else {
+            currentPlayer.setLastRoll(dice.roll());
+            //TODO: Weiterschalten
         }
     }
 
@@ -102,8 +104,7 @@ public class Game {
             rollButton.setOnAction(event -> rollDice(highestRolls));
         } else {
             startRoll = false;
-            rollButton.setDisable(true);
-            // TODO: next method
+            rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
         }
     }
 }
