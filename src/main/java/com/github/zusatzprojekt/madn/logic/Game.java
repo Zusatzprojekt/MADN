@@ -109,6 +109,7 @@ public class Game {
             a = 0;
         } else {
             startRoll = false;
+            setCurrentPlayerLabel(currentPlayer);
             rollButton.setDisable(true);
             // TODO: next method
         }
