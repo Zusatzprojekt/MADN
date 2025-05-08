@@ -72,9 +72,11 @@ public class Game {
                 setCurrentPlayerLabel(currentPlayer);
             }
         } else {
-            currentPlayer.setLastRoll(dice.roll());
             System.out.println("Spieler " + currentPlayer.getPlayerID() + " hat eine " + currentPlayer.getLastRoll() + " gewürfelt und darf ziehen.");
-            //TODO: Weiterschalten
+
+            currentPlayer.setLastRoll(dice.roll());
+            rollButton.setDisable(true);
+            movePlayer(currentPlayer);
         }
     }
 
@@ -107,5 +109,9 @@ public class Game {
             startRoll = false;
             rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
         }
+    }
+
+    private void movePlayer(Player player) {
+        //TODO: Implement
     }
 }
