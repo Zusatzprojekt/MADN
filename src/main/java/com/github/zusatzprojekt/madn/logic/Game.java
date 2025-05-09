@@ -17,6 +17,7 @@ public class Game {
     private final StringProperty currentPlayerString = new SimpleStringProperty();
     private final Button rollButton;
     private boolean startRoll = true;
+    private int rollCount = 0;
 
     public Game(MadnGameBoard gameBoard, GameViewController gameViewController) {
         this.gameBoard = gameBoard;
@@ -76,7 +77,8 @@ public class Game {
 
             currentPlayer.setLastRoll(dice.roll());
             rollButton.setDisable(true);
-            movePlayer(currentPlayer);
+            rollCount++;
+            checkState(currentPlayer);
         }
     }
 
@@ -111,7 +113,27 @@ public class Game {
         }
     }
 
-    private void movePlayer(Player player) {
-        //TODO: Implement
+    private void checkState(Player player) {
+        Figure[] currentFigures = player.getFigures();
+        boolean onField = Arrays.stream(currentFigures).anyMatch(figure -> figure.getCurrentField() >= 0);
+
+        if (!onField) {
+            if (player.getLastRoll() == 6) {
+                //TODO: Implement
+                System.out.println("Spieler kann raus");
+                rollCount = 0;
+            } else if (rollCount < 3) {
+                rollButton.setDisable(false);
+            } else {
+                switchPlayer(gameBoard.getPlayers());
+                setCurrentPlayerLabel(currentPlayer);
+                rollCount = 0;
+            }
+        }
+
+
+
+
+
     }
 }

@@ -2,12 +2,16 @@
 
 ## Spielstart
 
-* Jeder Spieler muss 3-mal würfeln. Der Spieler mit der höchsten Zahl beginnt. Danach geht es im Uhrzeigersinn weiter.
+* Jeder Spieler muss 1-mal würfeln. Gibt es mehrere Spieler mit derselben Augenzahl, müssen nur diese erneut würfeln, bis eine eindeutige höchste Zahl erreicht wird. Der Spieler mit der höchsten Zahl beginnt. Danach geht es im Uhrzeigersinn weiter.
 
 ## Spielregeln
-* Zu Beginn muss eine Figur auf das Spielbrett gebracht werden. Es darf bis zu 3-mal gewürfelt werden und bei einer Sechs muss der Spieler eine beliebige Figur von seiner Parkposition (Anfangsposition) auf das Spielbrett bewegen. Danach muss erneut gewürfelt werden.
+* Zu Beginn muss eine Figur auf das Spielbrett gebracht werden. Dazu muss eine 6 gewürfelt werden. Bei einer 6 muss der Spieler eine beliebige Figur von seiner Parkpostion auf seine Startposition bewegen, sofern diese nicht durch eine eigene Figur belegt ist. Danach muss erneut gewürfelt werden.
 
-* Generell: Wer eine Sechs gewürfelt hat, muss - wenn möglich - eine Figur aus der Parkposition (Anfangsposition) auf das Spielbrett stellen. Danach wird erneut gewürfelt und um die gewürfelte Zahl vorgerückt. Sollte erneut eine Sechs kommen, so darf wieder gewürfelt werden. Es gilt immer: Solange eine Figur sich in einer Parkposition befindet, muss diese herausgenommen werden.
+* Es darf bis zu 3-mal gewürfelt werden, wenn keine eigene Figur auf dem Spielfeld vorhanden ist und sich alle eigenen Figuren im Zielfeld auf der höchstmöglichen Position befinden.
+
++ Bei einer 6 darf erneut gewürfelt werden bis maximal 3 aufeinanderfolgende Würfe erreicht wurden oder keine 6 mehr gewürfelt wird.
+
+* Generell: Wer eine Sechs gewürfelt hat, muss - wenn möglich - eine Figur aus der Parkposition auf seine Startposition stellen, sofern diese nicht durch eine eigene Figur belegt ist. Danach wird erneut gewürfelt und um die gewürfelte Zahl vorgerückt. Sollte erneut eine Sechs kommen, so darf wieder gewürfelt werden. Es gilt immer: Solange eine Figur sich in einer Parkposition befindet, muss diese herausgenommen werden.
 
 * Sobald man eine Figur auf der Startposition auf dem Spielbrett hat, gilt es, diese so schnell wie möglich ins Ziel zu bringen.
   
@@ -15,7 +19,7 @@
   
 * Steht auf einem Feld, auf das man vorrücken möchte, eine Eigene, muss man den Zug mit einer anderen Figur machen.
   
-* Es müssen alle Spielfiguren in die Zielfelder gebracht werden, dabei können die Figuren auch andere in dem Ziel überspringen
+* Es müssen alle Spielfiguren in die Zielfelder gebracht werden, dabei können die anderen Figuren im Ziel **nicht** übersprungen werden.
 
 ## Spielende
 
