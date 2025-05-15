@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.Pane?>
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldTextV?>
+
+<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Pane fx:id="fieldContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+        <MadnFieldTextV fieldType="HOME" text="a" />
+        <MadnFieldTextV fieldType="HOME" text="b" />
+        <MadnFieldTextV fieldType="HOME" text="c" />
+        <MadnFieldTextV fieldType="HOME" text="d" />
+    </Pane>
+</fx:root>

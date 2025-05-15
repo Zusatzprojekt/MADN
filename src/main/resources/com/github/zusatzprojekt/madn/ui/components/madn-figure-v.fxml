@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Circle?>
+
+<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <Group fx:id="animationGroup" visible="false">
+        <Circle fill="TRANSPARENT" layoutX="100.0" layoutY="100.0" radius="100.0" scaleX="0.0" scaleY="0.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="25.0" />
+        <Circle fill="TRANSPARENT" layoutX="100.0" layoutY="100.0" radius="100.0" scaleX="0.0" scaleY="0.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="25.0" />
+    </Group>
+    <Circle fx:id="figure" fill="WHITE" layoutX="100.0" layoutY="100.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" />
+</fx:root>

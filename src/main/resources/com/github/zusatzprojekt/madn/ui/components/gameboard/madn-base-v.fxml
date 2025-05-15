@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV?>
+<?import javafx.scene.text.Text?>
+
+<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Pane fx:id="fieldContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+        <MadnFieldV />
+        <MadnFieldV layoutX="200.0" />
+        <MadnFieldV layoutY="200.0" />
+        <MadnFieldV layoutX="200.0" layoutY="200.0" />
+    </Pane>
+    <StackPane fx:id="textContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0">
+        <Text fx:id="baseText" boundsType="VISUAL" mouseTransparent="true" text="B" textOrigin="CENTER" />
+    </StackPane>
+</fx:root>

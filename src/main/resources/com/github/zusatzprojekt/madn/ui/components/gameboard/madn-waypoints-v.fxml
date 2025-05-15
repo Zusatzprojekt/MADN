@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV?>
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldTextV?>
+
+<fx:root type="javafx.scene.Group" fx:id="fieldContainer" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <MadnFieldTextV fieldType="START" fill="#3387F5" layoutX="340.0" layoutY="850.0" radius="35.0" stroke="#000000" strokeWidth="4.0" text="A" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="765.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="680.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="595.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="340.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="255.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="170.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="85.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="0.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="0.0" layoutY="425.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldTextV fieldType="START" fill="#FFFF00" layoutX="0.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" text="A" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="85.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="170.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="255.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="340.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="255.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="170.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="340.0" layoutY="85.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="340.0" layoutY="0.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="425.0" layoutY="0.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldTextV fieldType="START" fill="#009A00" layoutX="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" text="A" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="85.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="170.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="255.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="510.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="595.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="680.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="765.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="850.0" layoutY="340.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="850.0" layoutY="425.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldTextV fieldType="START" fill="#FF3030" layoutX="850.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" text="A" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="765.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="680.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="595.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="510.0" layoutY="510.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="595.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="680.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="510.0" layoutY="765.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="CORNER" fill="#FFFFFF" layoutX="510.0" layoutY="850.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+    <MadnFieldV fieldType="NORMAL" fill="#FFFFFF" layoutX="425.0" layoutY="850.0" radius="35.0" stroke="#000000" strokeWidth="4.0" />
+</fx:root>

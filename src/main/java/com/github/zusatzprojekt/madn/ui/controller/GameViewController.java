@@ -5,7 +5,7 @@ import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
 import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
 import com.github.zusatzprojekt.madn.ui.components.ConfirmationDialogYesNo;
-import com.github.zusatzprojekt.madn.ui.components.MadnGameBoard;
+import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +19,7 @@ public class GameViewController implements FxmlController, FxmlValueReceiver {
     private Map<String, Object> activePlayerColors;
 
     @FXML
-    private MadnGameBoard gameBoard;
+    private MadnBoardV gameBoard;
     @FXML
     private Label currentPlayerLabel;
     @FXML

@@ -2,10 +2,10 @@ package com.github.zusatzprojekt.madn.logic;
 
 import java.util.Random;
 
-public class Dice {
+public class MadnDiceL {
     private final Random random;
 
-    public Dice() {
+    public MadnDiceL() {
         random = new Random();
     }
 

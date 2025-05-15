@@ -1,26 +1,12 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
-import com.github.zusatzprojekt.madn.logic.Player;
-import javafx.animation.AnimationTimer;
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.*;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.Map;
