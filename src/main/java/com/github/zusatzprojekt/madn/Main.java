@@ -23,7 +23,7 @@ public class Main extends Application implements FxmlControllerConnector2 {
         loadScene("ui/start-view.fxml", 1280, 720);
 
         stage.setTitle("Mensch Ärgere Dich Nicht");
-        stage.getIcons().add(new Image(requireNonNull(getClass().getResourceAsStream("images/madn_icon.png"))));
+        stage.getIcons().add(new Image(Resources.getStream("images/madn_icon2.png")));
         stage.setScene(mainScene);
         stage.setMinWidth(800);
         stage.setMinHeight(450);
