@@ -6,11 +6,11 @@
 <?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV?>
 <?import javafx.scene.text.Text?>
 
-<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <Pane fx:id="fieldContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-        <MadnFieldV />
-        <MadnFieldV layoutX="200.0" />
-        <MadnFieldV layoutY="200.0" />
+        <MadnFieldV layoutX="0.0" layoutY="0.0" />
+        <MadnFieldV layoutX="200.0" layoutY="0.0" />
+        <MadnFieldV layoutX="0.0" layoutY="200.0" />
         <MadnFieldV layoutX="200.0" layoutY="200.0" />
     </Pane>
     <StackPane fx:id="textContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0">

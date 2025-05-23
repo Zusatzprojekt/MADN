@@ -1,30 +1,28 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
-import com.github.zusatzprojekt.madn.interfaces.FxmlController;
-import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
-import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector2;
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
+import com.github.zusatzprojekt.madn.ui.UIManager;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class StartViewController implements Initializable, FxmlController, FxmlValueReceiver {
-    private int countPlayer;
+public class StartViewController implements Initializable, FxmlValueReceiver {
+    private final IntegerProperty countPlayer = new SimpleIntegerProperty(0);
     private final BooleanProperty playerBlue = new SimpleBooleanProperty(false);
     private final BooleanProperty playerYellow = new SimpleBooleanProperty(false);
     private final BooleanProperty playerGreen = new SimpleBooleanProperty(false);
     private final BooleanProperty playerRed = new SimpleBooleanProperty(false);
-    private FxmlControllerConnector2 connector;
 
     @FXML
     private CheckBox cbBlue, cbYellow, cbRed, cbGreen;
@@ -38,51 +36,28 @@ public class StartViewController implements Initializable, FxmlController, FxmlV
         cbYellow.selectedProperty().bindBidirectional(playerYellow);
         cbGreen.selectedProperty().bindBidirectional(playerGreen);
         cbRed.selectedProperty().bindBidirectional(playerRed);
+        playButton.disableProperty().bind(countPlayer.greaterThanOrEqualTo(2).not());
 
         playerBlue.addListener((observableValue, invertedValue, value) -> {
-            if (value) {
-                countPlayer++;
-            } else {
-                countPlayer--;
-            }
-            changeButtonState();
+            countPlayer.setValue(value ? countPlayer.getValue() + 1 : countPlayer.getValue() - 1);
         });
 
         playerYellow.addListener((observableValue, invertedValue, value) -> {
-            if (value) {
-                countPlayer++;
-            } else {
-                countPlayer--;
-            }
-            changeButtonState();
+            countPlayer.setValue(value ? countPlayer.getValue() + 1 : countPlayer.getValue() - 1);
         });
 
         playerGreen.addListener((observableValue, invertedValue, value) -> {
-            if (value) {
-                countPlayer++;
-            } else {
-                countPlayer--;
-            }
-            changeButtonState();
+            countPlayer.setValue(value ? countPlayer.getValue() + 1 : countPlayer.getValue() - 1);
         });
 
         playerRed.addListener((observableValue, invertedValue, value) -> {
-            if (value) {
-                countPlayer++;
-            } else {
-                countPlayer--;
-            }
-            changeButtonState();
+            countPlayer.setValue(value ? countPlayer.getValue() + 1 : countPlayer.getValue() - 1);
         });
     }
 
     @FXML
-    private void clickedPlayButton(ActionEvent actionEvent) throws IOException {
-        connector.loadScene("ui/game-view.fxml",createDataPacket());
-    }
-
-    private void changeButtonState(){
-        playButton.setDisable(countPlayer < 2);
+    private void clickedPlayButton(ActionEvent actionEvent) {
+        UIManager.loadScene("ui/game-view.fxml", createDataPacket());
     }
 
     private HashMap<String, Object> createDataPacket(){
@@ -91,14 +66,9 @@ public class StartViewController implements Initializable, FxmlController, FxmlV
         data.put("playerYellow", playerYellow.get());
         data.put("playerGreen", playerGreen.get());
         data.put("playerRed", playerRed.get());
-        data.put("playerCount", countPlayer);
+        data.put("playerCount", countPlayer.get());
 
         return data;
-    }
-
-    @Override
-    public void setConnector(FxmlControllerConnector connector) {
-        this.connector = (FxmlControllerConnector2) connector;
     }
 
     @Override
@@ -107,9 +77,7 @@ public class StartViewController implements Initializable, FxmlController, FxmlV
         playerYellow.setValue((boolean) values.get("playerYellow"));
         playerGreen.setValue((boolean) values.get("playerGreen"));
         playerRed.setValue((boolean) values.get("playerRed"));
-        countPlayer = (int) values.get("playerCount");
-
-        changeButtonState();
+        countPlayer.setValue((int) values.get("playerCount"));
     }
 
 }

@@ -1,26 +1,27 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
-import com.github.zusatzprojekt.madn.interfaces.FxmlController;
-import com.github.zusatzprojekt.madn.interfaces.FxmlControllerConnector;
+import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
+import com.github.zusatzprojekt.madn.ui.UIManager;
 import javafx.fxml.FXML;
 
-import java.io.IOException;
+import java.util.Map;
 
-public class EndViewController implements FxmlController {
-    private FxmlControllerConnector connector;
+public class EndViewController implements FxmlValueReceiver {
+    private Map<String, Object> lastActivePlayers;
 
     @FXML
     public void quitGame() {
-        connector.closeApplication();
+        UIManager.closeApplication();
     }
 
     @FXML
-    public void switchToStartView() throws IOException {
-        connector.loadScene("ui/start-view.fxml");
+    public void switchToStartView() {
+        UIManager.loadScene("ui/start-view.fxml", lastActivePlayers);
     }
 
     @Override
-    public void setConnector(FxmlControllerConnector connector) {
-        this.connector = connector;
+    public void receiveValues(Map<String, Object> values) {
+        lastActivePlayers = values;
     }
+
 }

@@ -1,36 +1,64 @@
 package com.github.zusatzprojekt.madn.logic;
 
-import com.github.zusatzprojekt.madn.ui.controller.GameViewController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.Button;
-
-import java.util.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 
 public class MadnGameL {
-//    private final Player[] players;
-//    private Player currentPlayer;
-    private final MadnDiceL dice;
-//    private final MadnGameBoard gameBoard;
-    private final GameViewController gameViewController;
-    private final StringProperty currentPlayerString = new SimpleStringProperty();
-    private final Button rollButton;
-    private boolean startRoll = true;
-    private int rollCount = 0;
+    private final ObservableValue<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
+    private final MadnPlayerL[] playerList;
 
-    public MadnGameL(/*MadnGameBoard gameBoard,*/ GameViewController gameViewController) {
+    public MadnGameL(MadnPlayerL[] playerList) {
+        this.playerList = playerList;
+    }
+
+    public MadnPlayerL[] getPlayerList() {
+        return playerList;
+    }
+
+    public MadnPlayerL getCurrentPlayer() {
+        return currentPlayer.getValue();
+    }
+
+    public ObservableValue<MadnPlayerL> currentPlayerObservable() {
+        return currentPlayer;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    private final Player[] players;
+//    private Player currentPlayer;
+//    private final MadnDiceL dice;
+//    private final MadnGameBoard gameBoard;
+//    private final GameViewController gameViewController;
+//    private final StringProperty currentPlayerString = new SimpleStringProperty();
+//    private final Button rollButton;
+//    private boolean startRoll = true;
+//    private int rollCount = 0;
+
+//    public MadnGameL(/*MadnGameBoard gameBoard,*/ GameViewController gameViewController) {
 //        this.gameBoard = gameBoard;
-        this.gameViewController = gameViewController;
+//        this.gameViewController = gameViewController;
 
 //        currentPlayer = gameBoard.getPlayers()[0];
-        rollButton = gameViewController.getRollButton();
-        dice = new MadnDiceL();
+//        rollButton = gameViewController.getRollButton();
+//        dice = new MadnDiceL();
 
 //        setup();
 //        startGame();
 
-        gameViewController.getRollButton().setDisable(false);
-    }
+//        gameViewController.getRollButton().setDisable(false);
+//    }
 
 //    private void setup() {
 //        //TODO: Implementation

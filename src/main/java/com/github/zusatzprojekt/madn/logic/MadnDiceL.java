@@ -12,4 +12,5 @@ public class MadnDiceL {
     public int roll() {
         return random.nextInt(1, 7);
     }
+
 }

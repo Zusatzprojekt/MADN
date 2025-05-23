@@ -1,6 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
-import com.github.zusatzprojekt.madn.ui.UILoader;
+import com.github.zusatzprojekt.madn.ui.UIManager;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -22,7 +22,7 @@ public class MadnFieldTextV extends MadnFieldV {
 
     public MadnFieldTextV() {
         // Load fxml file with ui structure
-        UILoader.loadComponentFxml("ui/components/gameboard/madn-field-text-v.fxml", this, this);
+        UIManager.loadComponentFxml("ui/components/gameboard/madn-field-text-v.fxml", this, this);
 
         // Create bindings to/between the UI elements
         createBindings();

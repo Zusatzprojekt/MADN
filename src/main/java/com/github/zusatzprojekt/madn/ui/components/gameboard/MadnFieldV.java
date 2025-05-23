@@ -1,6 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
-import com.github.zusatzprojekt.madn.ui.UILoader;
+import com.github.zusatzprojekt.madn.ui.UIManager;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -10,24 +10,27 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class MadnFieldV extends Group {
-    public enum FieldType {NORMAL, CORNER, BASE, HOME, START}
     private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
     private final DoubleProperty strokeWidth = new SimpleDoubleProperty(12.0);
     private final ObjectProperty<Paint> fillColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
     private final ObjectProperty<Paint> strokeColor = new SimpleObjectProperty<>(Color.BLACK);
-    private final ReadOnlyDoubleProperty centerX = createNewDoubleProperty(this.layoutXProperty().add(radius));
-    private final ReadOnlyDoubleProperty centerY = createNewDoubleProperty(this.layoutYProperty().add(radius));
-    private FieldType fieldType = FieldType.NORMAL;
+    private final ReadOnlyDoubleProperty centerX = createDoubleProperty(
+            getParent() != null ? getParent().layoutXProperty().add(layoutXProperty()).add(radius) : layoutXProperty().add(radius)
+    );
+    private final ReadOnlyDoubleProperty centerY = createDoubleProperty(
+            getParent() != null ? getParent().layoutYProperty().add(layoutYProperty()).add(radius) : layoutYProperty().add(radius)
+    );
+    private boolean cornerField = false;
 
     @FXML
-    private Circle field;
+    private Circle circle;
 
 
     // == Constructor ==================================================================================================
 
     public MadnFieldV() {
         // Load fxml file with ui structure
-        UILoader.loadComponentFxml("ui/components/gameboard/madn-field-v.fxml", this, this);
+        UIManager.loadComponentFxml("ui/components/gameboard/madn-field-v.fxml", this, this);
 
         // Create bindings to/between the UI elements
         createBindings();
@@ -37,18 +40,18 @@ public class MadnFieldV extends Group {
     // == Bindings =====================================================================================================
 
     private void createBindings() {
-        field.radiusProperty().bind(radius);
-        field.layoutXProperty().bind(radius);
-        field.layoutYProperty().bind(radius);
-        field.fillProperty().bind(fillColor);
-        field.strokeProperty().bind(strokeColor);
-        field.strokeWidthProperty().bind(strokeWidth);
+        circle.radiusProperty().bind(radius);
+        circle.layoutXProperty().bind(radius);
+        circle.layoutYProperty().bind(radius);
+        circle.fillProperty().bind(fillColor);
+        circle.strokeProperty().bind(strokeColor);
+        circle.strokeWidthProperty().bind(strokeWidth);
     }
 
 
     // == Helper methods ===============================================================================================
 
-    private DoubleProperty createNewDoubleProperty(ObservableValue<? extends Number> binding) {
+    private DoubleProperty createDoubleProperty(ObservableValue<? extends Number> binding) {
         DoubleProperty property = new SimpleDoubleProperty();
         property.bind(binding);
 
@@ -90,12 +93,12 @@ public class MadnFieldV extends Group {
         strokeColor.setValue(stroke);
     }
 
-    public FieldType getFieldType() {
-        return fieldType;
+    public boolean isCornerField() {
+        return cornerField;
     }
 
-    public void setFieldType(FieldType fieldType) {
-        this.fieldType = fieldType;
+    public void setCornerField(boolean isCorner) {
+        cornerField = isCorner;
     }
 
     public double getCenterX() {
@@ -105,6 +108,7 @@ public class MadnFieldV extends Group {
     public double getCenterY() {
         return centerY.getValue();
     }
+
 
     // == Getter / Setter properties ===================================================================================
 

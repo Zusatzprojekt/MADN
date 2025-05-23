@@ -4,5 +4,5 @@
 <?import javafx.scene.shape.Circle?>
 
 <fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Circle fx:id="field" fill="DODGERBLUE" layoutX="100.0" layoutY="100.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="11.428" />
+    <Circle fx:id="circle" fill="DODGERBLUE" layoutX="100.0" layoutY="100.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="11.428" />
 </fx:root>

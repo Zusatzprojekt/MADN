@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import com.github.zusatzprojekt.madn.ui.components.MadnFigureV?>
+
+<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <MadnFigureV layoutX="0.0" layoutY="0.0" radius="20.0" strokeWidth="1.0" />
+    <MadnFigureV layoutX="40.0" layoutY="0.0" radius="20.0" strokeWidth="1.0" />
+    <MadnFigureV layoutX="0.0" layoutY="40.0" radius="20.0" strokeWidth="1.0" />
+    <MadnFigureV layoutX="40.0" layoutY="40.0" radius="20.0" strokeWidth="1.0" />
+</fx:root>

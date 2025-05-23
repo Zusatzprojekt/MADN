@@ -1,12 +1,16 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
-import com.github.zusatzprojekt.madn.ui.UILoader;
+import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
+import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import javafx.animation.Animation;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -14,6 +18,7 @@ import javafx.util.Duration;
 
 public class MadnFigureV extends Group {
     private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
+    private final DoubleProperty strokeWidth = new SimpleDoubleProperty(0.0);
     private final BooleanProperty highlight = new SimpleBooleanProperty(false);
     private final ObjectProperty<Paint> fillColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
     private final ObjectProperty<Paint> ringColor = new SimpleObjectProperty<>(Color.ORANGE);
@@ -21,6 +26,12 @@ public class MadnFigureV extends Group {
     private final ObjectProperty<Duration> animationDuration = new SimpleObjectProperty<>(Duration.seconds(1.5));
     private final ScaleTransition[] transitions;
     private final Circle[] rings;
+
+    //TODO: Check if this works
+    private final ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEvent = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<? super MouseEvent>> mouseExitEvent = new SimpleObjectProperty<>();
+    private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
+    private MadnPlayerV player;
 
     @FXML
     private Group animationGroup;
@@ -33,9 +44,8 @@ public class MadnFigureV extends Group {
     @SuppressWarnings("SuspiciousToArrayCall")
     public MadnFigureV() {
         // Load fxml file with ui structure
-        UILoader.loadComponentFxml("ui/components/madn-figure-v.fxml", this, this);
+        UIManager.loadComponentFxml("ui/components/madn-figure-v.fxml", this, this);
 
-        // Initialize variables
         rings = animationGroup.getChildren().toArray(Circle[]::new);
         transitions = new ScaleTransition[] {
                 createTransition(rings[0], animationDuration, 2, 1.0),
@@ -43,14 +53,6 @@ public class MadnFigureV extends Group {
         };
 
         createBindings();
-        createListeners();
-    }
-
-    public MadnFigureV(double radius, Color color) {
-        this();
-
-        setRadius(radius);
-        setFillDeriveGradient(color);
     }
 
 
@@ -64,7 +66,10 @@ public class MadnFigureV extends Group {
         figure.radiusProperty().bind(radius);
         figure.fillProperty().bind(fillColor);
         figure.strokeProperty().bind(strokeColor);
-        figure.strokeWidthProperty().bind(radius.divide(20.0));
+        figure.strokeWidthProperty().bind(strokeWidth);
+//        figure.disableProperty().bind(highlight.not()); // TODO: commented out for test purposes
+        figure.onMouseEnteredProperty().bind(mouseEnterEvent);
+        figure.onMouseExitedProperty().bind(mouseExitEvent);
 
         // Setup rings
         for (Circle ring : rings) {
@@ -93,6 +98,7 @@ public class MadnFigureV extends Group {
                 for (ScaleTransition t : transitions) {
                     t.play();
                 }
+
                 this.setViewOrder(1.0);
             } else {
                 for (ScaleTransition t : transitions) {
@@ -102,11 +108,13 @@ public class MadnFigureV extends Group {
                 this.setViewOrder(0.0);
             }
         });
-    }
 
-    private void createListeners() {
-        figure.setOnMouseEntered(mouseEvent -> onMouseEntered());
-        figure.setOnMouseExited(mouseEvent -> onMouseExited());
+        //TODO: Check if this works
+        figurePosition.addListener((observableValue, oldPosition, position) -> {
+//            moveFigure(oldPosition, position, 0);
+            setFigurePosition(position);
+        });
+
     }
 
 
@@ -159,6 +167,33 @@ public class MadnFigureV extends Group {
     }
 
 
+    private void setFigurePosition(MadnFigurePosition position) {
+        int pos = position.getFieldIndex();
+        MadnFieldContainerV base = player.getBase();
+        MadnFieldContainerV home = player.getHome();
+        MadnFieldContainerV waypoints = player.getWaypoints();
+
+        switch (position.getFigurePlacement()) {
+            case BASE:
+                setLayoutX(base.getLayoutX() + base.getFields()[pos].getCenterX() - radius.getValue());
+                setLayoutY(base.getLayoutY() + base.getFields()[pos].getCenterY() - radius.getValue());
+                break;
+            case HOME:
+                setLayoutX(home.getLayoutX() + home.getFields()[pos].getCenterX() - radius.getValue());
+                setLayoutY(home.getLayoutY() + home.getFields()[pos].getCenterY() - radius.getValue());
+                break;
+            case WAYPOINTS:
+                setLayoutX(waypoints.getFields()[pos].getCenterX() - radius.getValue());
+                setLayoutY(waypoints.getFields()[pos].getCenterY() - radius.getValue());
+                break;
+        }
+    }
+
+    private void moveFigure(MadnFigurePosition oldPostion, MadnFigurePosition newPosition, double millis) {
+        // TODO Implement Animations
+    }
+
+
     // == Getter / Setter ==============================================================================================
 
     public double getRadius() {
@@ -169,20 +204,20 @@ public class MadnFigureV extends Group {
         radius.setValue(value);
     }
 
+    public double getStrokeWidth() {
+        return strokeWidth.getValue();
+    }
+
+    public void setStrokeWidth(double value) {
+        strokeWidth.setValue(value);
+    }
+
     public Paint getFill() {
         return fillColor.getValue();
     }
 
     public void setFill(Paint fill) {
         fillColor.setValue(fill);
-    }
-
-    public void setFillDeriveGradient(Color color) {
-        Stop startColor = new Stop(0, color);
-        Stop endColor = new Stop(1, color.deriveColor(0.0, 1.0, 0.4, 1.0));
-        RadialGradient gradient = new RadialGradient(0.0, 0.0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, startColor, endColor);
-
-        fillColor.setValue(gradient);
     }
 
     public Paint getRingColor() {
@@ -217,11 +252,24 @@ public class MadnFigureV extends Group {
         animationDuration.setValue(Duration.millis(value));
     }
 
+    //TODO: Check if this works
+    public MadnFigurePosition getFigurePosition() {
+        return figurePosition.getValue();
+    }
+
+    public void setPlayer(MadnPlayerV player) {
+        this.player = player;
+    }
+
 
     // == Getter / Setter properties ===================================================================================
 
     public DoubleProperty radiusProperty() {
         return radius;
+    }
+
+    public DoubleProperty strokeWidthProperty() {
+        return strokeWidth;
     }
 
     public BooleanProperty highlightProperty() {
@@ -244,15 +292,28 @@ public class MadnFigureV extends Group {
         return animationDuration;
     }
 
-
-    // == Event handlers ===============================================================================================
-
-    private void onMouseEntered() {
-        // TODO: Implement
+    //TODO: Check if this works
+    public ObjectProperty<MadnFigurePosition> figurePositionProperty() {
+        return figurePosition;
     }
 
-    private void onMouseExited() {
-        // TODO: Implement
+    public ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEventProperty() {
+        return mouseEnterEvent;
+    }
+
+    public ObjectProperty<EventHandler<? super MouseEvent>> mouseExitEventProperty() {
+        return mouseExitEvent;
+    }
+
+
+    // == Custom getter / setter =======================================================================================
+
+    public void setFillDeriveGradient(Color color) {
+        Stop startColor = new Stop(0, color);
+        Stop endColor = new Stop(1, color.deriveColor(0.0, 1.0, 0.4, 1.0));
+        RadialGradient gradient = new RadialGradient(0.0, 0.0, 0.5, 0.5, 0.5, true, CycleMethod.NO_CYCLE, startColor, endColor);
+
+        fillColor.setValue(gradient);
     }
 
 }

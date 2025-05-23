@@ -1,27 +1,24 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
-import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
-import com.github.zusatzprojekt.madn.logic.MadnPlayerL;
-import com.github.zusatzprojekt.madn.ui.UILoader;
+import com.github.zusatzprojekt.madn.ui.UIManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
-import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
+import javafx.beans.property.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
-import java.util.Map;
+public class MadnBoardV extends AnchorPane {
+    private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
+    private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
+    private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
 
-public class MadnBoardV extends AnchorPane implements FxmlValueReceiver {
-    //TODO: Implement
-    private final ListProperty<MadnPlayerL> playerList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
+    // TODO: Finish implementation
+    private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(mouseEvent -> setHighlightPath((MadnFigureV) ((Shape) mouseEvent.getSource()).getParent()));
+    private final ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEvent = new SimpleObjectProperty<>(mouseEvent -> removeHighlightPath());
 
     @FXML
     private MadnFieldContainerV baseContainerBlue,
@@ -35,97 +32,137 @@ public class MadnBoardV extends AnchorPane implements FxmlValueReceiver {
             homeContainerRed;
 
     @FXML
-    private Pane figureContainer;
+    private Pane playerContainer, overlayContainer;
 
     public MadnBoardV() {
-        UILoader.loadComponentFxml("ui/components/madn-board-v.fxml", this, this);
+        UIManager.loadComponentFxml("ui/components/madn-board-v.fxml", this, this);
 
-        playerList.addListener((ListChangeListener<? super MadnPlayerL>) changed -> {
-            System.out.println("== ListChangeListener ========================================================");
-            System.out.println(changed);
-            System.out.println("------------------------------------------------------------------------------");
-        });
-
-        playerList.addListener((ListChangeListener<? super MadnPlayerL>) change -> {
-
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    change.getAddedSubList().forEach(this::setupPlayer);
-                }
-            }
-        });
+        createBindings();
     }
 
-    private void setupPlayer(MadnPlayerL player) {
-        System.out.println(player);
+    private void createBindings() {
 
-        switch (player.getPlayerID()) {
-            case BLUE:
-                setupFigures(Color.web("#3387F5"), baseContainerBlue);
-                break;
-
-            case YELLOW:
-                setupFigures(Color.web("#FFFF00"), baseContainerYellow);
-                break;
-
-            case GREEN:
-                setupFigures(Color.web("#009A00"), baseContainerGreen);
-                break;
-
-            case RED:
-                setupFigures(Color.web("#FF3030"), baseContainerRed);
-                break;
-        }
+        overlayContainer.visibleProperty().bind(showOverlay);
+//        overlayContainer.setVisible(true);
+        overlayContainer.clipProperty().bind(clipOverlay);
 
     }
 
-    private void setupFigures(Color color, MadnFieldContainerV fieldContainer) {
 
-        for (MadnFieldV field : fieldContainer.getFields()) {
-            MadnFigureV figure = new MadnFigureV(20, color);
-            figure.setLayoutX(fieldContainer.getLayoutX() + field.getCenterX() - figure.getRadius());
-            figure.setLayoutY(fieldContainer.getLayoutY() + field.getCenterY() - figure.getRadius());
-            figure.setRingColor(Color.web("#ADD8E6"));
-            figureContainer.getChildren().add(figure);
-        }
+
+
+    private void setHighlightPath(MadnFigureV figure) {
+//        MadnFigurePlacement figurePlacement = figure.getFigurePosition().getFigurePlacement();
+//        int fieldIndex = figure.getFigurePosition().getFieldIndex();
+//        int roll = currentRoll.getValue();
+//
+//        if (figurePlacement == MadnFigurePlacement.BASE) {
+////            MadnFieldV[] fields = Arrays.stream(waypointContainer.getFields()).filter(madnFieldV -> madnFieldV.getFieldType() == MadnFieldType.START).toArray(MadnFieldV[]::new);
+//
+//            MadnFieldV startField = Arrays.stream(waypointContainer.getFields()).filter(madnFieldV -> madnFieldV.getFieldType() == MadnFieldType.START && madnFieldV.getSpecialFor() == figure.getPlayer().getPlayerID()).toList().getFirst();
+//
+//            System.out.println(startField);
+//
+//            Circle circle = new Circle(waypointContainer.getFields()[0].getRadius() + 5);
+//            circle.setLayoutX(startField.getCenterX() + circle.getRadius());
+//            circle.setLayoutY(startField.getCenterY() + circle.getRadius());
+//
+//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000.0, 1000.0), circle));
+//
+//        } else if (figurePlacement == MadnFigurePlacement.HOME) {
+//            MadnFieldV[] fields = figure.getHome().getFields();
+//            Polyline line = new Polyline();
+//            line.getPoints().addAll(fields[fieldIndex].getCenterX(), fields[fieldIndex].getCenterY());
+//            line.getPoints().addAll(fields[fieldIndex + roll].getCenterX(), fields[fieldIndex + roll].getCenterY());
+//            line.setStrokeWidth((fields[0].getRadius() + 5) * 2);
+//            line.setStrokeLineCap(StrokeLineCap.ROUND);
+//
+//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000.0, 1000.0), line));
+//
+//        } else if (figurePlacement == MadnFigurePlacement.WAYPOINTS) {
+//            MadnFieldV[] fields = waypointContainer.getFields();
+//            Polyline line = new Polyline();
+//            boolean inHome = false;
+//
+//            line.getPoints().addAll(fields[fieldIndex].getCenterX(), fields[fieldIndex].getCenterY());
+//
+//            for (int i = 1; i <= currentRoll.getValue(); i++) {
+//                int n = (fieldIndex + i) % fields.length;
+//
+//                if (fields[n].getFieldType() == MadnFieldType.CORNER) {
+//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
+//                } else if (fields[n].getFieldType() == MadnFieldType.END && fields[n].getSpecialFor() == figure.getPlayer().getPlayerID()) {
+//                    inHome = true;
+//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
+//                } else if (i == currentRoll.getValue()) {
+//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
+//                }
+//            }
+//
+//            line.setStrokeWidth((fields[0].getRadius() + 5) * 2);
+//            line.setStrokeLineCap(StrokeLineCap.ROUND);
+//            line.setStrokeLineJoin(StrokeLineJoin.ROUND);
+//
+//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000, 1000), line));
+//        }
+//
+//        System.out.println("clipchange");
     }
 
-    @Override
-    public void receiveValues(Map<String, Object> values) {
-        setupBoard(values);
+    private void removeHighlightPath() {
+        clipOverlay.setValue(null);
     }
 
-    private void setupBoard(Map<String, Object> values) {
-        boolean playerBlue = (boolean) values.get("playerBlue");
-        boolean playerYellow = (boolean) values.get("playerYellow");
-        boolean playerGreen = (boolean) values.get("playerGreen");
-        boolean playerRed = (boolean) values.get("playerRed");
-        int playerCount = (int) values.get("playerCount");
-
-        if (playerBlue) {
-            playerList.add(new MadnPlayerL(MadnPlayerL.PlayerID.BLUE));
-        }
-
-        if (playerYellow) {
-            playerList.add(new MadnPlayerL(MadnPlayerL.PlayerID.YELLOW));
-        }
-
-        if (playerGreen) {
-            playerList.add(new MadnPlayerL(MadnPlayerL.PlayerID.GREEN));
-        }
-
-        if (playerRed) {
-            playerList.add(new MadnPlayerL(MadnPlayerL.PlayerID.RED));
-        }
+    public Pane getPlayerContainer() {
+        return playerContainer;
     }
 
-
-    public ListProperty<MadnPlayerL> playerListProperty() {
-        return playerList;
+    public MadnFieldContainerV getBaseContainerBlue() {
+        return baseContainerBlue;
     }
 
-    public ObjectProperty<MadnPlayerL> currentPlayerProperty() {
-        return currentPlayer;
+    public MadnFieldContainerV getBaseContainerYellow() {
+        return baseContainerYellow;
+    }
+
+    public MadnFieldContainerV getBaseContainerGreen() {
+        return baseContainerGreen;
+    }
+
+    public MadnFieldContainerV getBaseContainerRed() {
+        return baseContainerRed;
+    }
+
+    public MadnFieldContainerV getHomeContainerBlue() {
+        return homeContainerBlue;
+    }
+
+    public MadnFieldContainerV getHomeContainerYellow() {
+        return homeContainerYellow;
+    }
+
+    public MadnFieldContainerV getHomeContainerGreen() {
+        return homeContainerGreen;
+    }
+
+    public MadnFieldContainerV getHomeContainerRed() {
+        return homeContainerRed;
+    }
+
+    public MadnFieldContainerV getWaypointContainer() {
+        return waypointContainer;
+    }
+
+    public IntegerProperty currentRollProperty() {
+        return currentRoll;
+    }
+
+    public ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEventProperty() {
+        return activateHighlightEvent;
+    }
+
+    public ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEventProperty() {
+        return deactivateHighlightEvent;
     }
 
 }

@@ -1,36 +1,17 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
-import com.github.zusatzprojekt.madn.ui.UILoader;
-import javafx.beans.property.DoubleProperty;
+import com.github.zusatzprojekt.madn.enums.MadnHomeDirection;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
-public class MadnHomeV extends MadnFieldContainerV {
-    public enum HomeDirection {UP, DOWN, LEFT, RIGHT}
-    private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
-    private final DoubleProperty spacing = new SimpleDoubleProperty(0.0);
-    private final DoubleProperty strokeWidth = new SimpleDoubleProperty(12.0);
-    private final ObjectProperty<Paint> fillColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
-    private final ObjectProperty<Paint> strokeColor = new SimpleObjectProperty<>(Color.BLACK);
-    private final ObjectProperty<HomeDirection> direction = new SimpleObjectProperty<>(HomeDirection.DOWN);
-
-    @FXML
-    private Pane fieldContainer;
+public class MadnHomeV extends MadnFieldContainerExtV {
+    private final ObjectProperty<MadnHomeDirection> direction = new SimpleObjectProperty<>(MadnHomeDirection.DOWN);
 
 
     // == Constructor ==================================================================================================
 
-    @SuppressWarnings("SuspiciousToArrayCall")
     public MadnHomeV() {
-
-        UILoader.loadComponentFxml("ui/components/gameboard/madn-home-v.fxml", this, this);
-
-        setFields(fieldContainer.getChildren().toArray(MadnFieldV[]::new));
+        super("ui/components/gameboard/madn-home-v.fxml");
 
         createBindings();
     }
@@ -40,14 +21,6 @@ public class MadnHomeV extends MadnFieldContainerV {
 
     private void createBindings() {
 
-        // Field bindings
-        for (MadnFieldV field : getFields()) {
-            field.radiusProperty().bind(radius);
-            field.fillProperty().bind(fillColor);
-            field.strokeProperty().bind(strokeColor);
-            field.strokeWidthProperty().bind(strokeWidth);
-        }
-
         // Initial home field direction setup
         setupHomeDirection(direction.getValue());
 
@@ -55,12 +28,13 @@ public class MadnHomeV extends MadnFieldContainerV {
         direction.addListener((observableValue, oldDirection, newDirection) -> {
             setupHomeDirection(newDirection);
         });
+
     }
 
 
     // == Helper methods ===============================================================================================
 
-    private void setupHomeDirection(HomeDirection direction) {
+    private void setupHomeDirection(MadnHomeDirection direction) {
         MadnFieldV[] fields = getFields();
 
         for (int i = 0; i < fields.length; i++) {
@@ -91,77 +65,15 @@ public class MadnHomeV extends MadnFieldContainerV {
         }
     }
 
+
     // == Getter / Setter ==============================================================================================
 
-    public double getRadius() {
-        return radius.getValue();
-    }
-
-    public void setRadius(double value) {
-        radius.setValue(value);
-    }
-
-    public double getSpacing() {
-        return spacing.getValue();
-    }
-
-    public void setSpacing(double value) {
-        spacing.setValue(value);
-    }
-
-    public double getStrokeWidth() {
-        return strokeWidth.getValue();
-    }
-
-    public void setStrokeWidth(double value) {
-        strokeWidth.setValue(value);
-    }
-
-    public Paint getFill() {
-        return fillColor.getValue();
-    }
-
-    public void setFill(Paint fill) {
-        fillColor.setValue(fill);
-    }
-
-    public Paint getStroke() {
-        return strokeColor.getValue();
-    }
-
-    public void setStroke(Paint stroke) {
-        strokeColor.setValue(stroke);
-    }
-
-    public HomeDirection getHomeDirection() {
+    public MadnHomeDirection getHomeDirection() {
         return direction.getValue();
     }
 
-    public void setHomeDirection(HomeDirection direction) {
+    public void setHomeDirection(MadnHomeDirection direction) {
         this.direction.setValue(direction);
-    }
-
-
-    // == Getter / Setter properties ===================================================================================
-
-    public DoubleProperty radiusProperty() {
-        return radius;
-    }
-
-    public DoubleProperty spacingProperty() {
-        return spacing;
-    }
-
-    public DoubleProperty strokeWidthProperty() {
-        return strokeWidth;
-    }
-
-    public ObjectProperty<Paint> fillProperty() {
-        return fillColor;
-    }
-
-    public ObjectProperty<Paint> strokeProperty() {
-        return strokeColor;
     }
 
 }

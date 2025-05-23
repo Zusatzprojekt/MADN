@@ -11,6 +11,9 @@ import java.util.List;
 @DefaultProperty("children")
 public class ScalePane extends Pane {
 
+
+    // == Constructor ==================================================================================================
+
     public ScalePane() {
         super();
     }
@@ -20,10 +23,23 @@ public class ScalePane extends Pane {
         addChildren(children);
     }
 
-    public void addChildren(Node... children) {
-        getChildren().addAll(children);
-        requestLayout();
+
+    // == Helper methods ===============================================================================================
+
+    private void layoutNode(Node node, double insetTop, double insetLeft, double availWidth, double availHeight, double baselineOffset, HPos hPos, VPos vPos) {
+        final double originalWidth = node.getBoundsInLocal().getWidth();
+        final double originalHeight = node.getBoundsInLocal().getWidth();
+
+        final double scale = Math.max(Math.min(availWidth / originalWidth, availHeight / originalHeight), 0);
+
+        node.setScaleX(scale);
+        node.setScaleY(scale);
+
+        layoutInArea(node, insetLeft, insetTop, availWidth, availHeight, baselineOffset, hPos, vPos);
     }
+
+
+    // == Overridden methods ===========================================================================================
 
     @Override
     protected void layoutChildren() {
@@ -46,15 +62,12 @@ public class ScalePane extends Pane {
         }
     }
 
-    private void layoutNode(Node node, double insetTop, double insetLeft, double availWidth, double availHeight, double baselineOffset, HPos hPos, VPos vPos) {
-        final double originalWidth = node.getBoundsInLocal().getWidth();
-        final double originalHeight = node.getBoundsInLocal().getWidth();
 
-        final double scale = Math.max(Math.min(availWidth / originalWidth, availHeight / originalHeight), 0);
+    // == Custom getter / setter =======================================================================================
 
-        node.setScaleX(scale);
-        node.setScaleY(scale);
-
-        layoutInArea(node, insetLeft, insetTop, availWidth, availHeight, baselineOffset, hPos, vPos);
+    public void addChildren(Node... children) {
+        getChildren().addAll(children);
+        requestLayout();
     }
+
 }
