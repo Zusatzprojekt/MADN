@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.shape.Box?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Sphere?>
+<?import javafx.scene.shape.Cylinder?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.SceneAntialiasing?>
+<?import javafx.scene.paint.PhongMaterial?>
+
+<fx:root type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: green;">
+    <fx:define>
+        <Point3D fx:id="ROTATE_X" x="1.0" />
+        <Point3D fx:id="ROTATE_Y" y="1.0" />
+        <Point3D fx:id="ROTATE_Z" z="1.0" />
+        <PhongMaterial fx:id="BODY_MATERIAL" diffuseColor="#FFFFFF" />
+        <PhongMaterial fx:id="DOT_MATERIAL" diffuseColor="#000000" />
+    </fx:define>
+
+    <!--Border-->
+    <Rectangle height="1000.0" width="1000.0" fill="#78BEFF" stroke="#000000" strokeType="INSIDE" strokeWidth="10.0" arcHeight="80.0" arcWidth="80.0" />
+
+    <!--Dice scene-->
+    <SubScene fx:id="subScene" depthBuffer="true" fill="#78BEFF" height="960.0" width="960.0" layoutX="20.0" layoutY="20.0">
+        <antiAliasing>
+            <SceneAntialiasing fx:constant="BALANCED" />
+        </antiAliasing>
+        <root>
+            <Group fx:id="diceContainer" onMouseClicked="#onDiceClicked" rotationAxis="$ROTATE_Z">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+
+                <!--Edges-->
+                <Group>
+                    <Cylinder height="500.0" radius="20.0" rotate="0.0" translateX="-250.0" translateY="0.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="0.0" translateX="250.0" translateY="0.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="0.0" translateX="-250.0" translateY="0.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="0.0" translateX="250.0" translateY="0.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="-250.0" translateY="-250.0" translateZ="0.0" rotationAxis="$ROTATE_X" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="250.0" translateY="-250.0" translateZ="0.0" rotationAxis="$ROTATE_X" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="-250.0" translateY="250.0" translateZ="0.0" rotationAxis="$ROTATE_X" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="250.0" translateY="250.0" translateZ="0.0" rotationAxis="$ROTATE_X" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="0.0" translateY="-250.0" translateZ="-250.0" rotationAxis="$ROTATE_Z" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="0.0" translateY="250.0" translateZ="-250.0" rotationAxis="$ROTATE_Z" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="0.0" translateY="-250.0" translateZ="250.0" rotationAxis="$ROTATE_Z" material="$BODY_MATERIAL" />
+                    <Cylinder height="500.0" radius="20.0" rotate="90.0" translateX="0.0" translateY="250.0" translateZ="250.0" rotationAxis="$ROTATE_Z" material="$BODY_MATERIAL" />
+                </Group>
+
+                <!--Corners-->
+                <Group>
+                    <Sphere radius="20.0" translateX="-250.0" translateY="-250.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="250.0" translateY="-250.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="-250.0" translateY="250.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="250.0" translateY="250.0" translateZ="-250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="-250.0" translateY="-250.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="250.0" translateY="-250.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="-250.0" translateY="250.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                    <Sphere radius="20.0" translateX="250.0" translateY="250.0" translateZ="250.0" material="$BODY_MATERIAL" />
+                </Group>
+
+                <!--Main body-->
+                <Group>
+                    <Box width="500.0" height="500.0" depth="540.0" material="$BODY_MATERIAL" />
+                    <Box width="500.0" height="540.0" depth="500.0" material="$BODY_MATERIAL" />
+                    <Box width="540.0" height="500.0" depth="500.0" material="$BODY_MATERIAL" />
+                </Group>
+
+                <!--Dots-->
+                <Group fx:id="dotContainer">
+                    <Sphere radius="120.0" translateX="0.0" translateY="0.0" translateZ="-160.0" material="$DOT_MATERIAL" /> <!-- 1 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="160.0" translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 2 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="160.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 2 -->
+                    <Sphere radius="120.0" translateX="160.0" translateY="-130.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 3 -->
+                    <Sphere radius="120.0" translateX="160.0" translateY="0.0"  translateZ="0.0" material="$DOT_MATERIAL" /> <!-- 3 -->
+                    <Sphere radius="120.0" translateX="160.0" translateY="130.0"  translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 3 -->
+                    <Sphere radius="120.0" translateX="-160.0" translateY="-130.0"  translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 4 -->
+                    <Sphere radius="120.0" translateX="-160.0" translateY="-130.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 4 -->
+                    <Sphere radius="120.0" translateX="-160.0" translateY="130.0"  translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 4 -->
+                    <Sphere radius="120.0" translateX="-160.0" translateY="130.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 4 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="-160.0" translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 5 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="-160.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 5 -->
+                    <Sphere radius="120.0" translateX="0.0" translateY="-160.0" translateZ="0.0" material="$DOT_MATERIAL" /> <!-- 5 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="-160.0"  translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 5 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="-160.0" translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 5 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="-130.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="130.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                    <Sphere radius="120.0" translateX="-130.0" translateY="0.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="0.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="-130.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                    <Sphere radius="120.0" translateX="130.0" translateY="130.0" translateZ="160.0" material="$DOT_MATERIAL" /> <!-- 6 -->
+                </Group>
+            </Group>
+        </root>
+    </SubScene>
+
+    <!--Overlay-->
+    <Rectangle fx:id="overlayRect" width="10000" height="10000" visible="false" opacity="0.5" fill="black" />
+</fx:root>

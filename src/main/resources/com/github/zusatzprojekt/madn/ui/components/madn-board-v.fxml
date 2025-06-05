@@ -9,7 +9,6 @@
 <?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnHomeV?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-
     <!--Background layer-->
     <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!--Background-->
@@ -53,6 +52,6 @@
 
     <!--Overlay layer-->
     <Pane fx:id="overlayContainer" mouseTransparent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Rectangle height="1000.0" opacity="0.5" width="1000.0" />
+        <Rectangle height="1000.0" width="1000.0" opacity="0.5" />
     </Pane>
 </fx:root>
