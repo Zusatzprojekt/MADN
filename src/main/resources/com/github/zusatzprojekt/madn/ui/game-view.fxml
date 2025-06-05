@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zusatzprojekt.madn.ui.components.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -15,7 +16,7 @@
         </AnchorPane>
        <!-- Menu items -->
        <AnchorPane maxWidth="367.0" minHeight="0.0" minWidth="367.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
-          <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <VBox alignment="CENTER" prefHeight="448.0" prefWidth="367.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <!-- Current player -->
                 <VBox alignment="CENTER" spacing="10.0">
                    <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
@@ -28,12 +29,21 @@
                          <Font name="Arial" size="30.0" />
                       </font>
                    </Label>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
                 </VBox>
               <VBox alignment="CENTER_LEFT" spacing="10.0">
                   <Label contentDisplay="CENTER" text="aktueller Würfelwert">
                       <font>
                           <Font name="Arial" size="30.0" />
                       </font>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+                  <padding>
+                     <Insets left="50.0" right="50.0" />
+                  </padding>
                   </Label>
                   <ScalePane prefHeight="250" prefWidth="250" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <MadnDiceV fx:id="visualDice" minHeight="1000.0" minWidth="1000.0" prefHeight="1000.0" prefWidth="1000.0" />
@@ -52,6 +62,9 @@
                       <Font name="Arial" size="18.0" />
                    </font>
                 </Button>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
              </VBox>
           </VBox>
        </AnchorPane>
