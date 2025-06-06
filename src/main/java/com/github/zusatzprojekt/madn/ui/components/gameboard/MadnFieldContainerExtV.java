@@ -7,6 +7,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * Abstrakte Erweiterung von MadnFieldContainerV, die zusätzliche visuelle Eigenschaften bietet:
+ * Radius, Abstand, Linienbreite sowie Füll- und Randfarbe.
+ * Diese Eigenschaften werden an alle enthaltenen Spielfelder gebunden.
+ */
 public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
     protected final DoubleProperty radius = new SimpleDoubleProperty(100.0);
     protected final DoubleProperty spacing = new SimpleDoubleProperty(0.0);
@@ -17,6 +22,11 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
 
     // == Constructor ==================================================================================================
 
+    /**
+     * Konstruktor, der ein FXML-Layout lädt und dann Verbindungen für die Felder erstellt.
+     *
+     * @param fxmlFile Pfad zur FXML-Datei, die das Layout definiert.
+     */
     public MadnFieldContainerExtV(String fxmlFile) {
         super(fxmlFile);
 
@@ -26,9 +36,13 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
 
     // == Bindings =====================================================================================================
 
+    /**
+     * Verbindet die Felder des Containers mit den Eigenschaften wie Radius, Farbe etc.,
+     * damit Änderungen an den Eigenschaften automatisch auf die Felder übertragen werden.
+     */
     private void createBindings() {
 
-        // Field bindings
+        // Feld Bindings
         for (MadnFieldV field : getFields()) {
             field.radiusProperty().bind(radius);
             field.fillProperty().bind(fillColor);
@@ -40,6 +54,7 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
 
     // == Getter / Setter ==============================================================================================
 
+    // Radius
     public double getRadius() {
         return radius.getValue();
     }
@@ -48,6 +63,7 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
         radius.setValue(value);
     }
 
+    // Abstand
     public double getSpacing() {
         return spacing.getValue();
     }
@@ -56,6 +72,7 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
         spacing.setValue(value);
     }
 
+    // Linienbreite
     public double getStrokeWidth() {
         return strokeWidth.getValue();
     }
@@ -64,6 +81,7 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
         strokeWidth.setValue(value);
     }
 
+    // Füllfarbe
     public Paint getFill() {
         return fillColor.getValue();
     }
@@ -72,6 +90,7 @@ public abstract class MadnFieldContainerExtV extends MadnFieldContainerV {
         fillColor.setValue(fill);
     }
 
+    // Randfarbe
     public Paint getStroke() {
         return strokeColor.getValue();
     }
