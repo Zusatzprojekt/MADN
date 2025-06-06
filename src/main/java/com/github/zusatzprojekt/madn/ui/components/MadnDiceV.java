@@ -6,6 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,8 +23,8 @@ public class MadnDiceV extends Pane {
     private final int ANIMATION_DURATION_MILLIS = 750;
     private final Rotate rx = new Rotate(0.0, Rotate.X_AXIS);
     private final Rotate ry = new Rotate(0.0, Rotate.Y_AXIS);
-    private ObjectProperty<EventHandler<ActionEvent>> onFinishedProperty;
-    private ObjectProperty<EventHandler<MouseEvent>> onDiceClickedProperty;
+    private final ObjectProperty<EventHandler<ActionEvent>> onFinishedProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<MouseEvent>> onDiceClickedProperty = new SimpleObjectProperty<>();
 
     @FXML
     private SubScene subScene;
@@ -46,8 +47,6 @@ public class MadnDiceV extends Pane {
     }
 
     public void startAnimation(int roll) {
-        diceContainer.setDisable(true);
-
         Timeline tl = new Timeline(setupKeyframes(roll));
         tl.setOnFinished(this::onAnimationFinished);
         tl.play();
@@ -100,7 +99,7 @@ public class MadnDiceV extends Pane {
         rx.setAngle((rx.getAngle() + 360) % 360);
         ry.setAngle((ry.getAngle() + 360) % 360);
 
-        if (onFinishedProperty != null) {
+        if (onFinishedProperty.isNotNull().getValue()) {
             onFinishedProperty.getValue().handle(actionEvent);
         }
     }
@@ -115,7 +114,7 @@ public class MadnDiceV extends Pane {
 
     @FXML
     private void onDiceClicked(MouseEvent mouseEvent) {
-        if (onDiceClickedProperty != null) {
+        if (onDiceClickedProperty.isNotNull().getValue()) {
             onDiceClickedProperty.getValue().handle(mouseEvent);
         }
     }

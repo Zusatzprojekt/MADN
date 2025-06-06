@@ -1,14 +1,33 @@
 package com.github.zusatzprojekt.madn.logic;
 
+import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 public class MadnGameL {
-    private final ObservableValue<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
+    private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final MadnPlayerL[] playerList;
+    private final MadnDiceL dice = new MadnDiceL();
 
-    public MadnGameL(MadnPlayerL[] playerList) {
+    public MadnGameL(MadnPlayerL[] playerList, MadnDiceV vDice) {
         this.playerList = playerList;
+
+        currentPlayer.setValue(playerList[0]);
+
+        vDice.setOnDiceClicked(event -> {
+            vDice.setDisable(true);
+
+            int roll = dice.roll();
+            currentPlayer.getValue().setLastRoll(roll);
+            vDice.startAnimation(roll);
+        });
+
+        vDice.setOnFinished(event -> {rollFinished(); vDice.setDisable(false);});
+    }
+
+    private void rollFinished() {
+        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!");
     }
 
     public MadnPlayerL[] getPlayerList() {

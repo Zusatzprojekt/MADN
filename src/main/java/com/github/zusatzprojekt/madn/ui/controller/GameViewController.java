@@ -7,10 +7,10 @@ import com.github.zusatzprojekt.madn.logic.MadnPlayerL;
 import com.github.zusatzprojekt.madn.ui.UIManager;
 import com.github.zusatzprojekt.madn.ui.components.ConfirmationDialogYesNo;
 import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
+import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
 import com.github.zusatzprojekt.madn.ui.components.MadnPlayerV;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
@@ -25,7 +25,7 @@ public class GameViewController implements FxmlValueReceiver {
     @FXML
     private Label currentPlayerLabel;
     @FXML
-    private Button rollButton;
+    private MadnDiceV visualDice;
 
     @Override
     public void receiveValues(Map<String, Object> values) {
@@ -56,7 +56,7 @@ public class GameViewController implements FxmlValueReceiver {
             playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.BLUE);
         }
 
-        game = new MadnGameL(playerList);
+        game = new MadnGameL(playerList, visualDice);
 
         game.currentPlayerObservable().addListener((observableValue, lastPlayer, player) -> {
             gameBoard.currentRollProperty().bind(player.lastRollObservable());
@@ -75,6 +75,8 @@ public class GameViewController implements FxmlValueReceiver {
         game.currentPlayerObservable().addListener((observableValue, lastPlayer, currentPlayer) -> {
             setCurrentPlayerLabel(currentPlayer);
         });
+
+        setCurrentPlayerLabel(game.currentPlayerObservable().getValue());
     }
 
     private void setCurrentPlayerLabel(MadnPlayerL player) {
