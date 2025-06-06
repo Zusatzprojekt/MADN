@@ -24,7 +24,7 @@
                          <Font name="Arial" size="25.0" />
                       </font>
                    </Label>
-                   <Label fx:id="currentPlayerLabel" contentDisplay="CENTER" text="{PLAYER_COLOR}">
+                   <Label fx:id="currentPlayerLabel" contentDisplay="CENTER" text="Farbe">
                       <font>
                          <Font name="Arial" size="30.0" />
                       </font>
@@ -34,17 +34,20 @@
                </padding>
                 </VBox>
               <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <Label contentDisplay="CENTER" text="aktueller Würfelwert">
-                      <font>
-                          <Font name="Arial" size="30.0" />
-                      </font>
-                  <VBox.margin>
-                     <Insets />
-                  </VBox.margin>
                   <padding>
-                     <Insets left="50.0" right="50.0" />
+                      <Insets top="20.0" />
                   </padding>
-                  </Label>
+<!--                  <Label contentDisplay="CENTER" text="aktueller Würfelwert">-->
+<!--                      <font>-->
+<!--                          <Font name="Arial" size="30.0" />-->
+<!--                      </font>-->
+<!--                  <VBox.margin>-->
+<!--                     <Insets />-->
+<!--                  </VBox.margin>-->
+<!--                  <padding>-->
+<!--                     <Insets left="50.0" right="50.0" />-->
+<!--                  </padding>-->
+<!--                  </Label>-->
                   <ScalePane prefHeight="250" prefWidth="250" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <MadnDiceV fx:id="visualDice" minHeight="1000.0" minWidth="1000.0" prefHeight="1000.0" prefWidth="1000.0" />
                   </ScalePane>

@@ -34,6 +34,8 @@ public class GameViewController implements FxmlValueReceiver {
         setupPlayers();
         setupBoard();
         createBindings();
+
+        game.startGame();
     }
 
     private void setupPlayers() {
@@ -76,7 +78,8 @@ public class GameViewController implements FxmlValueReceiver {
             setCurrentPlayerLabel(currentPlayer);
         });
 
-        setCurrentPlayerLabel(game.currentPlayerObservable().getValue());
+        // Initiales setzen des Player-Labels
+//        setCurrentPlayerLabel(game.currentPlayerObservable().getValue());
     }
 
     private void setCurrentPlayerLabel(MadnPlayerL player) {

@@ -5,6 +5,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.util.Arrays;
+
 public class MadnGameL {
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final MadnPlayerL[] playerList;
@@ -12,8 +14,6 @@ public class MadnGameL {
 
     public MadnGameL(MadnPlayerL[] playerList, MadnDiceV vDice) {
         this.playerList = playerList;
-
-        currentPlayer.setValue(playerList[0]);
 
         vDice.setOnDiceClicked(event -> {
             vDice.setDisable(true);
@@ -26,9 +26,38 @@ public class MadnGameL {
         vDice.setOnFinished(event -> {rollFinished(); vDice.setDisable(false);});
     }
 
+    private void switchPlayer(MadnPlayerL[] players) {
+        int pLength = players.length;
+        int curIndex = Arrays.asList(players).indexOf(currentPlayer.getValue());
+
+        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).filter(MadnPlayerL::isFinished).count() > 2) {
+            curIndex = (curIndex + 1) % pLength;
+        }
+
+        currentPlayer.setValue(players[(curIndex + 1) % pLength]);
+    }
+
     private void rollFinished() {
         System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!");
     }
+
+    public void startGame() {
+        currentPlayer.setValue(playerList[0]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public MadnPlayerL[] getPlayerList() {
         return playerList;
@@ -92,22 +121,6 @@ public class MadnGameL {
 //        rollButton.setDisable(false);
 //    }
 //
-//    private void setCurrentPlayerLabel(Player player) {
-//         switch (player.getPlayerID()) {
-//             case BLUE:
-//                 currentPlayerString.set("Blau");
-//                 break;
-//             case YELLOW:
-//                 currentPlayerString.set("Gelb");
-//                 break;
-//             case GREEN:
-//                 currentPlayerString.set("Grün");
-//                 break;
-//             case RED:
-//                 currentPlayerString.set("Rot");
-//                 break;
-//        };
-//    }
 //
 //    private void rollDice(Player[] players) {
 //        if (startRoll) {
@@ -128,16 +141,6 @@ public class MadnGameL {
 //        }
 //    }
 //
-//    private void switchPlayer(Player[] players) {
-//        int pLength = players.length;
-//        int curIndex = Arrays.asList(players).indexOf(currentPlayer);
-//
-//        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).noneMatch(Player::isFinished)) {
-//            curIndex = (curIndex + 1) % pLength;
-//        }
-//
-//        currentPlayer = players[(curIndex + 1) % pLength];
-//    }
 //
 //    private void getHighestRoll(Player[] players) {
 //        int maxRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElseThrow().getLastRoll();

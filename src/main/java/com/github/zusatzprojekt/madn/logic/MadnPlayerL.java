@@ -10,6 +10,7 @@ public class MadnPlayerL {
     private final MadnPlayerId playerID;
     private final IntegerProperty lastRoll = new SimpleIntegerProperty(0);
     private final MadnFigureL[] figures;
+    private boolean finished = false;
 
 
     // == Constructor ==================================================================================================
@@ -48,5 +49,12 @@ public class MadnPlayerL {
         return figures;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }
 
