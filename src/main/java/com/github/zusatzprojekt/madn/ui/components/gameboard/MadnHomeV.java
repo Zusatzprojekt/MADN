@@ -4,12 +4,20 @@ import com.github.zusatzprojekt.madn.enums.MadnHomeDirection;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * Repräsentiert das Heimfeld eines Spielers.
+ * Es enthält mehrere Einzelfelder (MadnFieldV), die je nach Spielrichtung
+ * (oben, unten, links, rechts) im UI unterschiedlich angeordnet werden.
+ */
 public class MadnHomeV extends MadnFieldContainerExtV {
     private final ObjectProperty<MadnHomeDirection> direction = new SimpleObjectProperty<>(MadnHomeDirection.DOWN);
 
 
     // == Constructor ==================================================================================================
 
+    /**
+     * Konstruktor lädt die zugehörige FXML-Datei und erstellt Verbindungen.
+     */
     public MadnHomeV() {
         super("ui/components/gameboard/madn-home-v.fxml");
 
@@ -19,6 +27,9 @@ public class MadnHomeV extends MadnFieldContainerExtV {
 
     // == Bindings =====================================================================================================
 
+    /**
+     * Richtet Verbindungen und Listener für die Ausrichtung ein.
+     */
     private void createBindings() {
 
         // Initial home field direction setup
@@ -34,6 +45,10 @@ public class MadnHomeV extends MadnFieldContainerExtV {
 
     // == Helper methods ===============================================================================================
 
+    /**
+     * Ordnet die Felder je nach übergebener Richtung grafisch an.
+     * @param direction die gewünschte Richtung der Anordnung (UP, DOWN, LEFT, RIGHT)
+     */
     private void setupHomeDirection(MadnHomeDirection direction) {
         MadnFieldV[] fields = getFields();
 

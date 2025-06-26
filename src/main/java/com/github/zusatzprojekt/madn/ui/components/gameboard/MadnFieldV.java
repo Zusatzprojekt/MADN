@@ -14,6 +14,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+/**
+ * Repräsentiert ein einzelnes Feld auf dem Spielbrett.
+ * Visuell besteht es aus einem Kreis mit Text in der Mitte.
+ * Unterstützt dynamische Eigenschaften und Bindings für UI-Änderungen.
+ */
 public class MadnFieldV extends Group {
     private final ObjectProperty<Paint> fillProp = new SimpleObjectProperty<>(Color.DODGERBLUE);
     private final BooleanProperty smallFieldProp = new SimpleBooleanProperty(false);
@@ -32,6 +37,9 @@ public class MadnFieldV extends Group {
 
     // == Constructor ==================================================================================================
 
+    /**
+     * Konstruktor lädt das FXML Layout und initialisiert die UI-Bindings.
+     */
     public MadnFieldV() {
         // Load fxml file with ui structure
         AppManager.loadComponentFxml("ui/components/gameboard/madn-field-v.fxml", this, this);
@@ -42,7 +50,9 @@ public class MadnFieldV extends Group {
 
 
     // == Bindings =====================================================================================================
-
+    /**
+     * Bindet UI-Eigenschaften an JavaFX-Properties für dynamisches Verhalten.
+     */
     private void initBindings() {
         circle.radiusProperty().bind(Bindings.when(smallFieldProp).then(30.0).otherwise(35.0));
         circle.layoutXProperty().bind(circle.radiusProperty());
