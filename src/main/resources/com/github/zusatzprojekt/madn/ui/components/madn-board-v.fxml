@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.shape.Polygon?>
-<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnBaseV?>
-<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnWaypointsV?>
-<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnHomeV?>
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <!--Background layer-->
     <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!--Background-->
@@ -21,13 +17,13 @@
     <!--Base layer-->
     <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!--Blue base-->
-        <MadnBaseV fx:id="baseContainerBlue" fill="#3387F5" layoutX="45.0" layoutY="810.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnBaseV fx:id="baseContainerBlue" fill="#3387F5" layoutX="45.0" layoutY="810.0" />
         <!--Yellow base-->
-        <MadnBaseV fx:id="baseContainerYellow" fill="#FFFF00" layoutX="45.0" layoutY="45.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnBaseV fx:id="baseContainerYellow" fill="#FFFF00" layoutX="45.0" layoutY="45.0" />
         <!--Green base-->
-        <MadnBaseV fx:id="baseContainerGreen" fill="#009A00" layoutX="810.0" layoutY="45.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnBaseV fx:id="baseContainerGreen" fill="#009A00" layoutX="810.0" layoutY="45.0" />
         <!--Red base-->
-        <MadnBaseV fx:id="baseContainerRed" fill="#FF3030" layoutX="810.0" layoutY="810.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnBaseV fx:id="baseContainerRed" fill="#FF3030" layoutX="810.0" layoutY="810.0" />
     </Pane>
 
     <!--Field layer-->
@@ -38,13 +34,13 @@
     <!--Home layer-->
     <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!--Blue home-->
-        <MadnHomeV fx:id="homeContainerBlue" fill="#3387F5" homeDirection="UP" layoutX="470.0" layoutY="555.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnHomeV fx:id="homeContainerBlue" fill="#3387F5" homeDirection="UP" layoutX="470.0" layoutY="555.0" />
         <!--Yellow home-->
-        <MadnHomeV fx:id="homeContainerYellow" fill="#FFFF00" homeDirection="RIGHT" layoutX="130.0" layoutY="470.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnHomeV fx:id="homeContainerYellow" fill="#FFFF00" homeDirection="RIGHT" layoutX="130.0" layoutY="470.0" />
         <!--Green home-->
-        <MadnHomeV fx:id="homeContainerGreen" fill="#009A00" homeDirection="DOWN" layoutX="470.0" layoutY="130.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnHomeV fx:id="homeContainerGreen" fill="#009A00" homeDirection="DOWN" layoutX="470.0" layoutY="130.0" />
         <!--Red home-->
-        <MadnHomeV fx:id="homeContainerRed" fill="#FF3030" homeDirection="LEFT" layoutX="555.0" layoutY="470.0" radius="30.0" spacing="25.0" stroke="#000000" strokeWidth="4.0" />
+        <MadnHomeV fx:id="homeContainerRed" fill="#FF3030" homeDirection="LEFT" layoutX="555.0" layoutY="470.0" />
     </Pane>
 
     <!--Player layer-->
@@ -52,6 +48,6 @@
 
     <!--Overlay layer-->
     <Pane fx:id="overlayContainer" mouseTransparent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Rectangle height="1000.0" width="1000.0" opacity="0.5" />
+        <Rectangle height="1000.0" opacity="0.5" width="1000.0" />
     </Pane>
 </fx:root>

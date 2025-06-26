@@ -1,6 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.ui.AppManager;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -16,9 +16,22 @@ public abstract class MadnFieldContainerV extends Group {
     // == Constructor ==================================================================================================
 
     public MadnFieldContainerV(String fxmlFile) {
-        UIManager.loadComponentFxml(fxmlFile, this, this);
+        AppManager.loadComponentFxml(fxmlFile, this, this);
 
-        fields = fieldContainer.getChildrenUnmodifiable().toArray(MadnFieldV[]::new);
+        fields = initFields();
+    }
+
+
+    // == Helper methods ===============================================================================================
+
+    private MadnFieldV[] initFields() {
+        MadnFieldV[] madnFields = fieldContainer.getChildrenUnmodifiable().toArray(MadnFieldV[]::new);
+
+        for (MadnFieldV field : madnFields) {
+            field.setContainer(this);
+        }
+
+        return madnFields;
     }
 
 

@@ -1,10 +1,18 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
+import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
+import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
+import com.github.zusatzprojekt.madn.interfaces.MadnFieldExtended;
+import com.github.zusatzprojekt.madn.logic.MadnFigureL;
 import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
+import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
 import javafx.animation.Animation;
 import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,7 +24,12 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
 public class MadnFigureV extends Group {
+    private final Duration ANIMATION_DURATION = Duration.millis(250);
     private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
     private final DoubleProperty strokeWidth = new SimpleDoubleProperty(0.0);
     private final BooleanProperty highlight = new SimpleBooleanProperty(false);
@@ -27,72 +40,74 @@ public class MadnFigureV extends Group {
     private final ScaleTransition[] transitions;
     private final Circle[] rings;
 
-    //TODO: Check if this works
+    //TODO: Testen
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseExitEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
-    private MadnPlayerV player;
+    private final MadnPlayerV player;
 
     @FXML
     private Group animationGroup;
     @FXML
-    private Circle figure;
+    private Circle circle;
 
 
     // == Constructor ==================================================================================================
 
     @SuppressWarnings("SuspiciousToArrayCall")
-    public MadnFigureV() {
+    public MadnFigureV(MadnPlayerV player, MadnFigureL figureL, double radius) {
+
         // Load fxml file with ui structure
-        UIManager.loadComponentFxml("ui/components/madn-figure-v.fxml", this, this);
+        AppManager.loadComponentFxml("ui/components/madn-figure-v.fxml", this, this);
+
+        this.radius.setValue(radius);
+
+        this.player = player;
 
         rings = animationGroup.getChildren().toArray(Circle[]::new);
-        transitions = new ScaleTransition[] {
+
+        transitions = initHighlightAnimation();
+
+        initListeners();
+        initBindings(figureL);
+
+        setClip(); // TODO: Ist das notwendig?
+
+//        setDisable(true); //TODO: Nach Tests einkommentieren
+        setFillDeriveGradient(initFillColor(player.getPlayerId()));
+    }
+
+    private Color initFillColor(MadnPlayerId playerId) {
+
+        return switch (playerId) {
+            case BLUE -> Color.web("#3387F5");
+            case YELLOW -> Color.web("#FFFF00");
+            case GREEN -> Color.web("#009A00");
+            case RED -> Color.web("#FF3030");
+            case NONE -> null;
+        };
+    }
+
+    private ScaleTransition[] initHighlightAnimation() {
+
+        return new ScaleTransition[] {
                 createTransition(rings[0], animationDuration, 2, 1.0),
                 createTransition(rings[1], animationDuration, 2, 1.0, true)
         };
-
-        createBindings();
     }
 
 
     // == Initialization ===============================================================================================
 
-    private void createBindings() {
+    private void initListeners() {
 
-        // Setup figure
-        figure.layoutXProperty().bind(radius);
-        figure.layoutYProperty().bind(radius);
-        figure.radiusProperty().bind(radius);
-        figure.fillProperty().bind(fillColor);
-        figure.strokeProperty().bind(strokeColor);
-        figure.strokeWidthProperty().bind(strokeWidth);
-//        figure.disableProperty().bind(highlight.not()); // TODO: commented out for test purposes
-        figure.onMouseEnteredProperty().bind(mouseEnterEvent);
-        figure.onMouseExitedProperty().bind(mouseExitEvent);
-
-        // Setup rings
-        for (Circle ring : rings) {
-            ring.layoutXProperty().bind(radius);
-            ring.layoutYProperty().bind(radius);
-            ring.radiusProperty().bind(radius);
-            ring.strokeProperty().bind(ringColor);
-            ring.strokeWidthProperty().bind(radius.divide(4.0));
-        }
-
-        // Setup animation group
-        animationGroup.visibleProperty().bind(highlight);
-
-        // Setup viewport
-        setClip();
-
-        // Listener for radii change
+        // Listener für Radius veränderungen
         radius.addListener((observableValue, oldValue, value) -> {
-            // change viewport
+            // Clip-Layer setzen
             setClip();
         });
 
-        // Listener for animation / start and stop animation
+        // Listener zum Starten / Stoppen der Highlight-Animation
         highlight.addListener((observableValue, oldValue, value) -> {
             if (value) {
                 for (ScaleTransition t : transitions) {
@@ -109,12 +124,46 @@ public class MadnFigureV extends Group {
             }
         });
 
-        //TODO: Check if this works
+        //TODO: Testen
         figurePosition.addListener((observableValue, oldPosition, position) -> {
-//            moveFigure(oldPosition, position, 0);
-            setFigurePosition(position);
-        });
 
+            if (getPlayer().getBoard().isInitPhase()) {
+                setFigurePosition(position);
+            } else {
+                moveFigure(oldPosition, position);
+            }
+        });
+    }
+
+    private void initBindings(MadnFigureL figureL) {
+
+        // Setup figure
+        circle.layoutXProperty().bind(radius);
+        circle.layoutYProperty().bind(radius);
+        circle.radiusProperty().bind(radius);
+        circle.fillProperty().bind(fillColor);
+        circle.strokeProperty().bind(strokeColor);
+        circle.strokeWidthProperty().bind(strokeWidth);
+//        circle.disableProperty().bind(highlight.not()); // TODO: Nach Tests einkommentieren
+        circle.onMouseEnteredProperty().bind(mouseEnterEvent);
+        circle.onMouseExitedProperty().bind(mouseExitEvent);
+
+
+        // Setup rings
+        for (Circle ring : rings) {
+            ring.layoutXProperty().bind(radius);
+            ring.layoutYProperty().bind(radius);
+            ring.radiusProperty().bind(radius);
+            ring.strokeProperty().bind(ringColor);
+            ring.strokeWidthProperty().bind(radius.divide(4.0));
+        }
+
+        // Setup animation group
+        animationGroup.visibleProperty().bind(highlight);
+
+        // TODO: Testen
+        figurePosition.bind(figureL.figurePositionObservable());
+        highlight.bind(figureL.canMoveObservable());
     }
 
 
@@ -169,28 +218,131 @@ public class MadnFigureV extends Group {
 
     private void setFigurePosition(MadnFigurePosition position) {
         int pos = position.getFieldIndex();
+        double radius = this.radius.getValue();
         MadnFieldContainerV base = player.getBase();
         MadnFieldContainerV home = player.getHome();
         MadnFieldContainerV waypoints = player.getWaypoints();
 
         switch (position.getFigurePlacement()) {
             case BASE:
-                setLayoutX(base.getLayoutX() + base.getFields()[pos].getCenterX() - radius.getValue());
-                setLayoutY(base.getLayoutY() + base.getFields()[pos].getCenterY() - radius.getValue());
+                setTranslateX(base.getFields()[pos].getCenterAbsoluteX() - radius);
+                setTranslateY(base.getFields()[pos].getCenterAbsoluteY() - radius);
                 break;
             case HOME:
-                setLayoutX(home.getLayoutX() + home.getFields()[pos].getCenterX() - radius.getValue());
-                setLayoutY(home.getLayoutY() + home.getFields()[pos].getCenterY() - radius.getValue());
+                setTranslateX(home.getFields()[pos].getCenterAbsoluteX() - radius);
+                setTranslateY(home.getFields()[pos].getCenterAbsoluteY() - radius);
                 break;
             case WAYPOINTS:
-                setLayoutX(waypoints.getFields()[pos].getCenterX() - radius.getValue());
-                setLayoutY(waypoints.getFields()[pos].getCenterY() - radius.getValue());
+                setTranslateX(waypoints.getFields()[pos].getCenterAbsoluteX() - radius);
+                setTranslateY(waypoints.getFields()[pos].getCenterAbsoluteY() - radius);
                 break;
         }
+
     }
 
-    private void moveFigure(MadnFigurePosition oldPostion, MadnFigurePosition newPosition, double millis) {
-        // TODO Implement Animations
+    // TODO: Testen
+    private void moveFigure(MadnFigurePosition oldPosition, MadnFigurePosition newPosition) {
+        MadnFigurePlacement oldPlacement = oldPosition.getFigurePlacement();
+        MadnFigurePlacement newPlacement = newPosition.getFigurePlacement();
+        int oldIndex = oldPosition.getFieldIndex();
+        int newIndex = newPosition.getFieldIndex();
+
+        SequentialTransition transition = new SequentialTransition();
+
+        if ((oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.BASE)) {
+            transition.getChildren().add(calcAnimationBaseWaypoints(oldPlacement == MadnFigurePlacement.BASE, oldIndex, newIndex));
+
+        } else if ((oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.BASE)) {
+            transition.getChildren().addAll(calcAnimationSameContainer(newPlacement, oldIndex, newIndex));
+
+        } else if (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.HOME) {
+            transition.getChildren().addAll(calcAnimationWaypointsHome(oldIndex, newIndex));
+
+        }
+
+        double oldViewOrder = getViewOrder();
+        setViewOrder(2.0);
+
+        transition.setOnFinished(actionEvent -> {
+            setViewOrder(oldViewOrder);
+            System.out.println("Animation Finished");
+        });
+
+        transition.play();
+    }
+
+    private Animation calcAnimationBaseWaypoints(boolean flip, int oldIndex, int newIndex) {
+        MadnFieldV oldField = getPlayer().getBase().getFields()[flip ? oldIndex : newIndex];
+        MadnFieldV newField = getPlayer().getWaypoints().getFields()[flip ? newIndex : oldIndex];
+        double distance = Math.sqrt(Math.pow(Math.abs(oldField.getCenterAbsoluteX() - newField.getCenterAbsoluteX()), 2) + Math.pow(Math.abs(oldField.getCenterAbsoluteY() - newField.getCenterAbsoluteY()), 2));
+
+        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(distance / 85.0), this);
+        tt.setToX(newField.getCenterAbsoluteX() - radius.getValue());
+        tt.setToY(newField.getCenterAbsoluteY() - radius.getValue());
+
+        return tt;
+    }
+
+    private Animation[] calcAnimationSameContainer(MadnFigurePlacement placement, int oldIndex, int newIndex) {
+        MadnFieldV[] fields = placement == MadnFigurePlacement.HOME ? getPlayer().getHome().getFields() : getPlayer().getWaypoints().getFields();
+        int fieldCounter = 0;
+
+        List<Animation> animations = new ArrayList<>();
+
+        newIndex %= fields.length;
+//TODO: Überarbeiten
+        for (int i = oldIndex + 1; i != newIndex; i = (i + 1) % fields.length) {
+            MadnFieldV curField = fields[i];
+            fieldCounter++;
+
+            if (curField.isCornerField()) {
+                TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(fieldCounter), this);
+                tt.setToX(curField.getCenterAbsoluteX() - radius.getValue());
+                tt.setToY(curField.getCenterAbsoluteY() - radius.getValue());
+                fieldCounter = 1;
+
+                animations.add(tt);
+            }
+        }
+
+        fieldCounter++;
+        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(fieldCounter), this);
+        tt.setToX(fields[newIndex].getCenterAbsoluteX() - radius.getValue());
+        tt.setToY(fields[newIndex].getCenterAbsoluteY() - radius.getValue());
+
+        animations.add(tt);
+
+        return animations.toArray(Animation[]::new);
+    }
+
+    private Animation[] calcAnimationWaypointsHome(int oldIndex, int newIndex) {
+        List<MadnFieldV> waypoints = List.of(getPlayer().getWaypoints().getFields());
+
+        Predicate<MadnFieldV> filter = field -> {
+            if (field instanceof MadnFieldExtended fieldExt) {
+                return fieldExt.getFieldType() == MadnFieldFunction.END && fieldExt.getFieldAssignment() == getPlayer().getPlayerId();
+            }
+
+            return false;
+        };
+
+        List<Animation> animations = new ArrayList<>();
+
+        MadnFieldV startField = waypoints.stream().filter(filter).findFirst().orElseThrow();
+        MadnFieldV[] homeFields = getPlayer().getHome().getFields();
+        int entryIndex = waypoints.indexOf(startField);
+
+        if (oldIndex != entryIndex) {
+            animations.addAll(List.of(calcAnimationSameContainer(MadnFigurePlacement.WAYPOINTS, oldIndex, entryIndex)));
+        }
+
+        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(newIndex + 1), this);
+        tt.setToX(homeFields[newIndex].getCenterAbsoluteX() - radius.getValue());
+        tt.setToX(homeFields[newIndex].getCenterAbsoluteY() - radius.getValue());
+
+        animations.add(tt);
+
+        return animations.toArray(Animation[]::new);
     }
 
 
@@ -252,13 +404,13 @@ public class MadnFigureV extends Group {
         animationDuration.setValue(Duration.millis(value));
     }
 
-    //TODO: Check if this works
+    //TODO: Testen
     public MadnFigurePosition getFigurePosition() {
         return figurePosition.getValue();
     }
 
-    public void setPlayer(MadnPlayerV player) {
-        this.player = player;
+    public MadnPlayerV getPlayer() {
+        return player;
     }
 
 
@@ -292,7 +444,7 @@ public class MadnFigureV extends Group {
         return animationDuration;
     }
 
-    //TODO: Check if this works
+    //TODO: Testen
     public ObjectProperty<MadnFigurePosition> figurePositionProperty() {
         return figurePosition;
     }

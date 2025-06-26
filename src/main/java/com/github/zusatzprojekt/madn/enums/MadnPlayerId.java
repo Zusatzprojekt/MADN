@@ -2,9 +2,10 @@ package com.github.zusatzprojekt.madn.enums;
 
 /**
  * Enum zur Identifikation der Spielerfarben im Spiel
- * "Mensch Ärgere Dich Nicht".
+ * "Mensch ärgere Dich nicht".
  */
 public enum MadnPlayerId {
+    NONE,
     BLUE,
     YELLOW,
     GREEN,

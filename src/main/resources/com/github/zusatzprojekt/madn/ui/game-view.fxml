@@ -1,76 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zusatzprojekt.madn.ui.components.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
-    <SplitPane dividerPositions="0.5363" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-       <!-- Game board -->
-       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-            <ScalePane prefHeight="500" prefWidth="500" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <MadnBoardV fx:id="gameBoard" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
+
+    <!--Geteiltes Layout-->
+    <SplitPane dividerPositions="0.5" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!--Spielbrett-->
+        <AnchorPane minWidth="409.0">
+            <ScalePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <MadnBoardV fx:id="gameBoard"/>
             </ScalePane>
         </AnchorPane>
-       <!-- Menu items -->
-       <AnchorPane maxWidth="367.0" minHeight="0.0" minWidth="367.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #FFECD2;">
-          <VBox alignment="CENTER" prefHeight="448.0" prefWidth="367.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <!-- Current player -->
-                <VBox alignment="CENTER" spacing="10.0">
-                   <Label contentDisplay="CENTER" text="Aktueller Spieler: ">
-                      <font>
-                         <Font name="Arial" size="25.0" />
-                      </font>
-                   </Label>
-                   <Label fx:id="currentPlayerLabel" contentDisplay="CENTER" text="Farbe">
-                      <font>
-                         <Font name="Arial" size="30.0" />
-                      </font>
-                   </Label>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-                </VBox>
-              <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <padding>
-                      <Insets top="20.0" />
-                  </padding>
-<!--                  <Label contentDisplay="CENTER" text="aktueller Würfelwert">-->
-<!--                      <font>-->
-<!--                          <Font name="Arial" size="30.0" />-->
-<!--                      </font>-->
-<!--                  <VBox.margin>-->
-<!--                     <Insets />-->
-<!--                  </VBox.margin>-->
-<!--                  <padding>-->
-<!--                     <Insets left="50.0" right="50.0" />-->
-<!--                  </padding>-->
-<!--                  </Label>-->
-                  <ScalePane prefHeight="250" prefWidth="250" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                      <MadnDiceV fx:id="visualDice" minHeight="1000.0" minWidth="1000.0" prefHeight="1000.0" prefWidth="1000.0" />
-                  </ScalePane>
-              </VBox>
-             <VBox alignment="BOTTOM_CENTER" spacing="20.0">
-                <!-- Main menu button -->
-                <Button onAction="#backToMainMenu" prefHeight="50.0" prefWidth="150.0" text="Hauptmenü">
-                   <font>
-                      <Font name="Arial" size="18.0" />
-                   </font>
-                </Button>
-                <!-- Quit button -->
-                <Button onAction="#exitApplication" prefHeight="50.0" prefWidth="150.0" text="Beenden">
-                   <font>
-                      <Font name="Arial" size="18.0" />
-                   </font>
-                </Button>
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding>
-             </VBox>
-          </VBox>
-       </AnchorPane>
-    </SplitPane>
 
+        <!--Seitenleiste-->
+        <AnchorPane minWidth="367.0">
+
+            <!--Gitter-Layout-->
+            <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="90.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="22.5" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="-1" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="12.5" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+
+                <!--Spieleranzeige-->
+                <ScalePane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
+                        <Label text="Aktueller Spieler:">
+                            <font>
+                                <Font name="Arial" size="25.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="currentPlayerLabel" text="Farbe">
+                            <font>
+                                <Font name="Arial" size="30.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </ScalePane>
+
+                <!--Würfel-->
+                <ScalePane GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <MadnDiceV fx:id="visualDice" minHeight="-Infinity" minWidth="-Infinity"/>
+                </ScalePane>
+
+                <!--Buttons-->
+                <ScalePane maxHeight="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="20.0">
+
+                        <!--Hauptmenü-Button-->
+                        <Button focusTraversable="false" onAction="#backToMainMenu" prefHeight="45.0" prefWidth="120.0" text="Hauptmenü">
+                            <font>
+                                <Font name="Arial" size="18.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+
+                        <!--Beenden-Button-->
+                        <Button focusTraversable="false" onAction="#exitApplication" prefHeight="45.0" prefWidth="120.0" text="Beenden">
+                            <font>
+                                <Font name="Arial" size="18.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+                    </HBox>
+                </ScalePane>
+            </GridPane>
+        </AnchorPane>
+    </SplitPane>
 </AnchorPane>

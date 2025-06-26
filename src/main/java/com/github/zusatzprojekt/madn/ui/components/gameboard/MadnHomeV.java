@@ -42,24 +42,20 @@ public class MadnHomeV extends MadnFieldContainerExtV {
 
             switch (direction) {
                 case UP:
-                    fields[i].layoutXProperty().unbind();
-                    fields[i].layoutXProperty().setValue(0.0);
-                    fields[i].layoutYProperty().bind(radius.multiply(2.0 * n).add(spacing.multiply(n)));
+                    fields[i].setLayoutX(0.0);
+                    fields[i].setLayoutY(85.0 * n);
                     break;
                 case DOWN:
-                    fields[i].layoutXProperty().unbind();
-                    fields[i].layoutXProperty().setValue(0.0);
-                    fields[i].layoutYProperty().bind(radius.multiply(2.0 * i).add(spacing.multiply(i)));
+                    fields[i].setLayoutX(0.0);
+                    fields[i].setLayoutY(85.0 * i);
                     break;
                 case LEFT:
-                    fields[i].layoutXProperty().bind(radius.multiply(2.0 * n).add(spacing.multiply(n)));
-                    fields[i].layoutYProperty().unbind();
-                    fields[i].layoutYProperty().setValue(0.0);
+                    fields[i].setLayoutX(85.0 * n);
+                    fields[i].setLayoutY(0.0);
                     break;
                 case RIGHT:
-                    fields[i].layoutXProperty().bind(radius.multiply(2.0 * i).add(spacing.multiply(i)));
-                    fields[i].layoutYProperty().unbind();
-                    fields[i].layoutYProperty().setValue(0.0);
+                    fields[i].setLayoutX(85.0 * i);
+                    fields[i].setLayoutY(0.0);
                     break;
             }
         }

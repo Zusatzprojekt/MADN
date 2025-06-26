@@ -1,24 +1,34 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
+import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
+import com.github.zusatzprojekt.madn.interfaces.MadnFieldExtended;
+import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
+import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class MadnBoardV extends AnchorPane {
     private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
+    private final BooleanProperty initPhase = new SimpleBooleanProperty(true);
 
-    // TODO: Finish implementation
-    private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(mouseEvent -> setHighlightPath((MadnFigureV) ((Shape) mouseEvent.getSource()).getParent()));
-    private final ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEvent = new SimpleObjectProperty<>(mouseEvent -> removeHighlightPath());
+    // TODO: Implementierung fertigstellen
+    private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
+    private final ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEvent = new SimpleObjectProperty<>(this::removeHighlightPath);
 
     @FXML
     private MadnFieldContainerV baseContainerBlue,
@@ -35,81 +45,115 @@ public class MadnBoardV extends AnchorPane {
     private Pane playerContainer, overlayContainer;
 
     public MadnBoardV() {
-        UIManager.loadComponentFxml("ui/components/madn-board-v.fxml", this, this);
+        AppManager.loadComponentFxml("ui/components/madn-board-v.fxml", this, this);
 
         createBindings();
     }
 
     private void createBindings() {
 
-        overlayContainer.visibleProperty().bind(showOverlay);
-//        overlayContainer.setVisible(true);
+//        overlayContainer.visibleProperty().bind(showOverlay);
+        overlayContainer.setVisible(true);
         overlayContainer.clipProperty().bind(clipOverlay);
-
     }
 
 
+    private void setHighlightPath(MouseEvent mouseEvent) {
+        MadnFigureV figure = (MadnFigureV) ((Shape) mouseEvent.getSource()).getParent();
 
+        MadnFieldV[] waypoints = waypointContainer.getFields();
+        MadnFieldV[] homeFields = figure.getPlayer().getHome().getFields();
+        MadnPlayerId playerId = figure.getPlayer().getPlayerId();
+        MadnFigurePlacement figPlacement = figure.getFigurePosition().getFigurePlacement();
+        int fieldIndex = figure.getFigurePosition().getFieldIndex();
 
-    private void setHighlightPath(MadnFigureV figure) {
-//        MadnFigurePlacement figurePlacement = figure.getFigurePosition().getFigurePlacement();
-//        int fieldIndex = figure.getFigurePosition().getFieldIndex();
-//        int roll = currentRoll.getValue();
-//
-//        if (figurePlacement == MadnFigurePlacement.BASE) {
-////            MadnFieldV[] fields = Arrays.stream(waypointContainer.getFields()).filter(madnFieldV -> madnFieldV.getFieldType() == MadnFieldType.START).toArray(MadnFieldV[]::new);
-//
-//            MadnFieldV startField = Arrays.stream(waypointContainer.getFields()).filter(madnFieldV -> madnFieldV.getFieldType() == MadnFieldType.START && madnFieldV.getSpecialFor() == figure.getPlayer().getPlayerID()).toList().getFirst();
-//
-//            System.out.println(startField);
-//
-//            Circle circle = new Circle(waypointContainer.getFields()[0].getRadius() + 5);
-//            circle.setLayoutX(startField.getCenterX() + circle.getRadius());
-//            circle.setLayoutY(startField.getCenterY() + circle.getRadius());
-//
-//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000.0, 1000.0), circle));
-//
-//        } else if (figurePlacement == MadnFigurePlacement.HOME) {
-//            MadnFieldV[] fields = figure.getHome().getFields();
-//            Polyline line = new Polyline();
-//            line.getPoints().addAll(fields[fieldIndex].getCenterX(), fields[fieldIndex].getCenterY());
-//            line.getPoints().addAll(fields[fieldIndex + roll].getCenterX(), fields[fieldIndex + roll].getCenterY());
-//            line.setStrokeWidth((fields[0].getRadius() + 5) * 2);
-//            line.setStrokeLineCap(StrokeLineCap.ROUND);
-//
-//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000.0, 1000.0), line));
-//
-//        } else if (figurePlacement == MadnFigurePlacement.WAYPOINTS) {
-//            MadnFieldV[] fields = waypointContainer.getFields();
-//            Polyline line = new Polyline();
-//            boolean inHome = false;
-//
-//            line.getPoints().addAll(fields[fieldIndex].getCenterX(), fields[fieldIndex].getCenterY());
-//
-//            for (int i = 1; i <= currentRoll.getValue(); i++) {
-//                int n = (fieldIndex + i) % fields.length;
-//
-//                if (fields[n].getFieldType() == MadnFieldType.CORNER) {
-//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
-//                } else if (fields[n].getFieldType() == MadnFieldType.END && fields[n].getSpecialFor() == figure.getPlayer().getPlayerID()) {
-//                    inHome = true;
-//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
-//                } else if (i == currentRoll.getValue()) {
-//                    line.getPoints().addAll(fields[n].getCenterX(), fields[n].getCenterY());
-//                }
-//            }
-//
-//            line.setStrokeWidth((fields[0].getRadius() + 5) * 2);
-//            line.setStrokeLineCap(StrokeLineCap.ROUND);
-//            line.setStrokeLineJoin(StrokeLineJoin.ROUND);
-//
-//            clipOverlay.setValue(Shape.subtract(new Rectangle(1000, 1000), line));
-//        }
-//
-//        System.out.println("clipchange");
+        Polyline highlightLine = new Polyline();
+
+        highlightLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        highlightLine.setStrokeLineJoin(StrokeLineJoin.ROUND);
+        highlightLine.setStrokeWidth((waypoints[0].getRadius() + 5) * 2);
+
+        highlightLine.getPoints().addAll(switch (figPlacement) {
+            case BASE -> calcHighlightStart(waypoints, playerId);
+            case HOME -> calcHighlightHome(homeFields, fieldIndex, currentRoll.getValue());
+            case WAYPOINTS -> calcHighlightWaypoints(waypoints, homeFields, fieldIndex, playerId, currentRoll.getValue());
+        });
+
+        clipOverlay.setValue(Shape.subtract(new Rectangle(overlayContainer.getWidth(), overlayContainer.getHeight()), highlightLine));
     }
 
-    private void removeHighlightPath() {
+
+    private Double[] calcHighlightStart(MadnFieldV[] waypoints, MadnPlayerId playerId) {
+
+        Predicate<MadnFieldV> filter = field -> {
+            if (field instanceof MadnFieldExtended fieldExt) {
+                return fieldExt.getFieldType() == MadnFieldFunction.START && fieldExt.getFieldAssignment() == playerId;
+            }
+
+            return false;
+        };
+
+        MadnFieldV startField = Arrays.stream(waypoints).filter(filter).findFirst().orElseThrow();
+
+        return new Double[] {
+                startField.getCenterAbsoluteX(),
+                startField.getCenterAbsoluteY(),
+                startField.getCenterAbsoluteX(),
+                startField.getCenterAbsoluteY()
+        };
+    }
+
+    private Double[] calcHighlightHome(MadnFieldV[] fields, int fieldIndex, int curRoll) {
+        if (curRoll > 3 - fieldIndex) {
+            return new Double[] {fields[0].getCenterAbsoluteX(), fields[0].getCenterAbsoluteY()};
+        }
+
+        MadnFieldV startField = fields[fieldIndex];
+        MadnFieldV endField = fields[fieldIndex + curRoll];
+
+        return new Double[] {
+                startField.getCenterAbsoluteX(),
+                startField.getCenterAbsoluteY(),
+                endField.getCenterAbsoluteX(),
+                endField.getCenterAbsoluteY()
+        };
+    }
+
+    private Double[] calcHighlightWaypoints(MadnFieldV[] waypoints, MadnFieldV[] homeFields, int fieldIndex, MadnPlayerId playerId, int curRoll) {
+        ArrayList<Double> points = new ArrayList<>();
+        MadnFieldV curField = waypoints[fieldIndex];
+        int curIndex;
+
+        points.addLast(curField.getCenterAbsoluteX());
+        points.addLast(curField.getCenterAbsoluteY());
+
+        for (int i = 0; i <= curRoll; i++) {
+            curIndex = (fieldIndex + i) % waypoints.length;
+            curField = waypoints[curIndex];
+
+            if (curField.isCornerField() || i == curRoll) {
+                points.addLast(curField.getCenterAbsoluteX());
+                points.addLast(curField.getCenterAbsoluteY());
+
+            } else if (curField instanceof MadnFieldExtended curFieldExt && curFieldExt.getFieldType() == MadnFieldFunction.END && curFieldExt.getFieldAssignment() == playerId) {
+                points.addLast(curField.getCenterAbsoluteX());
+                points.addLast(curField.getCenterAbsoluteY());
+
+                Double[] homePoints = calcHighlightHome(homeFields, 0, curRoll - i - 1);
+
+                if (homePoints.length < 4) {
+                    points.clear();
+                }
+
+                points.addAll(List.of(homePoints));
+                break;
+            }
+        }
+
+        return points.toArray(Double[]::new);
+    }
+
+    private void removeHighlightPath(MouseEvent mouseEvent) {
         clipOverlay.setValue(null);
     }
 
@@ -157,12 +201,24 @@ public class MadnBoardV extends AnchorPane {
         return currentRoll;
     }
 
+    public BooleanProperty showOverlayProperty() {
+        return showOverlay;
+    }
+
     public ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEventProperty() {
         return activateHighlightEvent;
     }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEventProperty() {
         return deactivateHighlightEvent;
+    }
+
+    public BooleanProperty initPhaseProperty() {
+        return initPhase;
+    }
+
+    public boolean isInitPhase() {
+        return initPhase.getValue();
     }
 
 }

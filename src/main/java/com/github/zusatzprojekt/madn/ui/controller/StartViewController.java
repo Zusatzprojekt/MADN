@@ -1,7 +1,7 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.ui.AppManager;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -28,7 +29,8 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
     private CheckBox cbBlue, cbYellow, cbRed, cbGreen;
     @FXML
     private Button playButton;
-
+    @FXML
+    private Label noteLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,7 +38,8 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
         cbYellow.selectedProperty().bindBidirectional(playerYellow);
         cbGreen.selectedProperty().bindBidirectional(playerGreen);
         cbRed.selectedProperty().bindBidirectional(playerRed);
-        playButton.disableProperty().bind(countPlayer.greaterThanOrEqualTo(2).not());
+        playButton.disableProperty().bind(countPlayer.lessThan(2));
+        noteLabel.visibleProperty().bind(countPlayer.lessThan(2));
 
         playerBlue.addListener((observableValue, invertedValue, value) -> {
             countPlayer.setValue(value ? countPlayer.getValue() + 1 : countPlayer.getValue() - 1);
@@ -57,7 +60,7 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
 
     @FXML
     private void clickedPlayButton(ActionEvent actionEvent) {
-        UIManager.loadScene("ui/game-view.fxml", createDataPacket());
+        AppManager.loadScene("ui/game-view.fxml", createDataPacket());
     }
 
     private HashMap<String, Object> createDataPacket(){

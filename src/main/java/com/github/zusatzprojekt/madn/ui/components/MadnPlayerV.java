@@ -3,86 +3,89 @@ package com.github.zusatzprojekt.madn.ui.components;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.logic.MadnFigureL;
 import com.github.zusatzprojekt.madn.logic.MadnPlayerL;
-import com.github.zusatzprojekt.madn.ui.UIManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 
 public class MadnPlayerV extends Group {
-    private final MadnPlayerId playerID;
-    private final MadnFigureV[] figures;
     private final IntegerProperty lastRoll = new SimpleIntegerProperty(0);
     private final MadnFieldContainerV base, home, waypoints;
+    private final MadnFigureV[] figures;
+    private final MadnPlayerId playerId;
+    private final MadnBoardV board;
 
 
     // == Constructor ==================================================================================================
 
-    @SuppressWarnings("SuspiciousToArrayCall")
-    public MadnPlayerV(MadnPlayerL playerL, MadnBoardV gameBoard) {
+    public MadnPlayerV(MadnPlayerL playerL, MadnBoardV board) {
+        this.board = board;
 
-        UIManager.loadComponentFxml("ui/components/madn-player-v.fxml", this, this);
+        playerId = playerL.getPlayerID();
 
-        playerID = playerL.getPlayerID();
-        figures = getChildren().toArray(MadnFigureV[]::new);
+        base = getBase(playerId);
 
-        base = switch (playerID) {
-            case BLUE -> gameBoard.getBaseContainerBlue();
-            case YELLOW -> gameBoard.getBaseContainerYellow();
-            case GREEN -> gameBoard.getBaseContainerGreen();
-            case RED -> gameBoard.getBaseContainerRed();
-        };
+        home = getHome(playerId);
 
-        home = switch (playerID) {
-            case BLUE -> gameBoard.getHomeContainerBlue();
-            case YELLOW -> gameBoard.getHomeContainerYellow();
-            case GREEN -> gameBoard.getHomeContainerGreen();
-            case RED -> gameBoard.getHomeContainerRed();
-        };
+        waypoints = board.getWaypointContainer();
 
-        waypoints = gameBoard.getWaypointContainer();
+        figures = initFigures(playerL, board);
 
-        createBindings(playerL);
-        setupFigures(playerL.getFigures());
+        getChildren().addAll(figures);
+        initBindings(playerL);
+    }
+
+    private MadnFigureV[] initFigures(MadnPlayerL playerL, MadnBoardV board) {
+        MadnFigureL[] figuresL = playerL.getFigures();
+        MadnFigureV[] figuresV = new MadnFigureV[figuresL.length];
+
+        for (int i = 0; i < figuresV.length; i++) {
+            figuresV[i] = new MadnFigureV(this, figuresL[i], 20.0);
+            figuresV[i].setStrokeWidth(1.0);
+            figuresV[i].mouseEnterEventProperty().bind(board.activateHighlightEventProperty());
+            figuresV[i].mouseExitEventProperty().bind(board.deactivateHighlightEventProperty());
+        }
+
+        return figuresV;
     }
 
 
     // == Bindings =====================================================================================================
 
-    private void createBindings(MadnPlayerL playerL) {
+    private void initBindings(MadnPlayerL playerL) {
         lastRoll.bind(playerL.lastRollObservable());
     }
 
 
     // == Helper methods ===============================================================================================
 
-    private void setupFigures(MadnFigureL[] figuresL) {
-        Color figColor = switch (playerID) {
-            case BLUE -> Color.web("#3387F5");
-            case YELLOW -> Color.web("#FFFF00");
-            case GREEN -> Color.web("#009A00");
-            case RED -> Color.web("#FF3030");
+    private MadnFieldContainerV getBase(MadnPlayerId playerId) {
+
+        return switch (playerId) {
+            case BLUE -> board.getBaseContainerBlue();
+            case YELLOW -> board.getBaseContainerYellow();
+            case GREEN -> board.getBaseContainerGreen();
+            case RED -> board.getBaseContainerRed();
+            case NONE -> null;
         };
+    }
 
-        if (figuresL.length != figures.length) {
-            throw new IllegalStateException("figure count of logic and visual doesn't match");
-        }
+    private MadnFieldContainerV getHome(MadnPlayerId playerId) {
 
-        for (int i = 0; i < figures.length; i++) {
-            figures[i].setPlayer(this);
-            figures[i].setFillDeriveGradient(figColor);
-            figures[i].figurePositionProperty().bind(figuresL[i].figurePositionObservable());
-            figures[i].highlightProperty().bind(figuresL[i].canMoveObservable());
-        }
-
+        return switch (playerId) {
+            case BLUE -> board.getHomeContainerBlue();
+            case YELLOW -> board.getHomeContainerYellow();
+            case GREEN -> board.getHomeContainerGreen();
+            case RED -> board.getHomeContainerRed();
+            case NONE -> null;
+        };
     }
 
 
     // == Getter / Setter ==============================================================================================
 
-    public MadnPlayerId getPlayerID() {
-        return playerID;
+    public MadnPlayerId getPlayerId() {
+        return playerId;
     }
 
     public MadnFieldContainerV getBase() {
@@ -95,6 +98,14 @@ public class MadnPlayerV extends Group {
 
     public MadnFieldContainerV getWaypoints() {
         return waypoints;
+    }
+
+    public MadnFigureV[] getFigures() {
+        return figures;
+    }
+
+    public MadnBoardV getBoard() {
+        return board;
     }
 
 }

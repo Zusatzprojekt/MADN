@@ -1,7 +1,8 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.ui.AppManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.util.Map;
@@ -10,13 +11,19 @@ public class EndViewController implements FxmlValueReceiver {
     private Map<String, Object> lastActivePlayers;
 
     @FXML
-    public void quitGame() {
-        UIManager.closeApplication();
+    private void onPlayAgain(ActionEvent actionEvent) {
+        //TODO: Testen
+        AppManager.loadScene("ui/game-view.fxml", lastActivePlayers);
     }
 
     @FXML
-    public void switchToStartView() {
-        UIManager.loadScene("ui/start-view.fxml", lastActivePlayers);
+    private void onBackToStart(ActionEvent actionEvent) {
+        AppManager.loadScene("ui/start-view.fxml", lastActivePlayers);
+    }
+
+    @FXML
+    private void onQuitGame(ActionEvent actionEvent) {
+        AppManager.closeApplication();
     }
 
     @Override

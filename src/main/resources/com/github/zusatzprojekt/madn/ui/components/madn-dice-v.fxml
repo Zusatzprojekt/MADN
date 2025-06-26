@@ -12,7 +12,7 @@
 <?import javafx.scene.SceneAntialiasing?>
 <?import javafx.scene.paint.PhongMaterial?>
 
-<fx:root type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <fx:define>
         <Point3D fx:id="ROTATE_X" x="1.0" />
         <Point3D fx:id="ROTATE_Y" y="1.0" />
@@ -22,7 +22,7 @@
     </fx:define>
 
     <!--Border-->
-    <Rectangle height="1000.0" width="1000.0" fill="#dba356" stroke="#5e5e5e" strokeType="INSIDE" strokeWidth="10.0" arcHeight="80.0" arcWidth="80.0" />
+    <Rectangle height="1000.0" width="1000.0" fill="#DBA356" stroke="#5E5E5E" strokeType="INSIDE" strokeWidth="10.0" arcHeight="80.0" arcWidth="80.0" />
 
     <!--Dice scene-->
     <SubScene fx:id="subScene" depthBuffer="true" fill="#dba356" height="960.0" width="960.0" layoutX="20.0" layoutY="20.0">

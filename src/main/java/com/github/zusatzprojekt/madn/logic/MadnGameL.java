@@ -1,29 +1,82 @@
 package com.github.zusatzprojekt.madn.logic;
 
+import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
+import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
+import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class MadnGameL {
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final MadnPlayerL[] playerList;
     private final MadnDiceL dice = new MadnDiceL();
+    private final BooleanProperty initPhase = new SimpleBooleanProperty(true);
 
-    public MadnGameL(MadnPlayerL[] playerList, MadnDiceV vDice) {
-        this.playerList = playerList;
+
+    public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice) {
+        playerList = initPlayers(players);
+
+        initBindings(board);
+        initListeners(board);
+        initHandlers(vDice);
+    }
+
+    private void initBindings(MadnBoardV board) {
+        board.initPhaseProperty().bind(initPhase);
+    }
+
+    private MadnPlayerL[] initPlayers(Map<String, Object> players) {
+        int playerCount = (int) players.get("playerCount");
+        MadnPlayerL[] playerList = new MadnPlayerL[playerCount];
+
+        if ((boolean) players.get("playerRed")) {
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.RED);
+        }
+
+        if ((boolean) players.get("playerGreen")) {
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.GREEN);
+        }
+
+        if ((boolean) players.get("playerYellow")) {
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.YELLOW);
+        }
+
+        if ((boolean) players.get("playerBlue")) {
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.BLUE);
+        }
+
+        return playerList;
+    }
+
+    private void initListeners(MadnBoardV board) {
+
+        currentPlayer.addListener((observableValue, oldPlayer, player) -> {
+            board.currentRollProperty().bind(player.lastRollObservable());
+        });
+    }
+
+    private void initHandlers(MadnDiceV vDice) {
 
         vDice.setOnDiceClicked(event -> {
-            vDice.setDisable(true);
+            vDice.disable();
 
             int roll = dice.roll();
             currentPlayer.getValue().setLastRoll(roll);
             vDice.startAnimation(roll);
         });
 
-        vDice.setOnFinished(event -> {rollFinished(); vDice.setDisable(false);});
+        vDice.setOnFinished(event -> {
+            rollFinished();
+            vDice.enable();
+        });
     }
 
     private void switchPlayer(MadnPlayerL[] players) {
@@ -37,12 +90,28 @@ public class MadnGameL {
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
     }
 
+    // TODO: Testszenario entfernen
+    int index = -1;
+
     private void rollFinished() {
         System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!");
+
+        index = index + currentPlayer.getValue().getLastRoll();
+
+        if (index == -1) {
+            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, 0));
+            index = 0;
+        } else if (index >= 40) {
+            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.HOME, index % 40));
+        } else {
+            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, index));
+        }
+
     }
 
     public void startGame() {
         currentPlayer.setValue(playerList[0]);
+        initPhase.setValue(false);
     }
 
 
@@ -83,7 +152,6 @@ public class MadnGameL {
 
 
 
-
     //    private final Player[] players;
 //    private Player currentPlayer;
 //    private final MadnDiceL dice;
@@ -109,13 +177,13 @@ public class MadnGameL {
 //    }
 
 //    private void setup() {
-//        //TODO: Implementation
+//        //TODO: Implementieren
 //        gameViewController.getCurrentPlayerLabel().textProperty().bind(currentPlayerString);
 //        rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
 //    }
 //
 //    private void startGame(){
-//        // TODO: Implementierung
+//        // TODO: Implementieren
 //
 //        setCurrentPlayerLabel(currentPlayer);
 //        rollButton.setDisable(false);
@@ -168,7 +236,7 @@ public class MadnGameL {
 //
 //        if (!onField) {
 //            if (player.getLastRoll() == 6) {
-//                //TODO: Implement
+//                //TODO: Implementieren
 //                System.out.println("Spieler kann raus");
 //                rollCount = 0;
 //            } else if (rollCount < 3) {

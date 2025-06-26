@@ -1,96 +1,91 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
-import com.github.zusatzprojekt.madn.ui.UIManager;
+import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
+import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
+import com.github.zusatzprojekt.madn.ui.AppManager;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 public class MadnFieldV extends Group {
-    private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
-    private final DoubleProperty strokeWidth = new SimpleDoubleProperty(12.0);
-    private final ObjectProperty<Paint> fillColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
-    private final ObjectProperty<Paint> strokeColor = new SimpleObjectProperty<>(Color.BLACK);
-    private final ReadOnlyDoubleProperty centerX = createDoubleProperty(
-            getParent() != null ? getParent().layoutXProperty().add(layoutXProperty()).add(radius) : layoutXProperty().add(radius)
-    );
-    private final ReadOnlyDoubleProperty centerY = createDoubleProperty(
-            getParent() != null ? getParent().layoutYProperty().add(layoutYProperty()).add(radius) : layoutYProperty().add(radius)
-    );
+    private final ObjectProperty<Paint> fillProp = new SimpleObjectProperty<>(Color.DODGERBLUE);
+    private final BooleanProperty smallFieldProp = new SimpleBooleanProperty(false);
+    private MadnFieldFunction fieldType = MadnFieldFunction.NONE;
+    private MadnPlayerId fieldAssignment = MadnPlayerId.NONE;
     private boolean cornerField = false;
+    private Parent container;
 
     @FXML
     private Circle circle;
+    @FXML
+    private StackPane textContainer;
+    @FXML
+    private Text fieldText;
 
 
     // == Constructor ==================================================================================================
 
     public MadnFieldV() {
         // Load fxml file with ui structure
-        UIManager.loadComponentFxml("ui/components/gameboard/madn-field-v.fxml", this, this);
+        AppManager.loadComponentFxml("ui/components/gameboard/madn-field-v.fxml", this, this);
 
         // Create bindings to/between the UI elements
-        createBindings();
+        initBindings();
     }
 
 
     // == Bindings =====================================================================================================
 
-    private void createBindings() {
-        circle.radiusProperty().bind(radius);
-        circle.layoutXProperty().bind(radius);
-        circle.layoutYProperty().bind(radius);
-        circle.fillProperty().bind(fillColor);
-        circle.strokeProperty().bind(strokeColor);
-        circle.strokeWidthProperty().bind(strokeWidth);
-    }
+    private void initBindings() {
+        circle.radiusProperty().bind(Bindings.when(smallFieldProp).then(30.0).otherwise(35.0));
+        circle.layoutXProperty().bind(circle.radiusProperty());
+        circle.layoutYProperty().bind(circle.radiusProperty());
+        circle.fillProperty().bind(fillProp);
 
-
-    // == Helper methods ===============================================================================================
-
-    private DoubleProperty createDoubleProperty(ObservableValue<? extends Number> binding) {
-        DoubleProperty property = new SimpleDoubleProperty();
-        property.bind(binding);
-
-        return property;
+        textContainer.prefWidthProperty().bind(circle.radiusProperty().multiply(2.0));
+        textContainer.prefHeightProperty().bind(circle.radiusProperty().multiply(2.0));
     }
 
 
     // == Getter / Setter ==============================================================================================
 
-    public double getRadius() {
-        return radius.getValue();
-    }
-
-    public void setRadius(double value) {
-        radius.setValue(value);
-    }
-
-    public double getStrokeWidth() {
-        return strokeWidth.getValue();
-    }
-
-    public void setStrokeWidth(double value) {
-        strokeWidth.setValue(value);
-    }
-
     public Paint getFill() {
-        return fillColor.getValue();
+        return fillProp.getValue();
     }
 
     public void setFill(Paint fill) {
-        fillColor.setValue(fill);
+        fillProp.setValue(fill);
     }
 
-    public Paint getStroke() {
-        return strokeColor.getValue();
+    public boolean isSmallField() {
+        return smallFieldProp.getValue();
     }
 
-    public void setStroke(Paint stroke) {
-        strokeColor.setValue(stroke);
+    public void setSmallField(boolean b) {
+        smallFieldProp.setValue(b);
+    }
+
+    public MadnFieldFunction getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(MadnFieldFunction fieldType) {
+        this.fieldType = fieldType;
+    }
+
+    public MadnPlayerId getFieldAssignment() {
+        return fieldAssignment;
+    }
+
+    public void setFieldAssignment(MadnPlayerId fieldAssignment) {
+        this.fieldAssignment = fieldAssignment;
     }
 
     public boolean isCornerField() {
@@ -101,39 +96,34 @@ public class MadnFieldV extends Group {
         cornerField = isCorner;
     }
 
-    public double getCenterX() {
-        return centerX.getValue();
+    public void setContainer(Parent parent) {
+        this.container = parent;
     }
 
-    public double getCenterY() {
-        return centerY.getValue();
+    public String getText() {
+        return fieldText.getText();
     }
 
+    public void setText(String s) {
+        fieldText.setText(s);
+    }
+
+    public double getCenterAbsoluteX() {
+        return container == null ? circle.getRadius() : container.getLayoutX() + getLayoutX() + circle.getRadius();
+    }
+
+    public double getCenterAbsoluteY() {
+        return container == null ? circle.getRadius() : container.getLayoutY() + getLayoutY() + circle.getRadius();
+    }
+
+    public double getRadius() {
+        return circle.getRadius();
+    }
 
     // == Getter / Setter properties ===================================================================================
 
-    public DoubleProperty radiusProperty() {
-        return radius;
-    }
-
-    public DoubleProperty strokeWidthProperty() {
-        return strokeWidth;
-    }
-
     public ObjectProperty<Paint> fillProperty() {
-        return fillColor;
-    }
-
-    public ObjectProperty<Paint> strokeProperty() {
-        return strokeColor;
-    }
-
-    public ReadOnlyDoubleProperty centerXProperty() {
-        return centerX;
-    }
-
-    public ReadOnlyDoubleProperty centerYProperty() {
-        return centerY;
+        return fillProp;
     }
 
 }

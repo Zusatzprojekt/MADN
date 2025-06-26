@@ -10,25 +10,29 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 
 public class MadnFigureL {
-    //TODO: Checki if worki
+    //TODO: Testen
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
-    private final BooleanProperty canMove = new SimpleBooleanProperty(false);
+    private final BooleanProperty canMoveProp = new SimpleBooleanProperty(false);
 
 
     public MadnFigureL(MadnFigurePlacement placementArea, int fieldIndex) {
         figurePosition.setValue(new MadnFigurePosition(placementArea, fieldIndex));
     }
 
+    public void setFigurePosition(MadnFigurePosition position) {
+        figurePosition.setValue(position);
+    }
+
     public ObservableValue<MadnFigurePosition> figurePositionObservable() {
         return figurePosition;
     }
 
-    public boolean isCanMove() {
-        return canMove.get();
+    public boolean canMove() {
+        return canMoveProp.get();
     }
 
     public ObservableBooleanValue canMoveObservable() {
-        return canMove;
+        return canMoveProp;
     }
 
 }

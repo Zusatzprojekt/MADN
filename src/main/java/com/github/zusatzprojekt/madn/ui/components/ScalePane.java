@@ -1,8 +1,9 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
 import javafx.beans.DefaultProperty;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
@@ -10,30 +11,69 @@ import java.util.List;
 
 @DefaultProperty("children")
 public class ScalePane extends Pane {
+    private final ObjectProperty<Pos> alignmentProp = new SimpleObjectProperty<>(Pos.CENTER);
 
 
     // == Constructor ==================================================================================================
 
     public ScalePane() {
-        super();
+        createListeners();
     }
 
     public ScalePane(Node... children) {
-        super();
-        addChildren(children);
+        this();
+        getChildren().addAll(children);
+    }
+
+
+    // == Initialization ===============================================================================================
+
+    private void createListeners() {
+        alignmentProp.addListener((observableValue, oldPos, pos) -> requestLayout());
     }
 
 
     // == Helper methods ===============================================================================================
 
     private void layoutNode(Node node, double insetTop, double insetLeft, double availWidth, double availHeight, double baselineOffset, HPos hPos, VPos vPos) {
-        final double originalWidth = node.getBoundsInLocal().getWidth();
-        final double originalHeight = node.getBoundsInLocal().getWidth();
+        final Bounds bounds = node.getBoundsInLocal();
+        final Bounds scaledBounds = node.getBoundsInParent();
 
-        final double scale = Math.max(Math.min(availWidth / originalWidth, availHeight / originalHeight), 0);
+        if (bounds.getHeight() != 0.0 && bounds.getWidth() != 0.0) {
+            final double scaleHeight = availHeight / bounds.getHeight();
+            final double scaleWidth = availWidth / bounds.getWidth();
+            final double scale = Math.max(Math.min(scaleHeight, scaleWidth), 0);
 
-        node.setScaleX(scale);
-        node.setScaleY(scale);
+            node.setScaleX(scale);
+            node.setScaleY(scale);
+        }
+
+        if (scaledBounds.getHeight() != 0.0 && scaledBounds.getWidth() != 0.0) {
+
+            switch (hPos) {
+                case LEFT:
+                    node.setTranslateX((scaledBounds.getWidth() / 2.0) - (bounds.getWidth() / 2.0));
+                    break;
+
+                case RIGHT:
+                    node.setTranslateX(-(scaledBounds.getWidth() / 2.0) + (bounds.getWidth() / 2.0));
+                    break;
+            }
+
+            switch (vPos) {
+                case TOP:
+                    node.setTranslateY((scaledBounds.getHeight() / 2.0) - (bounds.getHeight() / 2.0));
+                    break;
+
+                case BOTTOM:
+                    node.setTranslateY(-(scaledBounds.getHeight() / 2.0) + (bounds.getHeight() / 2.0));
+                    break;
+
+                case BASELINE:
+                    vPos = VPos.CENTER;
+                    break;
+            }
+        }
 
         layoutInArea(node, insetLeft, insetTop, availWidth, availHeight, baselineOffset, hPos, vPos);
     }
@@ -50,24 +90,27 @@ public class ScalePane extends Pane {
         final double insetLeft = getInsets().getLeft();
         final double insetRight = getInsets().getRight();
 
-        final double availWidth = (getWidth() - insetLeft - insetRight);
-        final double availHeight = (getHeight() - insetTop - insetBottom);
+        final double availableHeight = (getHeight() - insetTop - insetBottom);
+        final double availableWidth = (getWidth() - insetLeft - insetRight);
         final double baselineOffset = getBaselineOffset();
 
-        final HPos hPos = HPos.CENTER;
-        final VPos vPos = VPos.CENTER;
+        final HPos hPos = alignmentProp.getValue().getHpos();
+        final VPos vPos = alignmentProp.getValue().getVpos();
 
-        for (Node child : children) {
-            layoutNode(child, insetTop, insetLeft, availWidth, availHeight, baselineOffset, hPos, vPos);
+        for (Node child: children) {
+            layoutNode(child, insetTop, insetLeft, availableWidth, availableHeight, baselineOffset, hPos, vPos);
         }
     }
 
 
-    // == Custom getter / setter =======================================================================================
+    // == Getter / Setter ==============================================================================================
 
-    public void addChildren(Node... children) {
-        getChildren().addAll(children);
-        requestLayout();
+    public Pos getAlignment() {
+        return alignmentProp.getValue();
+    }
+
+    public void setAlignment(Pos value) {
+        alignmentProp.setValue(value);
     }
 
 }

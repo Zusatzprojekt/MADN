@@ -1,57 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
+<?import com.github.zusatzprojekt.madn.ui.components.ScalePane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" fx:controller="com.github.zusatzprojekt.madn.ui.controller.StartViewController">
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #FFECD2;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.StartViewController">
-   <!--Headline-->
-   <Label alignment="CENTER" layoutX="75.0" layoutY="29.0" prefHeight="47.0" prefWidth="449.0" text="Mensch ärgere dich nicht" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-      <font>
-         <Font name="Arial Bold" size="40.0" />
-      </font>
-      <effect>
-         <Glow />
-      </effect>
-   </Label>
-   <!--Main Content / Border-->
-   <StackPane style="-fx-border-color: #000000; -fx-border-radius: 15; -fx-border-width: 1.5;" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="95.0">
-      <Group>
-         <VBox alignment="CENTER" spacing="30.0">
-            <!--            Menu Labels-->
-            <Group>
-               <VBox alignment="TOP_CENTER" spacing="5.0">
-                  <Label text="Spielerauswahl:">
-                     <font>
-                        <Font name="Arial Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label text="Hinweis: Es müssen mindestens 2 Spieler ausgewählt werden!">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                  </Label>
-               </VBox>
-            </Group>
-            <!--            Check Boxes-->
-            <Group>
-               <VBox alignment="CENTER_LEFT" spacing="10.0">
-                  <CheckBox fx:id="cbBlue" text="Blau" />
-                  <CheckBox fx:id="cbYellow" text="Gelb" />
-                  <CheckBox fx:id="cbGreen" text="Grün" />
-                  <CheckBox fx:id="cbRed" text="Rot" />
-               </VBox>
-            </Group>
-            <!--            Play Button-->
-            <Button fx:id="playButton" disable="true" onAction="#clickedPlayButton" prefHeight="44.0" prefWidth="106.0" text="Spielen">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-            </Button>
-         </VBox>
-      </Group>
-   </StackPane>
+    <!--Gitter-Layout-->
+    <GridPane style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="2.5"/>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="85.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="2.5"/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="15.0" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="65.0" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+            <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+
+        <!--Überschrift-->
+        <ScalePane GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Label text="Mensch ärgere Dich nicht">
+                <font>
+                    <Font name="Arial Bold" size="12.0"/>
+                </font>
+                <effect>
+                    <DropShadow blurType="ONE_PASS_BOX" height="10.0" offsetX="1.0" offsetY="1.0" width="10.0">
+                        <color>
+                            <Color red="0.375" green="0.375" blue="0.375"/>
+                        </color>
+                    </DropShadow>
+                </effect>
+            </Label>
+            <padding>
+                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+            </padding>
+        </ScalePane>
+
+        <!--Rahmen-->
+        <Pane style="-fx-border-color: #000000; -fx-border-radius: 25; -fx-border-width: 4;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="3"/>
+
+        <!--Spielerauswahl-->
+        <ScalePane GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
+
+                <!--Beschriftung-->
+                <VBox alignment="TOP_CENTER" spacing="5.0">
+                    <Label text="Spielerauswahl:">
+                        <font>
+                            <Font name="Arial Bold" size="22.0"/>
+                        </font>
+                    </Label>
+                    <Label fx:id="noteLabel" text="Es müssen mindestens 2 Spieler ausgewählt werden!"
+                           textFill="#001AFF">
+                        <font>
+                            <Font name="Arial" size="12.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+
+                <!--Checkboxen Spielerauswahl-->
+                <Group>
+                    <VBox alignment="CENTER_LEFT" spacing="10.0">
+                        <CheckBox fx:id="cbBlue" text="Blau">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </CheckBox>
+                        <CheckBox fx:id="cbYellow" text="Gelb">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </CheckBox>
+                        <CheckBox fx:id="cbGreen" text="Grün">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </CheckBox>
+                        <CheckBox fx:id="cbRed" text="Rot">
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </CheckBox>
+                        <padding>
+                            <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </VBox>
+                </Group>
+
+                <!--Play-Button-->
+                <Button fx:id="playButton" disable="true" onAction="#clickedPlayButton" prefHeight="45.0" prefWidth="120.0" text="Spielen">
+                    <font>
+                        <Font name="Arial" size="20.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                    <VBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
+        </ScalePane>
+    </GridPane>
 </AnchorPane>

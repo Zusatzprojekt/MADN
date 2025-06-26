@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Circle fx:id="circle" fill="DODGERBLUE" layoutX="100.0" layoutY="100.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="11.428" />
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.Group" xmlns="http://javafx.com/javafx">
+
+    <!--Spielfeld-->
+    <Circle fx:id="circle" fill="DODGERBLUE" layoutX="35.0" layoutY="35.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="4.0"/>
+
+    <!--Feldbeschriftung-->
+    <StackPane fx:id="textContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="70.0">
+        <Text fx:id="fieldText" mouseTransparent="true" textOrigin="CENTER">
+            <font>
+                <Font name="Arial Bold" size="50.0"/>
+            </font>
+        </Text>
+    </StackPane>
 </fx:root>

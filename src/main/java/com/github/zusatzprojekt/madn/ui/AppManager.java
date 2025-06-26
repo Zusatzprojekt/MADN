@@ -7,19 +7,26 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
-public class UIManager {
+public class AppManager {
     private static Stage mainStage;
-
+    private static Map<String, String> arguments;
 
     // == Helper methods ===============================================================================================
 
     private static void checkMainStageSet() {
         if (mainStage == null) {
-            throw new RuntimeException(new NullPointerException("mainStage of UIManager not set"));
+            throw new RuntimeException(new NullPointerException("Static field 'mainStage' of AppManager not set"));
+        }
+    }
+
+    private static void checkArgumentsSet() {
+        if (mainStage == null) {
+            throw new RuntimeException(new NullPointerException("Static field 'arguments' of AppManager not set"));
         }
     }
 
@@ -98,7 +105,25 @@ public class UIManager {
     }
 
     public static void setMainStage(Stage stage) {
-        mainStage = stage;
+        if (mainStage == null) {
+            mainStage = stage;
+        } else {
+            throw new RuntimeException(new IllegalAccessError("Static field 'mainStage' of AppManager already set; Can only be set once"));
+        }
+    }
+
+    public static Map<String, String> getArguments() {
+        checkArgumentsSet();
+
+        return arguments;
+    }
+
+    public static void setArguments(Map<String, String> args) {
+        if (arguments == null) {
+            arguments = Collections.unmodifiableMap(args);
+        } else {
+            throw new RuntimeException(new IllegalAccessError("Static field 'arguments' of AppManager already set; Can only be set once"));
+        }
     }
 
 }

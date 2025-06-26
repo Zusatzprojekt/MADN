@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<?import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root type="javafx.scene.Group" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.Group" xmlns="http://javafx.com/javafx">
+
+    <!--Basis-Felder-->
     <Pane fx:id="fieldContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-        <MadnFieldV layoutX="0.0" layoutY="0.0" />
-        <MadnFieldV layoutX="200.0" layoutY="0.0" />
-        <MadnFieldV layoutX="0.0" layoutY="200.0" />
-        <MadnFieldV layoutX="200.0" layoutY="200.0" />
+        <MadnFieldV layoutX="0.0" layoutY="0.0" smallField="true"/>
+        <MadnFieldV layoutX="85.0" layoutY="0.0" smallField="true"/>
+        <MadnFieldV layoutX="0.0" layoutY="85.0" smallField="true"/>
+        <MadnFieldV layoutX="85.0" layoutY="85.0" smallField="true"/>
     </Pane>
-    <StackPane fx:id="textContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0">
-        <Text fx:id="baseText" boundsType="VISUAL" mouseTransparent="true" text="B" textOrigin="CENTER" />
+
+    <!--Beschriftung-->
+    <StackPane fx:id="textContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="145.0" prefWidth="145.0" mouseTransparent="true">
+        <Text fx:id="baseText" boundsType="VISUAL" text="B" textOrigin="CENTER">
+            <font>
+                <Font name="Arial Bold" size="50.0"/>
+            </font>
+        </Text>
     </StackPane>
 </fx:root>
