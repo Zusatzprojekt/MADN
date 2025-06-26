@@ -14,9 +14,11 @@ public class MadnFigureL {
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
     private final BooleanProperty canMoveProp = new SimpleBooleanProperty(false);
 
-
     public MadnFigureL(MadnFigurePlacement placementArea, int fieldIndex) {
         figurePosition.setValue(new MadnFigurePosition(placementArea, fieldIndex));
+
+        // TODO: Nach Testen entfernen
+        canMoveProp.setValue(true);
     }
 
     public void setFigurePosition(MadnFigurePosition position) {

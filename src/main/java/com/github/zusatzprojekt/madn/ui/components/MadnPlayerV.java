@@ -31,7 +31,8 @@ public class MadnPlayerV extends Group {
 
         figures = initFigures(playerL, board);
 
-        getChildren().addAll(figures);
+        board.getChildren().addAll(figures);
+//        getChildren().addAll(figures);
         initBindings(playerL);
     }
 

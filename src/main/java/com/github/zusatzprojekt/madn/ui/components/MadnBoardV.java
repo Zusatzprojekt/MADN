@@ -85,13 +85,7 @@ public class MadnBoardV extends AnchorPane {
 
     private Double[] calcHighlightStart(MadnFieldV[] waypoints, MadnPlayerId playerId) {
 
-        Predicate<MadnFieldV> filter = field -> {
-            if (field instanceof MadnFieldExtended fieldExt) {
-                return fieldExt.getFieldType() == MadnFieldFunction.START && fieldExt.getFieldAssignment() == playerId;
-            }
-
-            return false;
-        };
+        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldFunction.START && field.getFieldAssignment() == playerId;
 
         MadnFieldV startField = Arrays.stream(waypoints).filter(filter).findFirst().orElseThrow();
 
@@ -135,7 +129,7 @@ public class MadnBoardV extends AnchorPane {
                 points.addLast(curField.getCenterAbsoluteX());
                 points.addLast(curField.getCenterAbsoluteY());
 
-            } else if (curField instanceof MadnFieldExtended curFieldExt && curFieldExt.getFieldType() == MadnFieldFunction.END && curFieldExt.getFieldAssignment() == playerId) {
+            } else if (curField.getFieldType() == MadnFieldFunction.END && curField.getFieldAssignment() == playerId) {
                 points.addLast(curField.getCenterAbsoluteX());
                 points.addLast(curField.getCenterAbsoluteY());
 
