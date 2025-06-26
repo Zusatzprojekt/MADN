@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MadnGameL {
@@ -19,14 +20,44 @@ public class MadnGameL {
     private final MadnPlayerL[] playerList;
     private final MadnDiceL dice = new MadnDiceL();
     private final BooleanProperty initPhase = new SimpleBooleanProperty(true);
-
+    private final MadnFigureL[] waypoints = new MadnFigureL[40];
+    private final Map<MadnPlayerId, MadnFigureL[]> bases;
+    private final Map<MadnPlayerId, MadnFigureL[]> homes;
 
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice) {
         playerList = initPlayers(players);
+        bases = initBases();
+        homes = initHomes();
 
         initBindings(board);
         initListeners(board);
         initHandlers(vDice);
+    }
+
+    private Map<MadnPlayerId, MadnFigureL[]> initBases() {
+        Map<MadnPlayerId, MadnFigureL[]> bases = new HashMap<>();
+
+        for (MadnPlayerL player: playerList) {
+            MadnFigureL[] figs = new MadnFigureL[4];
+
+            for (int i = 0; i < player.getFigures().length; i++) {
+                figs[i] = player.getFigures()[i];
+            }
+
+            bases.put(player.getPlayerID(), figs);
+        }
+
+        return bases;
+    }
+
+    private Map<MadnPlayerId, MadnFigureL[]> initHomes() {
+        Map<MadnPlayerId, MadnFigureL[]> homes = new HashMap<>();
+
+        for (MadnPlayerL player: playerList) {
+            homes.put(player.getPlayerID(), new MadnFigureL[4]);
+        }
+
+        return homes;
     }
 
     private void initBindings(MadnBoardV board) {
