@@ -34,7 +34,7 @@ public class MadnFigureV extends Group {
     private final DoubleProperty strokeWidth = new SimpleDoubleProperty(0.0);
     private final BooleanProperty highlight = new SimpleBooleanProperty(false);
     private final ObjectProperty<Paint> fillColor = new SimpleObjectProperty<>(Color.DODGERBLUE);
-    private final ObjectProperty<Paint> ringColor = new SimpleObjectProperty<>(Color.ORANGE);
+    private final ObjectProperty<Paint> ringColor = new SimpleObjectProperty<>(Color.ALICEBLUE);
     private final ObjectProperty<Paint> strokeColor = new SimpleObjectProperty<>(Color.BLACK);
     private final ObjectProperty<Duration> animationDuration = new SimpleObjectProperty<>(Duration.seconds(1.5));
     private final ScaleTransition[] transitions;
@@ -114,11 +114,12 @@ public class MadnFigureV extends Group {
                     t.play();
                 }
 
-                this.setViewOrder(1.0);
+                this.setViewOrder(-1.0);
             } else {
                 for (ScaleTransition t : transitions) {
                     t.stop();
                 }
+                System.out.println(getViewOrder());
 
                 this.setViewOrder(0.0);
             }
@@ -318,13 +319,7 @@ public class MadnFigureV extends Group {
     private Animation[] calcAnimationWaypointsHome(int oldIndex, int newIndex) {
         List<MadnFieldV> waypoints = List.of(getPlayer().getWaypoints().getFields());
 
-        Predicate<MadnFieldV> filter = field -> {
-            if (field instanceof MadnFieldExtended fieldExt) {
-                return fieldExt.getFieldType() == MadnFieldFunction.END && fieldExt.getFieldAssignment() == getPlayer().getPlayerId();
-            }
-
-            return false;
-        };
+        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldFunction.END && field.getFieldAssignment() == getPlayer().getPlayerId();
 
         List<Animation> animations = new ArrayList<>();
 
