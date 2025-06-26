@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 
+/**
+ * Abstrakte Klasse, die ein Container für mehrere Spielfelder (MadnFieldV) ist.
+ * Sie erweitert JavaFXs Group, um als Knoten im Scene-Graph verwendet werden zu können.
+ */
 @SuppressWarnings("SuspiciousToArrayCall")
 public abstract class MadnFieldContainerV extends Group {
     private final MadnFieldV[] fields;
@@ -14,7 +18,10 @@ public abstract class MadnFieldContainerV extends Group {
 
 
     // == Constructor ==================================================================================================
-
+    /**
+     * Konstruktor lädt ein FXML-Layout und initialisiert die Spielfelder.
+     * @param fxmlFile Der Pfad zur FXML-Datei, die dieses Layout beschreibt.
+     */
     public MadnFieldContainerV(String fxmlFile) {
         AppManager.loadComponentFxml(fxmlFile, this, this);
 
@@ -23,7 +30,10 @@ public abstract class MadnFieldContainerV extends Group {
 
 
     // == Helper methods ===============================================================================================
-
+    /**
+     * Initialisiert die Spielfelder aus den Kindern des fieldContainer.
+     * @return Ein Array aller gefundenen MadnFieldV-Knoten
+     */
     private MadnFieldV[] initFields() {
         MadnFieldV[] madnFields = fieldContainer.getChildrenUnmodifiable().toArray(MadnFieldV[]::new);
 
@@ -36,7 +46,10 @@ public abstract class MadnFieldContainerV extends Group {
 
 
     // == Getter / Setter ==============================================================================================
-
+    /**
+     * Gibt das Array aller Spielfelder zurück.
+     * @return Array von MadnFieldV
+     */
     public MadnFieldV[] getFields() {
         return fields;
     }

@@ -25,6 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Die Klasse {@code MadnDiceV} repräsentiert einen animierten Würfel
+ * für das Spiel "Mensch ärgere dich nicht".
+ * <p>
+ * Je nach Systemunterstützung kann eine 3D-Darstellung oder eine 2D-Alternative verwendet werden.
+ * Die Würfelanimation basiert auf JavaFX-Transformationen bzw. zufälligen Zahlenanzeigen.
+ */
 public class MadnDiceV extends Pane {
     private final Duration ANIMATION_DURATION = Duration.millis(750);
     private final Rotate rx = new Rotate(0.0, Rotate.X_AXIS);
@@ -44,6 +51,11 @@ public class MadnDiceV extends Pane {
     @FXML
     private Button altBtn;
 
+    // == Konstruktor =================================================================================================
+
+    /**
+     * Konstruktor lädt je nach Systemfähigkeit die passende FXML-Datei (3D oder 2D).
+     */
     public MadnDiceV() {
         String no3dArg = AppManager.getArguments().getOrDefault("no3d", "false");
 
@@ -65,6 +77,12 @@ public class MadnDiceV extends Pane {
         }
     }
 
+    // == Methoden =====================================================================================================
+    /**
+     * Startet die Würfelanimation für den gegebenen Wurfwert.
+     *
+     * @param roll Der gewürfelte Wert (1–6)
+     */
     public void startAnimation(int roll) {
         Timeline tl;
 
@@ -78,6 +96,12 @@ public class MadnDiceV extends Pane {
         tl.play();
     }
 
+    /**
+     * Erstellt die KeyFrames für die 3D-Würfelanimation entsprechend der gewürfelten Zahl.
+     *
+     * @param roll Gewürfelte Zahl (1–6)
+     * @return Ein KeyFrame mit Drehwerten
+     */
     private KeyFrame setupKeyframes(int roll) {
 
         return new KeyFrame(ANIMATION_DURATION, switch (roll) {
@@ -108,6 +132,13 @@ public class MadnDiceV extends Pane {
         });
     }
 
+    /**
+     * Berechnet einen KeyValue, der eine weiche Würfelrotation ermöglicht.
+     *
+     * @param angleProperty Die Rotations-Property
+     * @param endValue Zielwinkel
+     * @return KeyValue für die Animation
+     */
     private KeyValue createKeyValue(DoubleProperty angleProperty, double endValue) {
         double diff = (angleProperty.getValue() - endValue) % 360;
         double newValue = endValue;
@@ -121,6 +152,12 @@ public class MadnDiceV extends Pane {
         return new KeyValue(angleProperty, newValue);
     }
 
+    /**
+     * Setzt eine einfache Animation für die alternative 2D-Würfeldarstellung um.
+     *
+     * @param roll Gewürfelte Zahl (1–6)
+     * @return KeyFrame-Array mit zufälliger Würfelanzeige
+     */
     private KeyFrame[] setupKeyframes2d(int roll) {
         Random random = new Random();
         IntegerProperty dummy = new SimpleIntegerProperty(0);
@@ -139,6 +176,11 @@ public class MadnDiceV extends Pane {
         return keyFrames.toArray(KeyFrame[]::new);
     }
 
+    /**
+     * Callback bei Animationsende. Führt ggf. registrierten EventHandler aus.
+     *
+     * @param actionEvent Auslösendes Event
+     */
     private void onAnimationFinished(ActionEvent actionEvent) {
         if (use3D) {
             rx.setAngle((rx.getAngle() + 360) % 360);
@@ -150,14 +192,29 @@ public class MadnDiceV extends Pane {
         }
     }
 
+    /**
+     * Setzt den EventHandler, der nach der Würfelanimation ausgeführt wird.
+     *
+     * @param actionEventEventHandler Der Handler
+     */
     public void setOnFinished(EventHandler<ActionEvent> actionEventEventHandler) {
         onFinishedProperty.setValue(actionEventEventHandler);
     }
 
+    /**
+     * Setzt den EventHandler für Klicks auf den Würfel.
+     *
+     * @param mouseEventEventHandler Der Handler
+     */
     public void setOnDiceClicked(EventHandler<MouseEvent> mouseEventEventHandler) {
         onDiceClickedProperty.setValue(mouseEventEventHandler);
     }
 
+    /**
+     * Interner Callback bei Mausklick auf Würfel (via FXML gebunden).
+     *
+     * @param mouseEvent Das Mausklick-Event
+     */
     @FXML
     private void onDiceClicked(MouseEvent mouseEvent) {
         if (onDiceClickedProperty.isNotNull().getValue()) {
@@ -165,6 +222,9 @@ public class MadnDiceV extends Pane {
         }
     }
 
+    /**
+     * Deaktiviert den Würfel für Eingaben nach dem Würfeln.
+     */
     public void disable() {
         if (use3D) {
             setDisable(true);
@@ -173,6 +233,9 @@ public class MadnDiceV extends Pane {
         }
     }
 
+    /**
+     * Aktiviert den Würfel wieder für Eingaben.
+     */
     public void enable() {
         if (use3D) {
             setDisable(false);

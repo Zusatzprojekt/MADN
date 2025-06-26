@@ -20,6 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Die Klasse {@code MadnBoardV} repräsentiert das visuelle Spielfeld
+ * für das Spiel "Mensch ärgere dich nicht" in der JavaFX-Oberfläche.
+ *
+ * Sie verwaltet Container für Start-, Weg- und Zielfelder,
+ * sowie Highlight-Funktionalitäten zum Anzeigen von möglichen Zügen.
+ */
 public class MadnBoardV extends AnchorPane {
     private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
@@ -44,12 +51,22 @@ public class MadnBoardV extends AnchorPane {
     @FXML
     private Pane playerContainer, overlayContainer;
 
+    // == Konstruktor =============================================================================
+
+    /**
+     * Konstruktor, lädt das zugehörige FXML-Layout und initialisiert die Verbindungen.
+     */
     public MadnBoardV() {
         AppManager.loadComponentFxml("ui/components/madn-board-v.fxml", this, this);
 
         createBindings();
     }
 
+    // == Methoden =============================================================================
+
+    /**
+     * Erstellt interne JavaFX-Bindings für das Overlay.
+     */
     private void createBindings() {
 
 //        overlayContainer.visibleProperty().bind(showOverlay);
@@ -57,7 +74,11 @@ public class MadnBoardV extends AnchorPane {
         overlayContainer.clipProperty().bind(clipOverlay);
     }
 
-
+/**
+ * Zeichnet den Highlight-Pfad für die übergebene Spielfigur abhängig von ihrer Position.
+ *
+ * @param mouseEvent Das auslösende Mausereignis
+ */
     private void setHighlightPath(MouseEvent mouseEvent) {
         MadnFigureV figure = (MadnFigureV) ((Shape) mouseEvent.getSource()).getParent();
 
@@ -82,7 +103,13 @@ public class MadnBoardV extends AnchorPane {
         clipOverlay.setValue(Shape.subtract(new Rectangle(overlayContainer.getWidth(), overlayContainer.getHeight()), highlightLine));
     }
 
-
+    /**
+     * Berechnet die Highlight-Koordinaten beim Startfeld.
+     *
+     * @param waypoints Alle Spielfelder
+     * @param playerId Spielerkennung
+     * @return Koordinaten für Highlight
+     */
     private Double[] calcHighlightStart(MadnFieldV[] waypoints, MadnPlayerId playerId) {
 
         Predicate<MadnFieldV> filter = field -> {
@@ -103,6 +130,14 @@ public class MadnBoardV extends AnchorPane {
         };
     }
 
+    /**
+     * Berechnet Highlight-Pfad innerhalb des Heimfelds.
+     *
+     * @param fields Heimfelder des Spielers
+     * @param fieldIndex Aktuelle Position
+     * @param curRoll Aktueller Würfelwert
+     * @return Highlight-Koordinaten
+     */
     private Double[] calcHighlightHome(MadnFieldV[] fields, int fieldIndex, int curRoll) {
         if (curRoll > 3 - fieldIndex) {
             return new Double[] {fields[0].getCenterAbsoluteX(), fields[0].getCenterAbsoluteY()};
@@ -119,6 +154,16 @@ public class MadnBoardV extends AnchorPane {
         };
     }
 
+    /**
+     * Berechnet Highlight-Pfad über Spielfelder und ggf. Übergang in das Heimfeld.
+     *
+     * @param waypoints Haupt-Spielfelder
+     * @param homeFields Heimfelder des Spielers
+     * @param fieldIndex Startfeldindex
+     * @param playerId Spielerkennung
+     * @param curRoll Aktueller Würfelwert
+     * @return Highlight-Koordinaten
+     */
     private Double[] calcHighlightWaypoints(MadnFieldV[] waypoints, MadnFieldV[] homeFields, int fieldIndex, MadnPlayerId playerId, int curRoll) {
         ArrayList<Double> points = new ArrayList<>();
         MadnFieldV curField = waypoints[fieldIndex];
@@ -153,9 +198,16 @@ public class MadnBoardV extends AnchorPane {
         return points.toArray(Double[]::new);
     }
 
+    /**
+     * Entfernt den Highlight-Pfad vom Overlay.
+     *
+     * @param mouseEvent Das auslösende Event (wird ignoriert)
+     */
     private void removeHighlightPath(MouseEvent mouseEvent) {
         clipOverlay.setValue(null);
     }
+
+    // == Getter / Setter =========================================================================
 
     public Pane getPlayerContainer() {
         return playerContainer;
