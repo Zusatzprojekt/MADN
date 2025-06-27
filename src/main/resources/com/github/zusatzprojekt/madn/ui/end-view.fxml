@@ -83,22 +83,22 @@
                         <font>
                            <Font size="56.0" />
                         </font></Label>
-                     <Label text="1. Farbe">
+                     <Label fx:id="firstPlace" text="1. Farbe">
                         <font>
                            <Font size="56.0" />
                         </font>
                      </Label>
-                     <Label text="2. Farbe">
+                     <Label fx:id="secondPlace" text="2. Farbe">
                         <font>
                            <Font size="56.0" />
                         </font>
                      </Label>
-                     <Label text="3. Farbe">
+                     <Label fx:id="thirdPlace" text="3. Farbe">
                         <font>
                            <Font size="56.0" />
                         </font>
                      </Label>
-                     <Label text="4. Farbe">
+                     <Label fx:id="fourthPlace" text="4. Farbe">
                         <font>
                            <Font size="56.0" />
                         </font>
