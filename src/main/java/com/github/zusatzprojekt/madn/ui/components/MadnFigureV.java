@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Visuelle Repräsentation der Spielfiguren im Spiel Mensch ärgere dich nicht.
+ * Verantwortlich für Darstellung, Animation, Farbeinstellungen und Interaktionen.
+ */
 public class MadnFigureV extends Group {
     private final Duration ANIMATION_DURATION = Duration.millis(250);
     private final DoubleProperty radius = new SimpleDoubleProperty(100.0);
@@ -54,6 +58,13 @@ public class MadnFigureV extends Group {
 
     // == Constructor ==================================================================================================
 
+    /**
+     * Konstruktor: initialisiert visuelle Elemente, Animationen und Bindungen zur Spiellogik.
+     *
+     * @param player    Spieler dieser Figur
+     * @param figureL   Logische Repräsentation der Figur
+     * @param radius    Radius der visuellen Figur
+     */
     @SuppressWarnings("SuspiciousToArrayCall")
     public MadnFigureV(MadnPlayerV player, MadnFigureL figureL, double radius) {
 
@@ -77,6 +88,10 @@ public class MadnFigureV extends Group {
         setFillDeriveGradient(initFillColor(player.getPlayerId()));
     }
 
+    /**
+     * Ermittelt die Füllfarbe basierend auf der Spieler-ID.
+     * @param playerId Identifikation des Spielers
+     */
     private Color initFillColor(MadnPlayerId playerId) {
 
         return switch (playerId) {
@@ -88,6 +103,9 @@ public class MadnFigureV extends Group {
         };
     }
 
+    /**
+     * Erstellt zwei ScaleTransitions für eine pulsierende Highlight-Animation.
+     */
     private ScaleTransition[] initHighlightAnimation() {
 
         return new ScaleTransition[] {
@@ -99,6 +117,9 @@ public class MadnFigureV extends Group {
 
     // == Initialization ===============================================================================================
 
+    /**
+     * Initialisiert Listener für Radiusänderung, Highlight-Zustand und Positionsänderung.
+     */
     private void initListeners() {
 
         // Listener für Radius veränderungen
@@ -136,6 +157,11 @@ public class MadnFigureV extends Group {
         });
     }
 
+    /**
+     * Bindet visuelle Komponenten an Properties und Observables des Models.
+     *
+     * @param figureL Logische Repräsentation der Figur
+     */
     private void initBindings(MadnFigureL figureL) {
 
         // Setup figure
@@ -170,6 +196,9 @@ public class MadnFigureV extends Group {
 
     // == Helper methods ===============================================================================================
 
+    /**
+     * Setzt einen Clip, damit die Highlight-Ringe sauber dargestellt werden.
+     */
     private void setClip() {
         double radius = this.radius.getValue();
 
@@ -182,10 +211,18 @@ public class MadnFigureV extends Group {
         animationGroup.setClip(clip);
     }
 
+    /**
+     * Erstellt eine ScaleTransition für Node mit keiner Verzögerung.
+     * @param node
+     * @param duration
+     * @param scaleFrom
+     * @param scaleTo
+     */
     @SuppressWarnings("SameParameterValue")
     private ScaleTransition createTransition(Node node, ObjectProperty<Duration> duration, double scaleFrom, double scaleTo) {
         return createTransition(node, duration, scaleFrom, scaleTo, false);
     }
+
 
     private ScaleTransition createTransition(Node node, ObjectProperty<Duration> duration, double scaleFrom, double scaleTo, boolean delay) {
         ScaleTransition transition = new ScaleTransition();
