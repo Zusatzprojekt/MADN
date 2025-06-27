@@ -99,5 +99,5 @@
     </SubScene>
 
     <!--Overlay-->
-    <Rectangle fx:id="overlayRect" width="10000" height="10000" visible="false" opacity="0.5" fill="black" />
+    <Rectangle fx:id="overlayRect" width="1000" height="1000" visible="false" opacity="0.5" fill="black" arcHeight="80.0" arcWidth="80.0"/>
 </fx:root>

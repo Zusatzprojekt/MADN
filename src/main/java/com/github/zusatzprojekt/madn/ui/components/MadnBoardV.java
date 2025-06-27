@@ -1,9 +1,9 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
 import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
-import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
-import com.github.zusatzprojekt.madn.interfaces.MadnFieldExtended;
+import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
@@ -31,7 +31,7 @@ public class MadnBoardV extends AnchorPane {
     private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
-    private final BooleanProperty initPhase = new SimpleBooleanProperty(true);
+    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
 
     // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
@@ -51,6 +51,7 @@ public class MadnBoardV extends AnchorPane {
     @FXML
     private Pane playerContainer, overlayContainer;
 
+
     // == Konstruktor =============================================================================
 
     /**
@@ -61,6 +62,7 @@ public class MadnBoardV extends AnchorPane {
 
         createBindings();
     }
+
 
     // == Methoden =============================================================================
 
@@ -112,7 +114,7 @@ public class MadnBoardV extends AnchorPane {
      */
     private Double[] calcHighlightStart(MadnFieldV[] waypoints, MadnPlayerId playerId) {
 
-        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldFunction.START && field.getFieldAssignment() == playerId;
+        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldType.START && field.getFieldAssignment() == playerId;
 
         MadnFieldV startField = Arrays.stream(waypoints).filter(filter).findFirst().orElseThrow();
 
@@ -174,7 +176,7 @@ public class MadnBoardV extends AnchorPane {
                 points.addLast(curField.getCenterAbsoluteX());
                 points.addLast(curField.getCenterAbsoluteY());
 
-            } else if (curField.getFieldType() == MadnFieldFunction.END && curField.getFieldAssignment() == playerId) {
+            } else if (curField.getFieldType() == MadnFieldType.END && curField.getFieldAssignment() == playerId) {
                 points.addLast(curField.getCenterAbsoluteX());
                 points.addLast(curField.getCenterAbsoluteY());
 
@@ -200,6 +202,7 @@ public class MadnBoardV extends AnchorPane {
     private void removeHighlightPath(MouseEvent mouseEvent) {
         clipOverlay.setValue(null);
     }
+
 
     // == Getter / Setter =========================================================================
 
@@ -259,12 +262,12 @@ public class MadnBoardV extends AnchorPane {
         return deactivateHighlightEvent;
     }
 
-    public BooleanProperty initPhaseProperty() {
-        return initPhase;
+    public ObjectProperty<MadnGamePhase> gamePhaseProperty() {
+        return gamePhase;
     }
 
     public boolean isInitPhase() {
-        return initPhase.getValue();
+        return gamePhase.getValue().equals(MadnGamePhase.INIT);
     }
 
 }

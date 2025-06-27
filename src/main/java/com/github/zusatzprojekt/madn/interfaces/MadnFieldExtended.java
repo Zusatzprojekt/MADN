@@ -1,7 +1,7 @@
 package com.github.zusatzprojekt.madn.interfaces;
 
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
-import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
+import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 
 /**
  * Interface zur Erweiterung von Spielfeldern im Spiel "Mensch Ärgere Dich Nicht"
@@ -17,7 +17,7 @@ public interface MadnFieldExtended {
      *
      * @return Der spezielle Feldtyp (z.B. START, END).
      */
-    MadnFieldFunction getFieldType();
+    MadnFieldType getFieldType();
 
     /**
      * Gibt zurück, welchem Spieler dieses Feld zugeordnet ist.

@@ -36,6 +36,7 @@ public class MadnDiceV extends Pane {
     private final Duration ANIMATION_DURATION = Duration.millis(750);
     private final Rotate rx = new Rotate(0.0, Rotate.X_AXIS);
     private final Rotate ry = new Rotate(0.0, Rotate.Y_AXIS);
+    private final BooleanProperty enabled = new SimpleBooleanProperty(false);
     private final ObjectProperty<EventHandler<ActionEvent>> onFinishedProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<MouseEvent>> onDiceClickedProperty = new SimpleObjectProperty<>();
     private final boolean use3D;
@@ -75,6 +76,8 @@ public class MadnDiceV extends Pane {
         } else {
             AppManager.loadComponentFxml("ui/components/madn-dice-alt-v.fxml", this, this);
         }
+
+        disable(true);
     }
 
     // == Methoden =====================================================================================================
@@ -225,12 +228,19 @@ public class MadnDiceV extends Pane {
     /**
      * Deaktiviert den Würfel für Eingaben nach dem Würfeln.
      */
-    public void disable() {
+    public void disable(boolean overlay) {
         if (use3D) {
             setDisable(true);
+            if (overlay) {
+                overlayRect.setVisible(true);
+            }
         } else {
             altBtn.setDisable(true);
         }
+    }
+
+    public void disable() {
+        disable(false);
     }
 
     /**
@@ -239,9 +249,12 @@ public class MadnDiceV extends Pane {
     public void enable() {
         if (use3D) {
             setDisable(false);
+            overlayRect.setVisible(false);
         } else {
             altBtn.setDisable(false);
         }
     }
+
+
 
 }

@@ -1,7 +1,7 @@
 package com.github.zusatzprojekt.madn.ui.components.gameboard;
 
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
-import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
+import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
@@ -22,7 +22,7 @@ import javafx.scene.text.Text;
 public class MadnFieldV extends Group {
     private final ObjectProperty<Paint> fillProp = new SimpleObjectProperty<>(Color.DODGERBLUE);
     private final BooleanProperty smallFieldProp = new SimpleBooleanProperty(false);
-    private MadnFieldFunction fieldType = MadnFieldFunction.NONE;
+    private MadnFieldType fieldType = MadnFieldType.NONE;
     private MadnPlayerId fieldAssignment = MadnPlayerId.NONE;
     private boolean cornerField = false;
     private Parent container;
@@ -82,11 +82,11 @@ public class MadnFieldV extends Group {
         smallFieldProp.setValue(b);
     }
 
-    public MadnFieldFunction getFieldType() {
+    public MadnFieldType getFieldType() {
         return fieldType;
     }
 
-    public void setFieldType(MadnFieldFunction fieldType) {
+    public void setFieldType(MadnFieldType fieldType) {
         this.fieldType = fieldType;
     }
 

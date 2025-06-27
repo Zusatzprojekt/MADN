@@ -1,13 +1,10 @@
 package com.github.zusatzprojekt.madn.logic;
 
-import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
-import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
 import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
@@ -19,7 +16,7 @@ public class MadnGameL {
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final MadnPlayerL[] playerList;
     private final MadnDiceL dice = new MadnDiceL();
-    private final BooleanProperty initPhase = new SimpleBooleanProperty(true);
+    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private final MadnFigureL[] waypoints = new MadnFigureL[40];
     private final Map<MadnPlayerId, MadnFigureL[]> bases;
     private final Map<MadnPlayerId, MadnFigureL[]> homes;
@@ -38,11 +35,10 @@ public class MadnGameL {
         Map<MadnPlayerId, MadnFigureL[]> bases = new HashMap<>();
 
         for (MadnPlayerL player: playerList) {
-            MadnFigureL[] figs = new MadnFigureL[4];
+            MadnFigureL[] playerFigs = player.getFigures();
+            MadnFigureL[] figs = new MadnFigureL[playerFigs.length];
 
-            for (int i = 0; i < player.getFigures().length; i++) {
-                figs[i] = player.getFigures()[i];
-            }
+            System.arraycopy(playerFigs, 0, figs, 0, playerFigs.length);
 
             bases.put(player.getPlayerID(), figs);
         }
@@ -54,14 +50,14 @@ public class MadnGameL {
         Map<MadnPlayerId, MadnFigureL[]> homes = new HashMap<>();
 
         for (MadnPlayerL player: playerList) {
-            homes.put(player.getPlayerID(), new MadnFigureL[4]);
+            homes.put(player.getPlayerID(), new MadnFigureL[player.getFigures().length]);
         }
 
         return homes;
     }
 
     private void initBindings(MadnBoardV board) {
-        board.initPhaseProperty().bind(initPhase);
+        board.gamePhaseProperty().bind(gamePhase);
     }
 
     private MadnPlayerL[] initPlayers(Map<String, Object> players) {
@@ -106,7 +102,7 @@ public class MadnGameL {
 
         vDice.setOnFinished(event -> {
             rollFinished();
-            vDice.enable();
+
         });
     }
 
@@ -121,28 +117,18 @@ public class MadnGameL {
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
     }
 
-    // TODO: Testszenario entfernen
-    int index = -1;
-
     private void rollFinished() {
-        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!");
+        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
 
-        index = index + currentPlayer.getValue().getLastRoll();
+        if (gamePhase.getValue() == MadnGamePhase.START_ROLL) {
 
-        if (index == -1) {
-            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, 0));
-            index = 0;
-        } else if (index >= 40) {
-            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.HOME, index % 40));
-        } else {
-            currentPlayer.getValue().getFigures()[0].setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, index));
         }
 
     }
 
     public void startGame() {
         currentPlayer.setValue(playerList[0]);
-        initPhase.setValue(false);
+        gamePhase.setValue(MadnGamePhase.START_ROLL);
     }
 
 

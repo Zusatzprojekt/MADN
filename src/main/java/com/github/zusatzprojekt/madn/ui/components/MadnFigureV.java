@@ -2,8 +2,7 @@ package com.github.zusatzprojekt.madn.ui.components;
 
 import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
-import com.github.zusatzprojekt.madn.enums.MadnFieldFunction;
-import com.github.zusatzprojekt.madn.interfaces.MadnFieldExtended;
+import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 import com.github.zusatzprojekt.madn.logic.MadnFigureL;
 import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
 import com.github.zusatzprojekt.madn.ui.AppManager;
@@ -299,7 +298,7 @@ public class MadnFigureV extends Group {
         }
 
         double oldViewOrder = getViewOrder();
-        setViewOrder(2.0);
+        setViewOrder(-2.0);
 
         transition.setOnFinished(actionEvent -> {
             setViewOrder(oldViewOrder);
@@ -356,7 +355,7 @@ public class MadnFigureV extends Group {
     private Animation[] calcAnimationWaypointsHome(int oldIndex, int newIndex) {
         List<MadnFieldV> waypoints = List.of(getPlayer().getWaypoints().getFields());
 
-        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldFunction.END && field.getFieldAssignment() == getPlayer().getPlayerId();
+        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldType.END && field.getFieldAssignment() == getPlayer().getPlayerId();
 
         List<Animation> animations = new ArrayList<>();
 
