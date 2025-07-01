@@ -41,8 +41,7 @@ public class MadnPlayerV extends Group {
         MadnFigureV[] figuresV = new MadnFigureV[figuresL.length];
 
         for (int i = 0; i < figuresV.length; i++) {
-            figuresV[i] = new MadnFigureV(this, figuresL[i], 20.0);
-            figuresV[i].setStrokeWidth(1.0);
+            figuresV[i] = new MadnFigureV(this, figuresL[i]);
             figuresV[i].mouseEnterEventProperty().bind(board.activateHighlightEventProperty());
             figuresV[i].mouseExitEventProperty().bind(board.deactivateHighlightEventProperty());
         }
