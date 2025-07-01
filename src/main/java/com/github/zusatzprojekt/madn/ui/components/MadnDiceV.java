@@ -1,5 +1,6 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
+import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -37,6 +38,7 @@ public class MadnDiceV extends Pane {
     private final Rotate rx = new Rotate(0.0, Rotate.X_AXIS);
     private final Rotate ry = new Rotate(0.0, Rotate.Y_AXIS);
     private final BooleanProperty enabled = new SimpleBooleanProperty(false);
+    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private final ObjectProperty<EventHandler<ActionEvent>> onFinishedProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<MouseEvent>> onDiceClickedProperty = new SimpleObjectProperty<>();
     private final boolean use3D;
