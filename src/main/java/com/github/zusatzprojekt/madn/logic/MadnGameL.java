@@ -13,15 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MadnGameL {
-    private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
+    private final MadnDiceL dice;
     private final MadnPlayerL[] playerList;
-    private final MadnDiceL dice = new MadnDiceL();
-    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
-    private final MadnFigureL[] waypoints = new MadnFigureL[40];
     private final Map<MadnPlayerId, MadnFigureL[]> bases;
     private final Map<MadnPlayerId, MadnFigureL[]> homes;
+    private final MadnFigureL[] waypoints = new MadnFigureL[40];
+    private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
+    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
+    private int finishedPlayers = 0;
 
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice) {
+        dice = new MadnDiceL(vDice);
         playerList = initPlayers(players);
         bases = initBases();
         homes = initHomes();
@@ -96,12 +98,10 @@ public class MadnGameL {
             int roll = dice.roll();
             currentPlayer.getValue().setLastRoll(roll);
             vDice.startAnimation(roll);
-            vDice.enabledProperty().setValue(false); //TODO: nach Test entfernen
         });
 
         vDice.setOnFinished(event -> {
             rollFinished();
-            vDice.enabledProperty().setValue(true); //TODO: nach Test entfernen
         });
     }
 
@@ -128,6 +128,7 @@ public class MadnGameL {
     public void startGame() {
         currentPlayer.setValue(playerList[0]);
         gamePhase.setValue(MadnGamePhase.START_ROLL);
+        dice.setEnabled(true);
     }
 
 

@@ -8,10 +8,7 @@ import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
-import javafx.animation.Animation;
-import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,8 +29,8 @@ import java.util.function.Predicate;
  * Verantwortlich für Darstellung, Animation, Farbeinstellungen und Interaktionen.
  */
 public class MadnFigureV extends Group {
-    private final Duration ANIMATION_DURATION = Duration.millis(250);
-    private final Duration ANIMATION_DELAY = Duration.seconds(1.5);
+    private final Duration MOVE_ANIMATION_DURATION = Duration.millis(250);
+    private final Duration RING_ANIMATION_DURATION = Duration.seconds(1.5);
     private final BooleanProperty highlight = new SimpleBooleanProperty(false);
     private final ScaleTransition[] transitions;
     private final Circle[] rings;
@@ -104,8 +101,8 @@ public class MadnFigureV extends Group {
     private ScaleTransition[] initHighlightAnimation() {
 
         return new ScaleTransition[] {
-                createTransition(rings[0], ANIMATION_DELAY, 2, 1.0),
-                createTransition(rings[1], ANIMATION_DELAY, 2, 1.0, true)
+                createTransition(rings[0], RING_ANIMATION_DURATION, 2, 1.0),
+                createTransition(rings[1], RING_ANIMATION_DURATION, 2, 1.0, true)
         };
     }
 
@@ -129,7 +126,6 @@ public class MadnFigureV extends Group {
                 for (ScaleTransition t : transitions) {
                     t.stop();
                 }
-                System.out.println(getViewOrder());
 
                 this.setViewOrder(0.0);
             }
@@ -138,7 +134,7 @@ public class MadnFigureV extends Group {
         //TODO: Testen
         figurePosition.addListener((observableValue, oldPosition, position) -> {
 
-            if (getPlayer().getBoard().isInitPhase()) {
+            if (player.getBoard().isInitPhase()) {
                 placeFigure(position);
             } else {
                 moveFigure(oldPosition, position);
@@ -250,13 +246,13 @@ public class MadnFigureV extends Group {
         SequentialTransition transition = new SequentialTransition();
 
         if ((oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.BASE)) {
-            transition.getChildren().add(calcAnimationBaseWaypoints(oldPlacement == MadnFigurePlacement.BASE, oldIndex, newIndex));
+            transition.getChildren().add(calcAnimationBaseToWaypoints(oldPlacement == MadnFigurePlacement.BASE, oldIndex, newIndex));
 
         } else if ((oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.BASE)) {
             transition.getChildren().addAll(calcAnimationSameContainer(newPlacement, oldIndex, newIndex));
 
         } else if (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.HOME) {
-            transition.getChildren().addAll(calcAnimationWaypointsHome(oldIndex, newIndex));
+            transition.getChildren().addAll(calcAnimationWaypointsToHome(oldIndex, newIndex));
         }
 
         double oldViewOrder = getViewOrder();
@@ -270,13 +266,13 @@ public class MadnFigureV extends Group {
         transition.play();
     }
 
-    private Animation calcAnimationBaseWaypoints(boolean flip, int oldIndex, int newIndex) {
+    private Animation calcAnimationBaseToWaypoints(boolean flip, int oldIndex, int newIndex) {
         double radius = circle.getRadius();
-        MadnFieldV oldField = getPlayer().getBase().getFields()[flip ? oldIndex : newIndex];
-        MadnFieldV newField = getPlayer().getWaypoints().getFields()[flip ? newIndex : oldIndex];
+        MadnFieldV oldField = player.getBase().getFields()[flip ? oldIndex : newIndex];
+        MadnFieldV newField = player.getWaypoints().getFields()[flip ? newIndex : oldIndex];
         double distance = Math.sqrt(Math.pow(Math.abs(oldField.getCenterAbsoluteX() - newField.getCenterAbsoluteX()), 2) + Math.pow(Math.abs(oldField.getCenterAbsoluteY() - newField.getCenterAbsoluteY()), 2));
 
-        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(distance / 85.0), this);
+        TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(distance / 85.0), this);
         tt.setToX(newField.getCenterAbsoluteX() - radius);
         tt.setToY(newField.getCenterAbsoluteY() - radius);
 
@@ -284,55 +280,53 @@ public class MadnFigureV extends Group {
     }
 
     private Animation[] calcAnimationSameContainer(MadnFigurePlacement placement, int oldIndex, int newIndex) {
-        MadnFieldV[] fields = placement == MadnFigurePlacement.HOME ? getPlayer().getHome().getFields() : getPlayer().getWaypoints().getFields();
         double radius = circle.getRadius();
-        int fieldCounter = 0;
+        MadnFieldV[] fields = placement == MadnFigurePlacement.HOME ? player.getHome().getFields() : player.getWaypoints().getFields();
 
         List<Animation> animations = new ArrayList<>();
 
-        newIndex %= fields.length;
-        //TODO: Überarbeiten
-        for (int i = oldIndex + 1; i != newIndex; i = (i + 1) % fields.length) {
-            MadnFieldV curField = fields[i];
-            fieldCounter++;
+        int animDurationMulti = 1;
+        int i = oldIndex + 1;
 
-            if (curField.isCornerField()) {
-                TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(fieldCounter), this);
-                tt.setToX(curField.getCenterAbsoluteX() - radius);
-                tt.setToY(curField.getCenterAbsoluteY() - radius);
-                fieldCounter = 1;
+        while (i != newIndex) {
 
+            if (fields[i].isCornerField()) {
+                TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(animDurationMulti), this);
+                tt.setToX(fields[i].getCenterAbsoluteX() - radius);
+                tt.setToY(fields[i].getCenterAbsoluteY() - radius);
                 animations.add(tt);
+
+                animDurationMulti = 1;
+            } else {
+                animDurationMulti++;
             }
+
+            i = (i + 1) % fields.length;
         }
 
-        fieldCounter++;
-        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(fieldCounter), this);
+        TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(animDurationMulti), this);
         tt.setToX(fields[newIndex].getCenterAbsoluteX() - radius);
         tt.setToY(fields[newIndex].getCenterAbsoluteY() - radius);
-
         animations.add(tt);
 
         return animations.toArray(Animation[]::new);
     }
 
-    private Animation[] calcAnimationWaypointsHome(int oldIndex, int newIndex) {
+    private Animation[] calcAnimationWaypointsToHome(int oldIndex, int newIndex) {
         double radius = circle.getRadius();
-        List<MadnFieldV> waypoints = List.of(getPlayer().getWaypoints().getFields());
-
-        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldType.END && field.getFieldAssignment() == getPlayer().getPlayerId();
+        MadnFieldV[] homeFields = player.getHome().getFields();
+        List<MadnFieldV> waypoints = List.of(player.getWaypoints().getFields());
+        Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldType.END && field.getFieldAssignment() == player.getPlayerId();
+        MadnFieldV endField = waypoints.stream().filter(filter).findFirst().orElseThrow();
+        int entryIndex = waypoints.indexOf(endField);
 
         List<Animation> animations = new ArrayList<>();
-
-        MadnFieldV startField = waypoints.stream().filter(filter).findFirst().orElseThrow();
-        MadnFieldV[] homeFields = getPlayer().getHome().getFields();
-        int entryIndex = waypoints.indexOf(startField);
 
         if (oldIndex != entryIndex) {
             animations.addAll(List.of(calcAnimationSameContainer(MadnFigurePlacement.WAYPOINTS, oldIndex, entryIndex)));
         }
 
-        TranslateTransition tt = new TranslateTransition(ANIMATION_DURATION.multiply(newIndex + 1), this);
+        TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(newIndex + 1), this);
         tt.setToX(homeFields[newIndex].getCenterAbsoluteX() - radius);
         tt.setToX(homeFields[newIndex].getCenterAbsoluteY() - radius);
 
