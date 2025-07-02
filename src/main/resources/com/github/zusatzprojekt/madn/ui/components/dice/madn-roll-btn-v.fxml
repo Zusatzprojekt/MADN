@@ -19,12 +19,12 @@
                 <Font name="Arial" size="38.0" />
             </font>
         </Label>
-        <Label fx:id="altText" text="1">
+        <Label fx:id="text" text="1">
             <font>
                 <Font name="Arial Bold" size="40.0" />
             </font>
         </Label>
-        <Button fx:id="altBtn" focusTraversable="false" onMouseClicked="#onDiceClicked" prefHeight="45.0" prefWidth="120.0" text="Würfeln">
+        <Button fx:id="button" focusTraversable="false" onMouseClicked="#onBtnClicked" prefHeight="45.0" prefWidth="120.0" text="Würfeln">
             <font>
                 <Font name="Arial" size="22.0" />
             </font>

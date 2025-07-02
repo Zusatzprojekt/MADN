@@ -56,7 +56,7 @@
 
                 <!--Würfel-->
                 <ScalePane GridPane.columnIndex="1" GridPane.rowIndex="3">
-                    <MadnDiceV fx:id="visualDice" minHeight="-Infinity" minWidth="-Infinity"/>
+                    <MadnDiceV fx:id="visualDice"/>
                 </ScalePane>
 
                 <!--Buttons-->

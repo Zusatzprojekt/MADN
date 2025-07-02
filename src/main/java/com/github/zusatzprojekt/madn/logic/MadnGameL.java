@@ -93,16 +93,15 @@ public class MadnGameL {
     private void initHandlers(MadnDiceV vDice) {
 
         vDice.setOnDiceClicked(event -> {
-            vDice.disable();
-
             int roll = dice.roll();
             currentPlayer.getValue().setLastRoll(roll);
             vDice.startAnimation(roll);
+            vDice.enabledProperty().setValue(false); //TODO: nach Test entfernen
         });
 
         vDice.setOnFinished(event -> {
             rollFinished();
-
+            vDice.enabledProperty().setValue(true); //TODO: nach Test entfernen
         });
     }
 
