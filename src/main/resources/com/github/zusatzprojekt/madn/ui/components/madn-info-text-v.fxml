@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import com.github.zusatzprojekt.madn.ui.components.ScalePane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+
+<fx:root type="com.github.zusatzprojekt.madn.ui.components.ScalePane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1000.0">
+        <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#9BEBFF" height="200.0" stroke="#4E4E4E" strokeWidth="3.0" width="1000.0" />
+        <ScalePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="text" textAlignment="CENTER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </Label>
+        </ScalePane>
+    </AnchorPane>
+</fx:root>

@@ -25,7 +25,7 @@
     <Rectangle height="1000.0" width="1000.0" fill="#DBA356" stroke="#5E5E5E" strokeType="INSIDE" strokeWidth="10.0" arcHeight="80.0" arcWidth="80.0" />
 
     <!--Dice scene-->
-    <SubScene fx:id="subScene" depthBuffer="true" fill="#dba356" height="960.0" width="960.0" layoutX="20.0" layoutY="20.0">
+    <SubScene fx:id="subScene" depthBuffer="true" fill="#DBA356" height="960.0" width="960.0" layoutX="20.0" layoutY="20.0">
         <antiAliasing>
             <SceneAntialiasing fx:constant="BALANCED" />
         </antiAliasing>

@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 import java.util.Map;
 
@@ -22,16 +23,20 @@ public class GameViewController implements FxmlValueReceiver {
     private Label currentPlayerLabel;
     @FXML
     private MadnDiceV visualDice;
+    @FXML
+    private MadnInfoTextV infoText;
 
     @Override
     public void receiveValues(Map<String, Object> values) {
         activePlayers = values;
-        game = new MadnGameL(activePlayers, gameBoard, visualDice);
+        game = new MadnGameL(activePlayers, gameBoard, visualDice, infoText);
 
         setupBoard();
         createBindings();
 
-        game.startGame();
+        game.setupGame();
+        infoText.setOnFinished(event -> game.startGame());
+        infoText.showTextOverlay("Spielstart!", Duration.seconds(1));
     }
 
     private void setupBoard() {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zusatzprojekt.madn.ui.components.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.github.zusatzprojekt.madn.ui.controller.GameViewController">
 
     <!--Geteiltes Layout-->
     <SplitPane dividerPositions="0.5" style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -14,7 +14,7 @@
         <!--Spielbrett-->
         <AnchorPane minWidth="409.0">
             <ScalePane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <MadnBoardV fx:id="gameBoard"/>
+                <MadnBoardV fx:id="gameBoard" />
             </ScalePane>
         </AnchorPane>
 
@@ -24,18 +24,18 @@
             <!--Gitter-Layout-->
             <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="90.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="90.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="5.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="22.5" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="-1" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="12.5" vgrow="SOMETIMES"/>
-                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES"/>
+                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="22.5" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="-1" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="2.5" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="12.5" vgrow="SOMETIMES" />
+                    <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
                 </rowConstraints>
 
                 <!--Spieleranzeige-->
@@ -43,12 +43,12 @@
                     <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0">
                         <Label text="Aktueller Spieler:">
                             <font>
-                                <Font name="Arial" size="25.0"/>
+                                <Font name="Arial" size="25.0" />
                             </font>
                         </Label>
                         <Label fx:id="currentPlayerLabel" text="Farbe">
                             <font>
-                                <Font name="Arial" size="30.0"/>
+                                <Font name="Arial" size="30.0" />
                             </font>
                         </Label>
                     </VBox>
@@ -66,20 +66,20 @@
                         <!--Hauptmenü-Button-->
                         <Button focusTraversable="false" onAction="#backToMainMenu" prefHeight="45.0" prefWidth="120.0" text="Hauptmenü">
                             <font>
-                                <Font name="Arial" size="18.0"/>
+                                <Font name="Arial" size="18.0" />
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
 
                         <!--Beenden-Button-->
                         <Button focusTraversable="false" onAction="#exitApplication" prefHeight="45.0" prefWidth="120.0" text="Beenden">
                             <font>
-                                <Font name="Arial" size="18.0"/>
+                                <Font name="Arial" size="18.0" />
                             </font>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
                     </HBox>
@@ -87,4 +87,19 @@
             </GridPane>
         </AnchorPane>
     </SplitPane>
+
+    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" pickOnBounds="false">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="20.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+
+        <MadnInfoTextV fx:id="infoText" GridPane.columnIndex="1" GridPane.rowIndex="1" pickOnBounds="false"/>
+    </GridPane>
 </AnchorPane>

@@ -4,26 +4,32 @@ import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
+import com.github.zusatzprojekt.madn.ui.components.MadnInfoTextV;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.util.Duration;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MadnGameL {
     private final MadnDiceL dice;
+    private final MadnInfoTextV infoText;
     private final MadnPlayerL[] playerList;
     private final Map<MadnPlayerId, MadnFigureL[]> bases;
     private final Map<MadnPlayerId, MadnFigureL[]> homes;
     private final MadnFigureL[] waypoints = new MadnFigureL[40];
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
+    private MadnPlayerL[] activePlayers;
     private int finishedPlayers = 0;
 
-    public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice) {
+    public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
         dice = new MadnDiceL(vDice);
+        infoText = iTxt;
         playerList = initPlayers(players);
         bases = initBases();
         homes = initHomes();
@@ -95,6 +101,7 @@ public class MadnGameL {
     private void initHandlers(MadnDiceV vDice) {
 
         vDice.setOnDiceClicked(event -> {
+            dice.setEnabled(false);
             int roll = dice.roll();
             currentPlayer.getValue().setLastRoll(roll);
             vDice.startAnimation(roll);
@@ -103,6 +110,25 @@ public class MadnGameL {
         vDice.setOnFinished(event -> {
             rollFinished();
         });
+    }
+
+    private void rollFinished() {
+        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
+
+        if (gamePhase.getValue() == MadnGamePhase.START_ROLL) {
+            startRoll();
+        }
+
+    }
+
+    public void setupGame() {
+        activePlayers = playerList;
+        currentPlayer.setValue(activePlayers[0]);
+    }
+
+    public void startGame() {
+        gamePhase.setValue(MadnGamePhase.START_ROLL);
+        dice.setEnabled(true);
     }
 
     private void switchPlayer(MadnPlayerL[] players) {
@@ -116,29 +142,61 @@ public class MadnGameL {
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
     }
 
-    private void rollFinished() {
-        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hast eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
+    private void startRoll() {
+        if (currentPlayer.getValue() == activePlayers[activePlayers.length - 1]) {
+            activePlayers = getHighestRoll();
 
-        if (gamePhase.getValue() == MadnGamePhase.START_ROLL) {
+            if (activePlayers.length > 1) {
+                String info = generateInfoText();
 
+                infoText.setOnFinished(event -> {
+                    switchPlayer(activePlayers);
+                    dice.setEnabled(true);
+                });
+
+                infoText.showTextOverlay(info, Duration.seconds(4));
+            } else {
+                currentPlayer.setValue(activePlayers[0]);
+
+                infoText.setOnFinished(event -> {
+                    gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+                    dice.setEnabled(true);
+                    System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt");
+                });
+                infoText.showTextOverlay( currentPlayer.getValue().getPlayerID() + " beginnt!", Duration.seconds(2));
+            }
+
+        } else {
+            switchPlayer(activePlayers);
+            dice.setEnabled(true);
+        }
+    }
+
+    private String generateInfoText() {
+        StringBuilder info = new StringBuilder("Spieler mit gleichem Wurf: ");
+
+        for (int i = 0; i < activePlayers.length; i++) {
+            info.append(switch (activePlayers[i].getPlayerID()) {
+                case BLUE -> "Blau";
+                case YELLOW -> "Gelb";
+                case GREEN -> "Grün";
+                case RED -> "Rot";
+                case NONE -> "NONE";
+            });
+
+            if (i < activePlayers.length - 1) {
+                info.append(", ");
+            }
         }
 
+        info.append("\nWeiter würfeln!");
+        return info.toString();
     }
 
-    public void startGame() {
-        currentPlayer.setValue(playerList[0]);
-        gamePhase.setValue(MadnGamePhase.START_ROLL);
-        dice.setEnabled(true);
+    private MadnPlayerL[] getHighestRoll() {
+        MadnPlayerL[] players = Arrays.stream(activePlayers).sorted(Comparator.comparingInt(MadnPlayerL::getLastRoll).reversed()).toArray(MadnPlayerL[]::new);
+        return Arrays.stream(players).filter(player -> player.getLastRoll() == players[0].getLastRoll()).toArray(MadnPlayerL[]::new);
     }
-
-
-
-
-
-
-
-
-
 
 
 
