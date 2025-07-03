@@ -16,9 +16,6 @@ public class MadnFigureL {
 
     public MadnFigureL(MadnFigurePlacement placementArea, int fieldIndex) {
         figurePosition.setValue(new MadnFigurePosition(placementArea, fieldIndex));
-
-        // TODO: Nach Testen entfernen
-        canMoveProp.setValue(true);
     }
 
     public void setFigurePosition(MadnFigurePosition position) {
@@ -35,6 +32,10 @@ public class MadnFigureL {
 
     public ObservableBooleanValue canMoveObservable() {
         return canMoveProp;
+    }
+
+    public void setCanMove(boolean b) {
+        canMoveProp.setValue(b);
     }
 
 }

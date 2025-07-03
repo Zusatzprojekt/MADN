@@ -25,6 +25,7 @@ public class MadnGameL {
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private MadnPlayerL[] activePlayers;
+    private int rollCount = 0;
     private int finishedPlayers = 0;
 
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
@@ -73,19 +74,19 @@ public class MadnGameL {
         MadnPlayerL[] playerList = new MadnPlayerL[playerCount];
 
         if ((boolean) players.get("playerRed")) {
-            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.RED);
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.RED, 30);
         }
 
         if ((boolean) players.get("playerGreen")) {
-            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.GREEN);
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.GREEN, 20);
         }
 
         if ((boolean) players.get("playerYellow")) {
-            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.YELLOW);
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.YELLOW, 10);
         }
 
         if ((boolean) players.get("playerBlue")) {
-            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.BLUE);
+            playerList[--playerCount] = new MadnPlayerL(MadnPlayerId.BLUE, 0);
         }
 
         return playerList;
@@ -113,12 +114,36 @@ public class MadnGameL {
     }
 
     private void rollFinished() {
+        //TODO: Entfernen
         System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
 
-        if (gamePhase.getValue() == MadnGamePhase.START_ROLL) {
-            startRoll();
+        switch (gamePhase.getValue()) {
+            case START_ROLL:
+                startRoll();
+                break;
+
+            case DICE_ROLL:
+                diceRoll();
+                break;
         }
 
+    }
+
+    private void diceRoll() {
+        rollCount++;
+
+        if (rollCount < 3) {
+            getCurrentPlayer().checkCanMove(waypoints);
+
+            int canMoveCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(MadnFigureL::canMove).count();
+
+            if (canMoveCount < 1) {
+                dice.setEnabled(true);
+            } else {
+                gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
+            }
+
+        }
     }
 
     public void setupGame() {
@@ -161,9 +186,17 @@ public class MadnGameL {
                 infoText.setOnFinished(event -> {
                     gamePhase.setValue(MadnGamePhase.DICE_ROLL);
                     dice.setEnabled(true);
+                    //TODO: Entfernen
                     System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt");
                 });
-                infoText.showTextOverlay( currentPlayer.getValue().getPlayerID() + " beginnt!", Duration.seconds(2));
+
+                infoText.showTextOverlay( switch (currentPlayer.getValue().getPlayerID()) {
+                    case BLUE -> "Blau";
+                    case YELLOW -> "Gelb";
+                    case GREEN -> "Grün";
+                    case RED -> "Rot";
+                    case NONE -> "NONE";
+                } + " beginnt!", Duration.seconds(2));
             }
 
         } else {

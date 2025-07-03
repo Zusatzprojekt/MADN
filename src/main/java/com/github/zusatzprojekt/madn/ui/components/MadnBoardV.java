@@ -32,6 +32,7 @@ public class MadnBoardV extends AnchorPane {
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
+    private MadnPlayerV[] players;
 
     // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
@@ -49,7 +50,7 @@ public class MadnBoardV extends AnchorPane {
             homeContainerRed;
 
     @FXML
-    private Pane playerContainer, overlayContainer;
+    private Pane /*playerContainer,*/ overlayContainer;
 
 
     // == Konstruktor =============================================================================
@@ -206,8 +207,8 @@ public class MadnBoardV extends AnchorPane {
 
     // == Getter / Setter =========================================================================
 
-    public Pane getPlayerContainer() {
-        return playerContainer;
+    public void setPlayers(MadnPlayerV[] players) {
+        this.players = players;
     }
 
     public MadnFieldContainerV getBaseContainerBlue() {

@@ -29,17 +29,15 @@ import java.util.function.Predicate;
  * Verantwortlich für Darstellung, Animation, Farbeinstellungen und Interaktionen.
  */
 public class MadnFigureV extends Group {
-    private final Duration MOVE_ANIMATION_DURATION = Duration.millis(250);
-    private final Duration RING_ANIMATION_DURATION = Duration.seconds(1.5);
-    private final BooleanProperty highlight = new SimpleBooleanProperty(false);
-    private final ScaleTransition[] transitions;
-    private final Circle[] rings;
-
-    //TODO: Testen
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseExitEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
+    private final BooleanProperty highlight = new SimpleBooleanProperty(false);
+    private final Duration MOVE_ANIMATION_DURATION = Duration.millis(250);
+    private final Duration RING_ANIMATION_DURATION = Duration.seconds(1.5);
+    private final ScaleTransition[] transitions;
     private final MadnPlayerV player;
+    private final Circle[] rings;
 
     @FXML
     private Group animationGroup;
@@ -71,7 +69,7 @@ public class MadnFigureV extends Group {
         initBindings(figureL);
         initClip();
 
-//        setDisable(true); //TODO: Nach Tests einkommentieren
+        setDisable(true);
         initFillColor(player.getPlayerId());
     }
 
@@ -150,7 +148,7 @@ public class MadnFigureV extends Group {
     private void initBindings(MadnFigureL figureL) {
 
         // Setup figure
-//        circle.disableProperty().bind(highlight.not()); // TODO: Nach Tests einkommentieren
+        circle.disableProperty().bind(highlight.not());
         circle.onMouseEnteredProperty().bind(mouseEnterEvent);
         circle.onMouseExitedProperty().bind(mouseExitEvent);
 

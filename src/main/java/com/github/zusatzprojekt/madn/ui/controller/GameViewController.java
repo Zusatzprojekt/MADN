@@ -36,14 +36,18 @@ public class GameViewController implements FxmlValueReceiver {
 
         game.setupGame();
         infoText.setOnFinished(event -> game.startGame());
-        infoText.showTextOverlay("Spielstart!", Duration.seconds(1));
+        infoText.showTextOverlay("Start!", Duration.millis(750));
     }
 
     private void setupBoard() {
 
-        for (MadnPlayerL player : game.getPlayerList()) {
-            gameBoard.getPlayerContainer().getChildren().add(new MadnPlayerV(player, gameBoard));
+        MadnPlayerV[] players = new MadnPlayerV[game.getPlayerList().length];
+
+        for (int i = 0; i < players.length; i++) {
+            players[i] = new MadnPlayerV(game.getPlayerList()[i], gameBoard);
         }
+
+        gameBoard.setPlayers(players);
     }
 
     private void createBindings() {

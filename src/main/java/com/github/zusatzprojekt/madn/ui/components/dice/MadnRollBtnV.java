@@ -24,6 +24,7 @@ public class MadnRollBtnV extends MadnDiceBaseV {
     @FXML
     private Button button;
 
+
     // == Konstruktor =================================================================================================
 
     /**
@@ -47,7 +48,9 @@ public class MadnRollBtnV extends MadnDiceBaseV {
         button.disableProperty().bind(enabledProp.not());
     }
 
+
     // == Methoden =====================================================================================================
+
     /**
      * Startet die Würfelanimation für den gegebenen Wurfwert.
      *

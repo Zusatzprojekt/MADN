@@ -6,17 +6,21 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableIntegerValue;
 
+import java.util.Arrays;
+
 public class MadnPlayerL {
     private final MadnPlayerId playerID;
     private final IntegerProperty lastRoll = new SimpleIntegerProperty(0);
     private final MadnFigureL[] figures;
+    private final int startIndex;
     private int finishedPos = 0;
 
 
     // == Constructor ==================================================================================================
 
-    public MadnPlayerL(MadnPlayerId playerID) {
+    public MadnPlayerL(MadnPlayerId playerID, int startIndex) {
         this.playerID = playerID;
+        this.startIndex = startIndex;
 
         figures = new MadnFigureL[] {
                 new MadnFigureL(MadnFigurePlacement.BASE, 0),
@@ -26,6 +30,20 @@ public class MadnPlayerL {
         };
     }
 
+    public void checkCanMove(MadnFigureL[] waypoints) {
+        if (lastRoll.getValue() == 6 && waypoints[startIndex] == null) {
+            MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.figurePositionObservable().getValue().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
+
+            for (MadnFigureL figure : baseFigures) {
+                figure.setCanMove(true);
+            }
+        }
+
+
+
+
+
+    }
 
     // == Getter / Setter ==============================================================================================
 

@@ -6,9 +6,8 @@ import com.github.zusatzprojekt.madn.logic.MadnPlayerL;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Group;
 
-public class MadnPlayerV extends Group {
+public class MadnPlayerV {
     private final IntegerProperty lastRoll = new SimpleIntegerProperty(0);
     private final MadnFieldContainerV base, home, waypoints;
     private final MadnFigureV[] figures;
@@ -32,7 +31,6 @@ public class MadnPlayerV extends Group {
         figures = initFigures(playerL, board);
 
         board.getChildren().addAll(figures);
-//        getChildren().addAll(figures);
         initBindings(playerL);
     }
 
