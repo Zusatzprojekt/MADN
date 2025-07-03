@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Repräsentiert die Implementierung des alternativen 2D-Würfels mit Ausgabe eines Texts.
+ * Erweitert die {@link MadnDiceBaseV} Klasse, welche die grundlegenden Funktionalitäten bereitstellt.
+ */
 public class MadnRollBtnV extends MadnDiceBaseV {
     @FXML
     private Label text;
@@ -22,7 +26,12 @@ public class MadnRollBtnV extends MadnDiceBaseV {
 
     // == Konstruktor =================================================================================================
 
-
+    /**
+     * Konstruktor mit Animationsdauer.
+     * Lädt das zugehörige FXML und initialisiert Bindings.
+     *
+     * @param animationDuration Dauer der Würfelanimation
+     */
     public MadnRollBtnV(Duration animationDuration) {
         super(animationDuration);
 
@@ -31,6 +40,9 @@ public class MadnRollBtnV extends MadnDiceBaseV {
         initBindings();
     }
 
+    /**
+     * Initialisiert die Bindungen, z.B. Button-Enable-State an enabledProp.
+     */
     private void initBindings() {
         button.disableProperty().bind(enabledProp.not());
     }

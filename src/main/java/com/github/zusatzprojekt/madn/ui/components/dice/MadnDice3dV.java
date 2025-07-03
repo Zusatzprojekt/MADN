@@ -14,6 +14,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+/**
+ * Repräsentiert die visuelle Implementierung des 3D-Würfels.
+ * Erweitert die {@link MadnDiceBaseV} Klasse, welche die grundlegenden Funktionalitäten bereitstellt.
+ */
 public class MadnDice3dV extends MadnDiceBaseV {
     private final Rotate rxProp = new Rotate(0.0, Rotate.X_AXIS);
     private final Rotate ryProp = new Rotate(0.0, Rotate.Y_AXIS);
@@ -21,11 +25,16 @@ public class MadnDice3dV extends MadnDiceBaseV {
     @FXML
     private SubScene subScene;
     @FXML
-    private Group diceContainer, dotContainer;
+    private Group diceContainer;
 
 
     // == Konstruktor =================================================================================================
 
+    /**
+     * Konstruktor der Basisklasse für Würfel-Views.
+     *
+     * @param animationDuration Dauer der Würfelanimation
+     */
     public MadnDice3dV(Duration animationDuration) {
         super(animationDuration);
 
@@ -43,6 +52,9 @@ public class MadnDice3dV extends MadnDiceBaseV {
         initBindings();
     }
 
+    /**
+     * Initialisiert die Bindungen
+     */
     private void initBindings() {
         subScene.disableProperty().bind(enabledProp.not());
     }
@@ -57,9 +69,7 @@ public class MadnDice3dV extends MadnDiceBaseV {
      */
     @Override
     public void startAnimation(int roll) {
-        Timeline tl;
-
-        tl = new Timeline(setupKeyframes(roll));
+        Timeline tl = new Timeline(setupKeyframes(roll));
 
         tl.setOnFinished(this::onAnimationFinished);
         tl.play();

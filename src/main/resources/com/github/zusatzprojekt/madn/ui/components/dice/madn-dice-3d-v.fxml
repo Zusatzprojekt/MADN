@@ -71,7 +71,7 @@
                 </Group>
 
                 <!--Dots-->
-                <Group fx:id="dotContainer">
+                <Group>
                     <Sphere radius="120.0" translateX="0.0" translateY="0.0" translateZ="-160.0" material="$DOT_MATERIAL" /> <!-- 1 -->
                     <Sphere radius="120.0" translateX="-130.0" translateY="160.0" translateZ="-130.0" material="$DOT_MATERIAL" /> <!-- 2 -->
                     <Sphere radius="120.0" translateX="130.0" translateY="160.0"  translateZ="130.0" material="$DOT_MATERIAL" /> <!-- 2 -->

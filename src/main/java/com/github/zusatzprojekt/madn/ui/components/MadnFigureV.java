@@ -181,7 +181,7 @@ public class MadnFigureV extends Group {
     // == Helper methods ===============================================================================================
 
     /**
-     * Erstellt eine ScaleTransition für Node mit keiner Verzögerung.
+     * Erstellt eine ScaleTransition ohne Verzögerung.
      * @param node
      * @param duration
      * @param scaleFrom
