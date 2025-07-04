@@ -114,7 +114,6 @@ public class MadnGameL {
     }
 
     private void rollFinished() {
-        //TODO: Entfernen
         System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
 
         switch (gamePhase.getValue()) {
@@ -132,6 +131,7 @@ public class MadnGameL {
     private void diceRoll() {
         rollCount++;
 
+        // TODO: Wird aktuell bearbeitet
         if (rollCount < 3) {
             getCurrentPlayer().checkCanMove(waypoints);
 
@@ -143,6 +143,11 @@ public class MadnGameL {
                 gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
             }
 
+        } else {
+            rollCount = 0;
+            gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+            switchPlayer(playerList);
+            dice.setEnabled(true);
         }
     }
 
@@ -186,8 +191,8 @@ public class MadnGameL {
                 infoText.setOnFinished(event -> {
                     gamePhase.setValue(MadnGamePhase.DICE_ROLL);
                     dice.setEnabled(true);
-                    //TODO: Entfernen
-                    System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt");
+
+                    System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt"); //TODO: Entfernen
                 });
 
                 infoText.showTextOverlay( switch (currentPlayer.getValue().getPlayerID()) {
@@ -248,117 +253,4 @@ public class MadnGameL {
         return currentPlayer;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //    private final Player[] players;
-//    private Player currentPlayer;
-//    private final MadnDiceL dice;
-//    private final MadnGameBoard gameBoard;
-//    private final GameViewController gameViewController;
-//    private final StringProperty currentPlayerString = new SimpleStringProperty();
-//    private final Button rollButton;
-//    private boolean startRoll = true;
-//    private int rollCount = 0;
-
-//    public MadnGameL(/*MadnGameBoard gameBoard,*/ GameViewController gameViewController) {
-//        this.gameBoard = gameBoard;
-//        this.gameViewController = gameViewController;
-
-//        currentPlayer = gameBoard.getPlayers()[0];
-//        rollButton = gameViewController.getRollButton();
-//        dice = new MadnDiceL();
-
-//        setup();
-//        startGame();
-
-//        gameViewController.getRollButton().setDisable(false);
-//    }
-
-//    private void setup() {
-//        //TODO: Implementieren
-//        gameViewController.getCurrentPlayerLabel().textProperty().bind(currentPlayerString);
-//        rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
-//    }
-//
-//    private void startGame(){
-//        // TODO: Implementieren
-//
-//        setCurrentPlayerLabel(currentPlayer);
-//        rollButton.setDisable(false);
-//    }
-//
-//
-//    private void rollDice(Player[] players) {
-//        if (startRoll) {
-//            currentPlayer.setLastRoll(dice.roll());
-//            if (currentPlayer.equals(players[players.length - 1])) {
-//                getHighestRoll(players);
-//            } else {
-//                switchPlayer(players);
-//                setCurrentPlayerLabel(currentPlayer);
-//            }
-//        } else {
-//            System.out.println("Spieler " + currentPlayer.getPlayerID() + " hat eine " + currentPlayer.getLastRoll() + " gewürfelt und darf ziehen.");
-//
-//            currentPlayer.setLastRoll(dice.roll());
-//            rollButton.setDisable(true);
-//            rollCount++;
-//            checkState(currentPlayer);
-//        }
-//    }
-//
-//
-//    private void getHighestRoll(Player[] players) {
-//        int maxRoll = Arrays.stream(players).max(Comparator.comparingInt(Player::getLastRoll)).orElseThrow().getLastRoll();
-//        Player[] highestRolls = Arrays.stream(players).filter(player -> player.getLastRoll() == maxRoll).toArray(Player[]::new);
-//
-//        currentPlayer = highestRolls[0];
-//        setCurrentPlayerLabel(currentPlayer);
-//
-//        for (Player roll : highestRolls) {
-//            System.out.println("Spieler: " + roll.getPlayerID() + ", Wurf: " + roll.getLastRoll());
-//        }
-//        System.out.println();
-//
-//        if (highestRolls.length > 1) {
-//            rollButton.setOnAction(event -> rollDice(highestRolls));
-//        } else {
-//            startRoll = false;
-//            rollButton.setOnAction(event -> rollDice(gameBoard.getPlayers()));
-//        }
-//    }
-//
-//    private void checkState(Player player) {
-//        Figure[] currentFigures = player.getFigures();
-//        boolean onField = Arrays.stream(currentFigures).anyMatch(figure -> figure.getCurrentField() >= 0);
-//
-//        if (!onField) {
-//            if (player.getLastRoll() == 6) {
-//                //TODO: Implementieren
-//                System.out.println("Spieler kann raus");
-//                rollCount = 0;
-//            } else if (rollCount < 3) {
-//                rollButton.setDisable(false);
-//            } else {
-//                switchPlayer(gameBoard.getPlayers());
-//                setCurrentPlayerLabel(currentPlayer);
-//                rollCount = 0;
-//            }
-//        }
-//
-//
-//
-//
-//
-//    }
 }

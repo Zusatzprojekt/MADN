@@ -28,11 +28,11 @@ import java.util.function.Predicate;
  * sowie Highlight-Funktionalitäten zum Anzeigen von möglichen Zügen.
  */
 public class MadnBoardV extends AnchorPane {
-    private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
-    private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
+//    private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
-    private MadnPlayerV[] players;
+    private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
+//    private MadnPlayerV[] players;
 
     // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
@@ -50,7 +50,7 @@ public class MadnBoardV extends AnchorPane {
             homeContainerRed;
 
     @FXML
-    private Pane /*playerContainer,*/ overlayContainer;
+    private Pane overlayContainer;
 
 
     // == Konstruktor =============================================================================
@@ -72,8 +72,7 @@ public class MadnBoardV extends AnchorPane {
      */
     private void createBindings() {
 
-//        overlayContainer.visibleProperty().bind(showOverlay);
-        overlayContainer.setVisible(true);
+        overlayContainer.visibleProperty().bind(gamePhase.isEqualTo(MadnGamePhase.FIGURE_SELECT));
         overlayContainer.clipProperty().bind(clipOverlay);
     }
 
@@ -207,9 +206,9 @@ public class MadnBoardV extends AnchorPane {
 
     // == Getter / Setter =========================================================================
 
-    public void setPlayers(MadnPlayerV[] players) {
-        this.players = players;
-    }
+//    public void setPlayers(MadnPlayerV[] players) {
+//        this.players = players;
+//    }
 
     public MadnFieldContainerV getBaseContainerBlue() {
         return baseContainerBlue;
@@ -251,9 +250,9 @@ public class MadnBoardV extends AnchorPane {
         return currentRoll;
     }
 
-    public BooleanProperty showOverlayProperty() {
-        return showOverlay;
-    }
+//    public BooleanProperty showOverlayProperty() {
+//        return showOverlay;
+//    }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEventProperty() {
         return activateHighlightEvent;
