@@ -1,6 +1,7 @@
 package com.github.zusatzprojekt.madn.ui.components;
 
 import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
+import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 import com.github.zusatzprojekt.madn.logic.MadnFigureL;
@@ -29,6 +30,7 @@ import java.util.function.Predicate;
  * Verantwortlich für Darstellung, Animation, Farbeinstellungen und Interaktionen.
  */
 public class MadnFigureV extends Group {
+    private final ObjectProperty<EventHandler<? super MouseEvent>> mouseClickEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<EventHandler<? super MouseEvent>> mouseExitEvent = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
@@ -36,6 +38,7 @@ public class MadnFigureV extends Group {
     private final Duration MOVE_ANIMATION_DURATION = Duration.millis(250);
     private final Duration RING_ANIMATION_DURATION = Duration.seconds(1.5);
     private final ScaleTransition[] transitions;
+    private final MadnFigureL figureL;
     private final MadnPlayerV player;
     private final Circle[] rings;
 
@@ -59,6 +62,7 @@ public class MadnFigureV extends Group {
         // Load fxml file with ui structure
         AppManager.loadComponentFxml("ui/components/madn-figure-v.fxml", this, this);
 
+        this.figureL = figureL;
         this.player = player;
 
         rings = animationGroup.getChildren().toArray(Circle[]::new);
@@ -66,10 +70,9 @@ public class MadnFigureV extends Group {
         transitions = initHighlightAnimation();
 
         initListeners();
-        initBindings(figureL);
+        initBindings();
         initClip();
 
-        setDisable(true);
         initFillColor(player.getPlayerId());
     }
 
@@ -138,17 +141,25 @@ public class MadnFigureV extends Group {
                 moveFigure(oldPosition, position);
             }
         });
+
+        circle.setOnMouseClicked(event -> {
+            figureL.getPlayer().disableCanMove();
+
+            if (mouseClickEvent.isNotNull().getValue()) {
+                mouseClickEvent.getValue().handle(event);
+            }
+        });
     }
 
     /**
      * Bindet visuelle Komponenten an Properties und Observables des Models.
-     *
-     * @param figureL Logische Repräsentation der Figur
      */
-    private void initBindings(MadnFigureL figureL) {
+    private void initBindings() {
+
+        // Setup this
+        disableProperty().bind(highlight.not());
 
         // Setup figure
-        circle.disableProperty().bind(highlight.not());
         circle.onMouseEnteredProperty().bind(mouseEnterEvent);
         circle.onMouseExitedProperty().bind(mouseExitEvent);
 
@@ -180,10 +191,10 @@ public class MadnFigureV extends Group {
 
     /**
      * Erstellt eine ScaleTransition ohne Verzögerung.
-     * @param node
-     * @param duration
-     * @param scaleFrom
-     * @param scaleTo
+     * @param node          Node, das skaliert werden soll
+     * @param duration      Dauer eines Skalierung-Durchlaufs
+     * @param scaleFrom     Skalierungswert, bei dem die Transition startet (1.0 == 100 %)
+     * @param scaleTo       Skalierungswert, bei dem die Transition endet (1.0 == 100 %)
      */
     @SuppressWarnings("SameParameterValue")
     private ScaleTransition createTransition(Node node, Duration duration, double scaleFrom, double scaleTo) {
@@ -258,7 +269,9 @@ public class MadnFigureV extends Group {
 
         transition.setOnFinished(actionEvent -> {
             setViewOrder(oldViewOrder);
-            System.out.println("Animation Finished");
+            player.getBoard().gamePhaseProperty().setValue(MadnGamePhase.THROW_ANIMATION);
+
+            System.out.println("Animation Finished"); // TODO: Entfernen
         });
 
         transition.play();
@@ -353,6 +366,10 @@ public class MadnFigureV extends Group {
         return player;
     }
 
+    public MadnFigureL getLogicalFigure() {
+        return figureL;
+    }
+
 
     // == Getter / Setter properties ===================================================================================
 
@@ -363,6 +380,10 @@ public class MadnFigureV extends Group {
     //TODO: Testen
     public ObjectProperty<MadnFigurePosition> figurePositionProperty() {
         return figurePosition;
+    }
+
+    public ObjectProperty<EventHandler<? super MouseEvent>> mouseClickEvent() {
+        return mouseClickEvent;
     }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> mouseEnterEventProperty() {

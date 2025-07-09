@@ -5,5 +5,6 @@ public enum MadnGamePhase {
     START_ROLL,
     FIGURE_SELECT,
     DICE_ROLL,
-    ANIMATION_PLAY
+    MOVE_ANIMATION,
+    THROW_ANIMATION
 }

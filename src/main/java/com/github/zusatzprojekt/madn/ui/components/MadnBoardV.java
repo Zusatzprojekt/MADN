@@ -29,10 +29,8 @@ import java.util.function.Predicate;
  */
 public class MadnBoardV extends AnchorPane {
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
-//    private final BooleanProperty showOverlay = new SimpleBooleanProperty(false);
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
-//    private MadnPlayerV[] players;
 
     // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
@@ -206,10 +204,6 @@ public class MadnBoardV extends AnchorPane {
 
     // == Getter / Setter =========================================================================
 
-//    public void setPlayers(MadnPlayerV[] players) {
-//        this.players = players;
-//    }
-
     public MadnFieldContainerV getBaseContainerBlue() {
         return baseContainerBlue;
     }
@@ -249,10 +243,6 @@ public class MadnBoardV extends AnchorPane {
     public IntegerProperty currentRollProperty() {
         return currentRoll;
     }
-
-//    public BooleanProperty showOverlayProperty() {
-//        return showOverlay;
-//    }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEventProperty() {
         return activateHighlightEvent;

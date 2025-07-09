@@ -23,14 +23,15 @@ public class MadnPlayerL {
         this.startIndex = startIndex;
 
         figures = new MadnFigureL[] {
-                new MadnFigureL(MadnFigurePlacement.BASE, 0),
-                new MadnFigureL(MadnFigurePlacement.BASE, 1),
-                new MadnFigureL(MadnFigurePlacement.BASE, 2),
-                new MadnFigureL(MadnFigurePlacement.BASE, 3)
+                new MadnFigureL(MadnFigurePlacement.BASE, this, 0),
+                new MadnFigureL(MadnFigurePlacement.BASE, this, 1),
+                new MadnFigureL(MadnFigurePlacement.BASE, this, 2),
+                new MadnFigureL(MadnFigurePlacement.BASE, this, 3)
         };
     }
 
     public void checkCanMove(MadnFigureL[] waypoints) {
+
         if (lastRoll.getValue() == 6 && waypoints[startIndex] == null) {
             MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.figurePositionObservable().getValue().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
 
@@ -38,11 +39,12 @@ public class MadnPlayerL {
                 figure.setCanMove(true);
             }
         }
+    }
 
-
-
-
-
+    public void disableCanMove() {
+        for (MadnFigureL figure : figures) {
+            figure.setCanMove(false);
+        }
     }
 
     // == Getter / Setter ==============================================================================================
@@ -77,6 +79,14 @@ public class MadnPlayerL {
 
     public void setFinishedPos(int value) {
         finishedPos = value;
+    }
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public int getHomeIndex() {
+        return (startIndex + 39) % 40;
     }
 
 }

@@ -1,13 +1,19 @@
 package com.github.zusatzprojekt.madn.logic;
 
+import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
 import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
+import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
 import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
+import com.github.zusatzprojekt.madn.ui.components.MadnFigureV;
 import com.github.zusatzprojekt.madn.ui.components.MadnInfoTextV;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.util.Arrays;
@@ -24,9 +30,11 @@ public class MadnGameL {
     private final MadnFigureL[] waypoints = new MadnFigureL[40];
     private final ObjectProperty<MadnPlayerL> currentPlayer = new SimpleObjectProperty<>();
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
+    private final ObjectProperty<EventHandler<MouseEvent>> figureClicked = new SimpleObjectProperty<>(this::onFigureClicked);
     private MadnPlayerL[] activePlayers;
     private int rollCount = 0;
     private int finishedPlayers = 0;
+    private MadnFigureL backToBase;
 
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
         dice = new MadnDiceL(vDice);
@@ -66,7 +74,7 @@ public class MadnGameL {
     }
 
     private void initBindings(MadnBoardV board) {
-        board.gamePhaseProperty().bind(gamePhase);
+        board.gamePhaseProperty().bindBidirectional(gamePhase);
     }
 
     private MadnPlayerL[] initPlayers(Map<String, Object> players) {
@@ -96,6 +104,14 @@ public class MadnGameL {
 
         currentPlayer.addListener((observableValue, oldPlayer, player) -> {
             board.currentRollProperty().bind(player.lastRollObservable());
+        });
+
+        gamePhase.addListener((observable, oldPhase, newPhase) -> {
+            if (oldPhase == MadnGamePhase.MOVE_ANIMATION && newPhase == MadnGamePhase.THROW_ANIMATION) {
+                throwPlayer();
+            }
+
+            System.out.println("Spielphase " + oldPhase + " -> " + newPhase); // TODO: Entfernen
         });
     }
 
@@ -133,13 +149,18 @@ public class MadnGameL {
 
         // TODO: Wird aktuell bearbeitet
         if (rollCount < 3) {
-            getCurrentPlayer().checkCanMove(waypoints);
-
-            int canMoveCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(MadnFigureL::canMove).count();
+            int canMoveCount = getMovablePlayerCount();
 
             if (canMoveCount < 1) {
                 dice.setEnabled(true);
             } else {
+                gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
+            }
+
+        } else if (rollCount == 3 && getCurrentPlayer().getLastRoll() == 6) {
+            int canMoveCount = getMovablePlayerCount();
+
+            if (canMoveCount > 0) {
                 gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
             }
 
@@ -149,6 +170,7 @@ public class MadnGameL {
             switchPlayer(playerList);
             dice.setEnabled(true);
         }
+
     }
 
     public void setupGame() {
@@ -159,6 +181,12 @@ public class MadnGameL {
     public void startGame() {
         gamePhase.setValue(MadnGamePhase.START_ROLL);
         dice.setEnabled(true);
+    }
+
+    private int getMovablePlayerCount() {
+        getCurrentPlayer().checkCanMove(waypoints);
+
+        return (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(MadnFigureL::canMove).count();
     }
 
     private void switchPlayer(MadnPlayerL[] players) {
@@ -236,9 +264,70 @@ public class MadnGameL {
         return Arrays.stream(players).filter(player -> player.getLastRoll() == players[0].getLastRoll()).toArray(MadnPlayerL[]::new);
     }
 
+    private void onFigureClicked(MouseEvent mouseEvent) {
+        MadnFigureL figure = ((MadnFigureV) ((Node) mouseEvent.getSource()).getParent()).getLogicalFigure();
+        MadnFigurePosition figurePos = figure.figurePositionObservable().getValue();
+        MadnPlayerL player = figure.getPlayer();
+
+        if (figurePos.getFigurePlacement() == MadnFigurePlacement.BASE && player.getLastRoll() == 6) {
+            MadnFigureL[] base = bases.get(player.getPlayerID());
+            int startIndex = player.getStartIndex();
+            base[figurePos.getFieldIndex()] = null;
+
+            if (waypoints[startIndex] != null) {
+                backToBase = waypoints[startIndex];
+            }
+
+            waypoints[startIndex] = figure;
+
+            figure.setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, startIndex));
+
+            gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
+
+        }
 
 
 
+
+
+
+
+        System.out.println(figure + " has been Clicked!");
+    }
+
+    private void throwPlayer() {
+        if (backToBase != null) {
+
+            infoText.setOnFinished(event -> {
+                MadnFigurePosition basePos = backToBase.getBasePosition();
+                MadnFigureL[] base = bases.get(backToBase.getPlayer().getPlayerID());
+                base[basePos.getFieldIndex()] = backToBase;
+                backToBase.setFigurePosition(basePos);
+                backToBase = null;
+
+                afterFigureAnimations();
+            });
+
+            infoText.showTextOverlay(switch (backToBase.getPlayer().getPlayerID()) {
+                case BLUE -> "Blau";
+                case YELLOW -> "Gelb";
+                case GREEN -> "Grün";
+                case RED -> "Rot";
+                case NONE -> "NONE";
+            } + " wurde geworfen!", Duration.seconds(1));
+
+        } else {
+            afterFigureAnimations();
+        }
+
+    }
+
+    private void afterFigureAnimations() {
+        rollCount = 0;
+        gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+        switchPlayer(playerList);
+        dice.setEnabled(true);
+    }
 
 
     public MadnPlayerL[] getPlayerList() {
@@ -251,6 +340,10 @@ public class MadnGameL {
 
     public ObservableValue<MadnPlayerL> currentPlayerObservable() {
         return currentPlayer;
+    }
+
+    public ObservableValue<EventHandler<MouseEvent>> figureClickedObservable() {
+        return figureClicked;
     }
 
 }
