@@ -35,7 +35,7 @@ public class MadnPlayerL {
         // TODO: Movement-Überprüfung
         int roll = lastRoll.getValue();
 
-        if (roll == 6 && checkStartField(waypoints[startIndex])) {
+        if (roll == 6 && (waypoints[startIndex] == null || waypoints[startIndex].getPlayer().getPlayerID() != playerID)) {
             MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
 
             for (MadnFigureL figure : baseFigures) {
@@ -56,26 +56,30 @@ public class MadnPlayerL {
         }
 
         MadnFigureL[] wayFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.WAYPOINTS).toArray(MadnFigureL[]::new);
-
+        System.out.println("Waypoint Figures: " + wayFigures.length); //TODO: Entfernen
         if (wayFigures.length > 0) {
 
             for (MadnFigureL figure : wayFigures) {
                 int newFigIndex = figure.getFigurePosition().getFieldIndex() + roll;
+                System.out.println("New Index: " + newFigIndex); //TODO: Entfernen
+                System.out.println("Home Index: " + getHomeIndex()); //TODO: Entfernen
 
-                if (newFigIndex > getHomeIndex()) {
+                if (figure.getFigurePosition().getFieldIndex() <= getHomeIndex() && newFigIndex > getHomeIndex()) {
                     MadnFigureL[] home = homes.get(playerID);
-                    int homeIndex = newFigIndex - getHomeIndex() - 1;
+                    int inHomeIndex = newFigIndex - getHomeIndex() - 1;
 
-                    figure.setCanMove(homeIndex < home.length && home[homeIndex] == null);
+                    figure.setCanMove(inHomeIndex < home.length && home[inHomeIndex] == null);
+
+                    System.out.println("Home Index < Home Length?: " + (inHomeIndex < home.length)); //TODO: Entfernen
                 } else {
+
+                    System.out.println("Is waypoints null?: " + (waypoints[newFigIndex % waypoints.length] == null)); //TODO: Entfernen
+                    System.out.println("Is another Player?: " + (waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID)); //TODO: Entfernen
+
                     figure.setCanMove(waypoints[newFigIndex % waypoints.length] == null || waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID);
                 }
             }
         }
-    }
-
-    private boolean checkStartField(MadnFigureL startField) {
-        return startField == null || startField.getPlayer().getPlayerID() != playerID;
     }
 
     public void disableCanMove() {

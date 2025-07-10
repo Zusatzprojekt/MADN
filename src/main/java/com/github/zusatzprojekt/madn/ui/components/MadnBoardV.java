@@ -30,7 +30,6 @@ import java.util.function.Predicate;
  */
 public class MadnBoardV extends AnchorPane {
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
-    private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
 
     // TODO: Implementierung fertigstellen
@@ -72,7 +71,6 @@ public class MadnBoardV extends AnchorPane {
      */
     private void createBindings() {
 
-        overlayContainer.visibleProperty().bind(gamePhase.isEqualTo(MadnGamePhase.FIGURE_SELECT));
         overlayContainer.clipProperty().bind(clipOverlay);
     }
 
@@ -254,14 +252,10 @@ public class MadnBoardV extends AnchorPane {
         return deactivateHighlightEvent;
     }
 
-    public boolean isInitPhase() {
-        return gamePhase.getValue() == MadnGamePhase.INIT;
-    }
-
     public void setGame(MadnGameL game) {
         if (this.game == null) {
             this.game = game;
-            gamePhase.bind(game.gamePhaseObservable());
+            overlayContainer.visibleProperty().bind(game.gamePhaseProperty().isEqualTo(MadnGamePhase.FIGURE_SELECT));
         } else {
             throw new RuntimeException(new IllegalAccessError("Field 'game' of MadnBoardV already set; Can only be set once"));
         }

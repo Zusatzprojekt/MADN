@@ -135,7 +135,7 @@ public class MadnFigureV extends Group {
         //TODO: Testen
         figurePosition.addListener((observableValue, oldPosition, position) -> {
 
-            if (player.getBoard().isInitPhase()) {
+            if (player.getBoard().getGame().gamePhaseProperty().getValue() == MadnGamePhase.INIT) {
                 placeFigure(position);
             } else {
                 moveFigure(oldPosition, position);
