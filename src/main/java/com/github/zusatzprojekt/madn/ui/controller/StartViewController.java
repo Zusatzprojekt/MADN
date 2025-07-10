@@ -18,6 +18,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Controller für die Startansicht des Spiels „Mensch ärgere dich nicht“.
+ * <p>
+ * Ermöglicht die Auswahl aktiver Spielerfarben vor Spielbeginn. Bei gültiger Auswahl (mindestens 2 Spieler)
+ * kann das Spiel über den „Spielen“-Button gestartet werden.
+ * </p>
+ * <p>
+ * Die Klasse implementiert {@link Initializable} zur Initialisierung der Komponentenbindung sowie
+ * {@link FxmlValueReceiver} zur Annahme übergebener Zustände (z.B. Rückkehr aus dem aktiven Spiel).
+ * </p>
+ */
 public class StartViewController implements Initializable, FxmlValueReceiver {
     private final IntegerProperty countPlayer = new SimpleIntegerProperty(0);
     private final BooleanProperty playerBlue = new SimpleBooleanProperty(false);
@@ -32,6 +43,17 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
     @FXML
     private Label noteLabel;
 
+    /**
+     * Initialisiert die UI-Komponenten nach dem Laden des FXML-Dokuments.
+     * <p>
+     * Stellt Bindungen zwischen den Checkboxen und den internen Eigenschaften her,
+     * aktiviert/deaktiviert den „Spielen“-Button abhängig von der Spielerauswahl
+     * und zeigt eine Hinweisnachricht bei zu wenig Spielern.
+     * </p>
+     *
+     * @param url            Wird nicht verwendet.
+     * @param resourceBundle Wird nicht verwendet.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cbBlue.selectedProperty().bindBidirectional(playerBlue);
@@ -58,11 +80,24 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
         });
     }
 
+    /**
+     * Wird beim Klick auf den „Spielen“-Button aufgerufen.
+     * <p>
+     * Erstellt ein Datenpaket mit allen aktiven Spielern und lädt die Spielszene.
+     * </p>
+     *
+     * @param actionEvent Das auslösende Ereignis.
+     */
     @FXML
     private void clickedPlayButton(ActionEvent actionEvent) {
         AppManager.loadScene("ui/game-view.fxml", createDataPacket());
     }
 
+    /**
+     * Erstellt ein Datenpaket mit den aktuellen Spielerauswahlen zur Übergabe an die nächste Szene.
+     *
+     * @return Eine Map mit Spielerinformationen (Farbe, Anzahl).
+     */
     private HashMap<String, Object> createDataPacket(){
         HashMap<String, Object> data = new HashMap<>();
         data.put("playerBlue", playerBlue.get());
@@ -74,6 +109,12 @@ public class StartViewController implements Initializable, FxmlValueReceiver {
         return data;
     }
 
+    /**
+     * Nimmt Werte entgegen, z.B. wenn man aus der Spielszene zurückkehrt, und stellt die vorherigen
+     * Spielerauswahlen wieder her.
+     *
+     * @param values Eine Map mit gespeicherten Werten.
+     */
     @Override
     public void receiveValues(Map<String, Object> values) {
         playerBlue.setValue((boolean) values.get("playerBlue"));

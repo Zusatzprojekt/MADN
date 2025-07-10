@@ -13,6 +13,17 @@ import javafx.util.Duration;
 
 import java.util.Map;
 
+/**
+ * Controller für die Spielansicht des Spiels „Mensch ärgere dich nicht“.
+ * <p>
+ * Diese Klasse initialisiert die Spielumgebung, stellt Bindungen zwischen Logik- und UI-Komponenten her
+ * und verwaltet Benutzerinteraktionen in der laufenden Partie.
+ * </p>
+ * <p>
+ * Sie implementiert {@link FxmlValueReceiver}, um Konfigurationswerte wie aktive Spieler aus der vorherigen
+ * Szene zu übernehmen.
+ * </p>
+ */
 public class GameViewController implements FxmlValueReceiver {
     private Map<String, Object> activePlayers;
     private MadnGameL game;
@@ -26,6 +37,11 @@ public class GameViewController implements FxmlValueReceiver {
     @FXML
     private MadnInfoTextV infoText;
 
+    /**
+     * Empfängt Werte von der aufrufenden Szene, wie Spielerinformationen und initialisiert das Spiel.
+     *
+     * @param values Eine Werte-Map mit Konfigurationsdaten (Spielerinformationen).
+     */
     @Override
     public void receiveValues(Map<String, Object> values) {
         activePlayers = values;
@@ -39,6 +55,9 @@ public class GameViewController implements FxmlValueReceiver {
         infoText.showTextOverlay("Start!", Duration.millis(500));
     }
 
+    /**
+     * Erstellt die visuellen Spielerobjekte und verknüpft sie mit der Spiellogik.
+     */
     private void setupBoard() {
 
         for (MadnPlayerL player: game.getPlayerList()) {
@@ -50,6 +69,9 @@ public class GameViewController implements FxmlValueReceiver {
 
     }
 
+    /**
+     * Erstellt UI-Bindungen zwischen Spiellogik und Benutzeroberfläche, z.B. für die Spieleranzeige.
+     */
     private void createBindings() {
 
         game.currentPlayerObservable().addListener((observableValue, oldPlayer, player) -> {
@@ -57,6 +79,11 @@ public class GameViewController implements FxmlValueReceiver {
         });
     }
 
+    /**
+     * Setzt den Text des aktuellen Spielerlabels basierend auf der Spielerfarbe.
+     *
+     * @param player Der Spieler, dessen Name angezeigt werden soll.
+     */
     private void setCurrentPlayerLabel(MadnPlayerL player) {
         currentPlayerLabel.setText(switch (player.getPlayerID()) {
             case BLUE -> "Blau";
@@ -67,6 +94,14 @@ public class GameViewController implements FxmlValueReceiver {
         });
     }
 
+    /**
+     * Wird beim Klick auf „Spiel beenden“ aufgerufen.
+     * <p>
+     * Öffnet einen Bestätigungsdialog zum Beenden der Anwendung.
+     * </p>
+     *
+     * @param actionEvent Das auslösende Event.
+     */
     @FXML
     private void exitApplication(ActionEvent actionEvent) {
         ConfirmationDialogYesNo closeDialog = new ConfirmationDialogYesNo(AppManager.getMainStage(), "Beenden", "Möchten Sie das Spiel wirklich beenden?", "Wenn Sie das Spiel beenden, wird der aktuelle Spielfortschritt nicht gespeichert!");
@@ -75,6 +110,14 @@ public class GameViewController implements FxmlValueReceiver {
         closeDialog.show();
     }
 
+    /**
+     * Wird beim Klick auf „Zurück zum Hauptmenü“ aufgerufen.
+     * <p>
+     * Öffnet einen Bestätigungsdialog zum Zurückkehren ins Hauptmenü, bzw. Startmenü und lädt ggf. die Startszene.
+     * </p>
+     *
+     * @param actionEvent Das auslösende Event.
+     */
     @FXML
     private void backToMainMenu(ActionEvent actionEvent) {
         ConfirmationDialogYesNo mainMenuDialog = new ConfirmationDialogYesNo(AppManager.getMainStage(), "Hauptmenü", "Möchten Sie wirklich zum Hauptmenü?", "Wenn Sie zum Hauptmenü gehen, wird der aktuelle Spielfortschritt nicht gespeichert!");
