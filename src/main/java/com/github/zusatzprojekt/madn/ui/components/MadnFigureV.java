@@ -195,13 +195,22 @@ public class MadnFigureV extends Group {
      * @param duration      Dauer eines Skalierung-Durchlaufs
      * @param scaleFrom     Skalierungswert, bei dem die Transition startet (1.0 == 100 %)
      * @param scaleTo       Skalierungswert, bei dem die Transition endet (1.0 == 100 %)
+     * @return              Die konfigurierte {@link ScaleTransition}
      */
     @SuppressWarnings("SameParameterValue")
     private ScaleTransition createTransition(Node node, Duration duration, double scaleFrom, double scaleTo) {
         return createTransition(node, duration, scaleFrom, scaleTo, false);
     }
 
-
+    /**
+     * Erstellt eine ScaleTransition mit Verzögerung.
+     * @param node          Node, das skaliert werden soll
+     * @param duration      Dauer eines Skalierung-Durchlaufs
+     * @param scaleFrom     Skalierungswert, bei dem die Transition startet (1.0 == 100 %)
+     * @param scaleTo       Skalierungswert, bei dem die Transition endet (1.0 == 100 %)
+     * @param delay         Falls {@code true}, wird eine Verzögerung (duration/2) angewendet
+     * @return              Die konfigurierte {@link ScaleTransition}
+     */
     private ScaleTransition createTransition(Node node, Duration duration, double scaleFrom, double scaleTo, boolean delay) {
         ScaleTransition transition = new ScaleTransition();
 
@@ -228,6 +237,11 @@ public class MadnFigureV extends Group {
         return transition;
     }
 
+    /**
+     * Setzt die Figur absolut auf eine Position in einem bestimmten Feld-Container, ohne Animation.
+     * @param position  Position, die gesetzt werden soll (Placement + Index)
+     * @param fields    Spielfeld, welches visuell dargestellt wird
+     */
     private void setFigurePosition(MadnFigurePosition position, MadnFieldContainerV fields) {
         int pos = position.getFieldIndex();
         double radius = circle.getRadius();
@@ -236,6 +250,10 @@ public class MadnFigureV extends Group {
         setTranslateY(fields.getFields()[pos].getCenterAbsoluteY() - radius);
     }
 
+    /**
+     * Auswertung der Position einer Figur
+     * @param position Die neue Position auf dem Spielfeld
+     */
     private void placeFigure(MadnFigurePosition position) {
 
         setFigurePosition(position, switch (position.getFigurePlacement()) {
@@ -246,6 +264,12 @@ public class MadnFigureV extends Group {
     }
 
     // TODO: Testen
+    /**
+     * Bewegt die Figur mit Animation von der alten zur neuen Position.
+     *
+     * @param oldPosition Die bisherige Position.
+     * @param newPosition Die neue Position.
+     */
     private void moveFigure(MadnFigurePosition oldPosition, MadnFigurePosition newPosition) {
         MadnFigurePlacement oldPlacement = oldPosition.getFigurePlacement();
         MadnFigurePlacement newPlacement = newPosition.getFigurePlacement();
@@ -277,6 +301,14 @@ public class MadnFigureV extends Group {
         transition.play();
     }
 
+    /**
+     * Berechnet die Animation für den Übergang BASE ↔ WAYPOINTS.
+     *
+     * @param flip     Richtung der Bewegung (BASE → WAYPOINTS oder umgekehrt).
+     * @param oldIndex Index des Startfeldes.
+     * @param newIndex Index des Zielfeldes.
+     * @return Die Bewegungstransition.
+     */
     private Animation calcAnimationBaseToWaypoints(boolean flip, int oldIndex, int newIndex) {
         double radius = circle.getRadius();
         MadnFieldV oldField = player.getBase().getFields()[flip ? oldIndex : newIndex];
@@ -290,6 +322,14 @@ public class MadnFigureV extends Group {
         return tt;
     }
 
+    /**
+     * Berechnet eine Serie von Animationen innerhalb desselben Spielfeldcontainers (BASE, WAYPOINTS, HOME).
+     *
+     * @param placement Der Containertyp.
+     * @param oldIndex  Startindex.
+     * @param newIndex  Zielindex.
+     * @return Ein Array von {@link Animation}-Objekten.
+     */
     private Animation[] calcAnimationSameContainer(MadnFigurePlacement placement, int oldIndex, int newIndex) {
         double radius = circle.getRadius();
         MadnFieldV[] fields = placement == MadnFigurePlacement.HOME ? player.getHome().getFields() : player.getWaypoints().getFields();
@@ -323,6 +363,14 @@ public class MadnFigureV extends Group {
         return animations.toArray(Animation[]::new);
     }
 
+
+    /**
+     * Berechnet die Bewegung von einem Wegpunktfeld in den HOME-Bereich.
+     *
+     * @param oldIndex Index des Wegpunkts.
+     * @param newIndex Zielindex im HOME-Bereich.
+     * @return Ein Array von {@link Animation}-Objekten.
+     */
     private Animation[] calcAnimationWaypointsToHome(int oldIndex, int newIndex) {
         double radius = circle.getRadius();
         MadnFieldV[] homeFields = player.getHome().getFields();

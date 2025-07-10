@@ -9,6 +9,19 @@ import javafx.scene.layout.Pane;
 
 import java.util.List;
 
+/**
+ * Eine benutzerdefinierte JavaFX-Pane, die ihre Kinder skaliert, um in den verfügbaren Platz zu passen,
+ * und sie gemäß der angegebenen Ausrichtung positioniert.
+ *
+ * <p>
+ * Die Skalierung erfolgt proportional, sodass das Kind niemals verzerrt wird.
+ * Das größte mögliche gleichmäßige Scaling wird verwendet, sodass das Kind vollständig in den Container passt.
+ * </p>
+ *
+ * <p>
+ * Zusätzlich wird das Kind entsprechend der Ausrichtung (CENTER, TOP_LEFT, etc.) innerhalb des verfügbaren Raumes platziert.
+ * </p>
+ */
 @DefaultProperty("children")
 public class ScalePane extends Pane {
     private final ObjectProperty<Pos> alignmentProp = new SimpleObjectProperty<>(Pos.CENTER);
@@ -16,10 +29,18 @@ public class ScalePane extends Pane {
 
     // == Constructor ==================================================================================================
 
+    /**
+     * Erstellt eine neue ScalePane mit Standardausrichtung (CENTER).
+     */
     public ScalePane() {
         createListeners();
     }
 
+    /**
+     * Erstellt eine neue ScalePane und fügt die übergebenen Kinder hinzu.
+     *
+     * @param children Kinderknoten, die in die ScalePane aufgenommen werden sollen.
+     */
     public ScalePane(Node... children) {
         this();
         getChildren().addAll(children);
@@ -28,6 +49,9 @@ public class ScalePane extends Pane {
 
     // == Initialization ===============================================================================================
 
+    /**
+     * Fügt einen Listener hinzu, um bei Änderungen der Ausrichtung ein neues Layout auszulösen.
+     */
     private void createListeners() {
         alignmentProp.addListener((observableValue, oldPos, pos) -> requestLayout());
     }
@@ -35,6 +59,18 @@ public class ScalePane extends Pane {
 
     // == Helper methods ===============================================================================================
 
+    /**
+     * Skaliert und positioniert einen einzelnen Kind-Knoten innerhalb des verfügbaren Bereichs.
+     *
+     * @param node            Der Knoten, bei dem das Layout angewendet werden soll.
+     * @param insetTop        Obere Einrückung.
+     * @param insetLeft       Linke Einrückung.
+     * @param availWidth      Verfügbare Breite.
+     * @param availHeight     Verfügbare Höhe.
+     * @param baselineOffset  Baseline-Versatz (für Textunterstützung).
+     * @param hPos            Horizontale Ausrichtung.
+     * @param vPos            Vertikale Ausrichtung.
+     */
     private void layoutNode(Node node, double insetTop, double insetLeft, double availWidth, double availHeight, double baselineOffset, HPos hPos, VPos vPos) {
         final Bounds bounds = node.getBoundsInLocal();
         final Bounds scaledBounds = node.getBoundsInParent();
@@ -81,6 +117,9 @@ public class ScalePane extends Pane {
 
     // == Overridden methods ===========================================================================================
 
+    /**
+     * Layoutet alle Kind-Knoten abhängig von der gewählten Ausrichtung und skaliert sie entsprechend.
+     */
     @Override
     protected void layoutChildren() {
         List<Node> children = getManagedChildren();
