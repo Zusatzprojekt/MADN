@@ -4,6 +4,7 @@ import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
 import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.enums.MadnFieldType;
+import com.github.zusatzprojekt.madn.logic.MadnGameL;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldContainerV;
 import com.github.zusatzprojekt.madn.ui.components.gameboard.MadnFieldV;
@@ -35,6 +36,7 @@ public class MadnBoardV extends AnchorPane {
     // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
     private final ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEvent = new SimpleObjectProperty<>(this::removeHighlightPath);
+    private MadnGameL game;
 
     @FXML
     private MadnFieldContainerV baseContainerBlue,
@@ -252,12 +254,20 @@ public class MadnBoardV extends AnchorPane {
         return deactivateHighlightEvent;
     }
 
-    public ObjectProperty<MadnGamePhase> gamePhaseProperty() {
-        return gamePhase;
-    }
-
     public boolean isInitPhase() {
-        return gamePhase.getValue().equals(MadnGamePhase.INIT);
+        return gamePhase.getValue() == MadnGamePhase.INIT;
     }
 
+    public void setGame(MadnGameL game) {
+        if (this.game == null) {
+            this.game = game;
+            gamePhase.bind(game.gamePhaseObservable());
+        } else {
+            throw new RuntimeException(new IllegalAccessError("Field 'game' of MadnBoardV already set; Can only be set once"));
+        }
+    }
+
+    public MadnGameL getGame() {
+        return game;
+    }
 }

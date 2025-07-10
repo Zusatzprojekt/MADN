@@ -269,7 +269,7 @@ public class MadnFigureV extends Group {
 
         transition.setOnFinished(actionEvent -> {
             setViewOrder(oldViewOrder);
-            player.getBoard().gamePhaseProperty().setValue(MadnGamePhase.THROW_ANIMATION);
+            player.getBoard().getGame().setGamePhase(MadnGamePhase.THROW_ANIMATION);
 
             System.out.println("Animation Finished"); // TODO: Entfernen
         });

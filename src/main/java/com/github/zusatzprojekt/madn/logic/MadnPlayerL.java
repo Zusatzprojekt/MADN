@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableIntegerValue;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class MadnPlayerL {
     private final MadnPlayerId playerID;
@@ -30,15 +31,51 @@ public class MadnPlayerL {
         };
     }
 
-    public void checkCanMove(MadnFigureL[] waypoints) {
+    public void enableCanMove(MadnFigureL[] waypoints, Map<MadnPlayerId, MadnFigureL[]> homes) {
+        // TODO: Movement-Überprüfung
+        int roll = lastRoll.getValue();
 
-        if (lastRoll.getValue() == 6 && waypoints[startIndex] == null) {
-            MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.figurePositionObservable().getValue().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
+        if (roll == 6 && checkStartField(waypoints[startIndex])) {
+            MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
 
             for (MadnFigureL figure : baseFigures) {
                 figure.setCanMove(true);
             }
         }
+
+        MadnFigureL[] homeFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.HOME).toArray(MadnFigureL[]::new);
+
+        if (homeFigures.length > 0) {
+            MadnFigureL[] home = homes.get(playerID);
+
+            for (MadnFigureL figure : homeFigures) {
+                int newFigIndex = figure.getFigurePosition().getFieldIndex() + roll;
+
+                figure.setCanMove(newFigIndex < home.length && home[newFigIndex] == null);
+            }
+        }
+
+        MadnFigureL[] wayFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.WAYPOINTS).toArray(MadnFigureL[]::new);
+
+        if (wayFigures.length > 0) {
+
+            for (MadnFigureL figure : wayFigures) {
+                int newFigIndex = figure.getFigurePosition().getFieldIndex() + roll;
+
+                if (newFigIndex > getHomeIndex()) {
+                    MadnFigureL[] home = homes.get(playerID);
+                    int homeIndex = newFigIndex - getHomeIndex() - 1;
+
+                    figure.setCanMove(homeIndex < home.length && home[homeIndex] == null);
+                } else {
+                    figure.setCanMove(waypoints[newFigIndex % waypoints.length] == null || waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID);
+                }
+            }
+        }
+    }
+
+    private boolean checkStartField(MadnFigureL startField) {
+        return startField == null || startField.getPlayer().getPlayerID() != playerID;
     }
 
     public void disableCanMove() {

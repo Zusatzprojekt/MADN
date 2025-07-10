@@ -3,7 +3,7 @@ package com.github.zusatzprojekt.madn;
 import java.io.InputStream;
 import java.net.URL;
 
-import static java.util.Objects.requireNonNull;
+import java.util.Objects;
 
 /**
  * Hilfsklasse zum Laden von Ressourcen aus dem Klassenpfad.
@@ -17,7 +17,7 @@ public class Resources {
      * @throws NullPointerException Wenn die Ressource nicht gefunden wird.
      */
     public static URL getURL(String resourceName) {
-        return requireNonNull(Resources.class.getResource(resourceName));
+        return Objects.requireNonNull(Resources.class.getResource(resourceName));
     }
 
     /**
@@ -29,6 +29,6 @@ public class Resources {
      * @throws NullPointerException Wenn die Ressource nicht gefunden wird.
      */
     public static InputStream getStream(String resourceName) {
-        return requireNonNull(Resources.class.getResourceAsStream(resourceName));
+        return Objects.requireNonNull(Resources.class.getResourceAsStream(resourceName));
     }
 }

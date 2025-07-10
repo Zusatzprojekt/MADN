@@ -26,6 +26,10 @@ public class MadnFigureL {
         figurePosition.setValue(position);
     }
 
+    public MadnFigurePosition getFigurePosition() {
+        return figurePosition.getValue();
+    }
+
     public ObservableValue<MadnFigurePosition> figurePositionObservable() {
         return figurePosition;
     }
