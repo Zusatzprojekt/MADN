@@ -4,7 +4,7 @@ import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.enums.MadnFieldType;
 
 /**
- * Interface zur Erweiterung von Spielfeldern im Spiel "Mensch Ärgere Dich Nicht"
+ * Interface zur Erweiterung von Spielfeldern im Spiel "Mensch ärgere Dich nicht"
  * um zusätzliche Informationen wie Typ und Spielerzuordnung.
  *
  * Dieses Interface eignet sich z.B. für Spielfelder, die spezielle Bedeutung haben

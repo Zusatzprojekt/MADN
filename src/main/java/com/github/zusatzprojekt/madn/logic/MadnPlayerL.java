@@ -31,8 +31,8 @@ public class MadnPlayerL {
         };
     }
 
+    // TODO: Movement-Überprüfung + Fertigstellen
     public void enableCanMove(MadnFigureL[] waypoints, Map<MadnPlayerId, MadnFigureL[]> homes) {
-        // TODO: Movement-Überprüfung
         int roll = lastRoll.getValue();
 
         if (roll == 6 && (waypoints[startIndex] == null || waypoints[startIndex].getPlayer().getPlayerID() != playerID)) {
@@ -56,13 +56,11 @@ public class MadnPlayerL {
         }
 
         MadnFigureL[] wayFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.WAYPOINTS).toArray(MadnFigureL[]::new);
-        System.out.println("Waypoint Figures: " + wayFigures.length); //TODO: Entfernen
+
         if (wayFigures.length > 0) {
 
             for (MadnFigureL figure : wayFigures) {
                 int newFigIndex = figure.getFigurePosition().getFieldIndex() + roll;
-                System.out.println("New Index: " + newFigIndex); //TODO: Entfernen
-                System.out.println("Home Index: " + getHomeIndex()); //TODO: Entfernen
 
                 if (figure.getFigurePosition().getFieldIndex() <= getHomeIndex() && newFigIndex > getHomeIndex()) {
                     MadnFigureL[] home = homes.get(playerID);
@@ -70,12 +68,7 @@ public class MadnPlayerL {
 
                     figure.setCanMove(inHomeIndex < home.length && home[inHomeIndex] == null);
 
-                    System.out.println("Home Index < Home Length?: " + (inHomeIndex < home.length)); //TODO: Entfernen
                 } else {
-
-                    System.out.println("Is waypoints null?: " + (waypoints[newFigIndex % waypoints.length] == null)); //TODO: Entfernen
-                    System.out.println("Is another Player?: " + (waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID)); //TODO: Entfernen
-
                     figure.setCanMove(waypoints[newFigIndex % waypoints.length] == null || waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID);
                 }
             }

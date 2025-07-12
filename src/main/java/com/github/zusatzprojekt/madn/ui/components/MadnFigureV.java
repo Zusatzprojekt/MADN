@@ -132,7 +132,6 @@ public class MadnFigureV extends Group {
             }
         });
 
-        //TODO: Testen
         figurePosition.addListener((observableValue, oldPosition, position) -> {
 
             if (player.getBoard().getGame().gamePhaseProperty().getValue() == MadnGamePhase.INIT) {
@@ -166,7 +165,7 @@ public class MadnFigureV extends Group {
         // Setup animation group
         animationGroup.visibleProperty().bind(highlight);
 
-        // TODO: Testen
+        // Bindet die nötigen Properties an die logische Figur
         figurePosition.bind(figureL.figurePositionObservable());
         highlight.bind(figureL.canMoveObservable());
     }
@@ -263,7 +262,6 @@ public class MadnFigureV extends Group {
         });
     }
 
-    // TODO: Testen
     /**
      * Bewegt die Figur mit Animation von der alten zur neuen Position.
      *
@@ -279,9 +277,9 @@ public class MadnFigureV extends Group {
         SequentialTransition transition = new SequentialTransition();
 
         if ((oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.BASE)) {
-            transition.getChildren().add(calcAnimationBaseToWaypoints(oldPlacement == MadnFigurePlacement.BASE, oldIndex, newIndex));
+            transition.getChildren().add(calcAnimationBaseToWaypoints(newPlacement == MadnFigurePlacement.BASE, oldIndex, newIndex));
 
-        } else if ((oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.BASE && newPlacement == MadnFigurePlacement.BASE)) {
+        } else if ((oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.WAYPOINTS) || (oldPlacement == MadnFigurePlacement.HOME && newPlacement == MadnFigurePlacement.HOME)) {
             transition.getChildren().addAll(calcAnimationSameContainer(newPlacement, oldIndex, newIndex));
 
         } else if (oldPlacement == MadnFigurePlacement.WAYPOINTS && newPlacement == MadnFigurePlacement.HOME) {
@@ -293,7 +291,7 @@ public class MadnFigureV extends Group {
 
         transition.setOnFinished(actionEvent -> {
             setViewOrder(oldViewOrder);
-            player.getBoard().getGame().setGamePhase(MadnGamePhase.THROW_ANIMATION);
+            player.getBoard().getGame().setGamePhase(MadnGamePhase.THROW_TRIGGER);
 
             System.out.println("Animation Finished"); // TODO: Entfernen
         });
@@ -311,8 +309,8 @@ public class MadnFigureV extends Group {
      */
     private Animation calcAnimationBaseToWaypoints(boolean flip, int oldIndex, int newIndex) {
         double radius = circle.getRadius();
-        MadnFieldV oldField = player.getBase().getFields()[flip ? oldIndex : newIndex];
-        MadnFieldV newField = player.getWaypoints().getFields()[flip ? newIndex : oldIndex];
+        MadnFieldV oldField = flip ? player.getWaypoints().getFields()[oldIndex] : player.getBase().getFields()[oldIndex];
+        MadnFieldV newField = flip ? player.getBase().getFields()[newIndex] : player.getWaypoints().getFields()[newIndex];
         double distance = Math.sqrt(Math.pow(Math.abs(oldField.getCenterAbsoluteX() - newField.getCenterAbsoluteX()), 2) + Math.pow(Math.abs(oldField.getCenterAbsoluteY() - newField.getCenterAbsoluteY()), 2));
 
         TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(distance / 85.0), this);
@@ -337,7 +335,7 @@ public class MadnFigureV extends Group {
         List<Animation> animations = new ArrayList<>();
 
         int animDurationMulti = 1;
-        int i = oldIndex + 1;
+        int i = (oldIndex + 1) % fields.length;
 
         while (i != newIndex) {
 
@@ -376,20 +374,25 @@ public class MadnFigureV extends Group {
         MadnFieldV[] homeFields = player.getHome().getFields();
         List<MadnFieldV> waypoints = List.of(player.getWaypoints().getFields());
         Predicate<MadnFieldV> filter = field -> field.getFieldType() == MadnFieldType.END && field.getFieldAssignment() == player.getPlayerId();
-        MadnFieldV endField = waypoints.stream().filter(filter).findFirst().orElseThrow();
-        int entryIndex = waypoints.indexOf(endField);
+        int entryIndex = waypoints.indexOf(waypoints.stream().filter(filter).findFirst().orElseThrow());
 
         List<Animation> animations = new ArrayList<>();
 
+        System.out.println("Old Index: " + oldIndex + ", New Index: " + newIndex);
+
         if (oldIndex != entryIndex) {
             animations.addAll(List.of(calcAnimationSameContainer(MadnFigurePlacement.WAYPOINTS, oldIndex, entryIndex)));
+            System.out.println("Animations to '" + animations.getLast().getCuePoints().toString() + "' added");
         }
 
         TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(newIndex + 1), this);
         tt.setToX(homeFields[newIndex].getCenterAbsoluteX() - radius);
-        tt.setToX(homeFields[newIndex].getCenterAbsoluteY() - radius);
+        tt.setToY(homeFields[newIndex].getCenterAbsoluteY() - radius);
 
-        animations.add(tt);
+        System.out.println("CenterX: " + homeFields[newIndex].getCenterAbsoluteX() + ", Radius: " + radius);
+        System.out.println("CenterY: " + homeFields[newIndex].getCenterAbsoluteY() + ", Radius: " + radius);
+
+        animations.add(tt); // TODO: Errors
 
         return animations.toArray(Animation[]::new);
     }
@@ -397,15 +400,6 @@ public class MadnFigureV extends Group {
 
     // == Getter / Setter ==============================================================================================
 
-    public boolean isHighlight() {
-        return highlight.get();
-    }
-
-    public void setHighlight(boolean value) {
-        highlight.setValue(value);
-    }
-
-    //TODO: Testen
     public MadnFigurePosition getFigurePosition() {
         return figurePosition.getValue();
     }
@@ -420,15 +414,6 @@ public class MadnFigureV extends Group {
 
 
     // == Getter / Setter properties ===================================================================================
-
-    public BooleanProperty highlightProperty() {
-        return highlight;
-    }
-
-    //TODO: Testen
-    public ObjectProperty<MadnFigurePosition> figurePositionProperty() {
-        return figurePosition;
-    }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> mouseClickEvent() {
         return mouseClickEvent;

@@ -31,8 +31,6 @@ import java.util.function.Predicate;
 public class MadnBoardV extends AnchorPane {
     private final IntegerProperty currentRoll = new SimpleIntegerProperty(1);
     private final ObjectProperty<Shape> clipOverlay = new SimpleObjectProperty<>(new Rectangle(1000, 1000));
-
-    // TODO: Implementierung fertigstellen
     private final ObjectProperty<EventHandler<? super MouseEvent>> activateHighlightEvent = new SimpleObjectProperty<>(this::setHighlightPath);
     private final ObjectProperty<EventHandler<? super MouseEvent>> deactivateHighlightEvent = new SimpleObjectProperty<>(this::removeHighlightPath);
     private MadnGameL game;

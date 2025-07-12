@@ -1,6 +1,6 @@
-# MADN - Mensch Ärgere Dich Nicht
+# MADN - Mensch ärgere Dich nicht
 
-Eine in Java geschriebene, digitale Version von Mensch Ärgere Dich Nicht.
+Eine in Java geschriebene, digitale Version von Mensch ärgere Dich nicht.
 
 GUI erstellt mit JavaFX.
 

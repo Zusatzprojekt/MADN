@@ -35,7 +35,6 @@ public class EndViewController implements FxmlValueReceiver {
      */
     @FXML
     private void onPlayAgain(ActionEvent actionEvent) {
-        //TODO: Testen
         AppManager.loadScene("ui/game-view.fxml", lastActivePlayers);
     }
 

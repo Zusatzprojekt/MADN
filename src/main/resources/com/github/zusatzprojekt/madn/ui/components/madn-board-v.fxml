@@ -43,9 +43,6 @@
         <MadnHomeV fx:id="homeContainerRed" fill="#FF3030" homeDirection="LEFT" layoutX="555.0" layoutY="470.0" />
     </Pane>
 
-    <!--Player layer-->
-<!--    <Pane fx:id="playerContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
-
     <!--Overlay layer-->
     <Pane fx:id="overlayContainer" mouseTransparent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Rectangle height="1000.0" opacity="0.5" width="1000.0" />

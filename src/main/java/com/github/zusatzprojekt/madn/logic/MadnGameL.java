@@ -106,7 +106,7 @@ public class MadnGameL {
         gamePhase.addListener((observable, oldPhase, newPhase) -> {
             System.out.println("Spielphase " + oldPhase + " -> " + newPhase); // TODO: Entfernen
 
-            if (oldPhase == MadnGamePhase.MOVE_ANIMATION && newPhase == MadnGamePhase.THROW_ANIMATION) {
+            if (oldPhase == MadnGamePhase.MOVE_ANIMATION && newPhase == MadnGamePhase.THROW_TRIGGER) {
                 throwPlayer();
             }
         });
@@ -126,6 +126,16 @@ public class MadnGameL {
         });
     }
 
+    public void setupGame() {
+        activePlayers = playerList;
+        currentPlayer.setValue(activePlayers[0]);
+    }
+
+    public void startGame() {
+        gamePhase.setValue(MadnGamePhase.START_ROLL);
+        dice.setEnabled(true);
+    }
+
     private void rollFinished() {
         System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
 
@@ -140,84 +150,22 @@ public class MadnGameL {
         }
 
     }
-    // TODO: Wird aktuell bearbeitet
+
     private void diceRoll() {
         int canMoveCount = getMovableFigureCount();
-//        MadnFigureL[] figures = getCurrentPlayer().getFigures();
-//        boolean onField = Arrays.stream(figures).anyMatch(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.WAYPOINTS);
         rollCount++;
 
-//        System.out.println("Can Move Count: " + canMoveCount); //TODO: Entfernen
-//        System.out.println("Roll count: " + rollCount); //TODO: Entfernen
-
         if (canMoveCount > 0) {
-
             gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
 
-
-
         } else if (rollCount < 3){
-
-
             dice.setEnabled(true);
 
-
         } else {
-
             rollCount = 0;
             switchPlayer(playerList);
             dice.setEnabled(true);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        if ((rollCount < 3 && !onField) || (rollCount < 3 && getCurrentPlayer().getLastRoll() == 6)) {
-//
-//            if (canMoveCount < 1) {
-//                dice.setEnabled(true);
-//            } else {
-//                gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
-//            }
-//
-//        } else if (rollCount == 3 && getCurrentPlayer().getLastRoll() == 6) {
-//
-//            if (canMoveCount > 0) {
-//                gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
-//            }
-//
-//        } else if (canMoveCount > 0) {
-//            rollCount = 3;
-//            gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
-//
-//        } else {
-//            rollCount = 0;
-//            gamePhase.setValue(MadnGamePhase.DICE_ROLL);
-//            switchPlayer(playerList);
-//            dice.setEnabled(true);
-//        }
-
-    }
-
-    public void setupGame() {
-        activePlayers = playerList;
-        currentPlayer.setValue(activePlayers[0]);
-    }
-
-    public void startGame() {
-        gamePhase.setValue(MadnGamePhase.START_ROLL);
-        dice.setEnabled(true);
     }
 
     private int getMovableFigureCount() {
@@ -250,6 +198,7 @@ public class MadnGameL {
                 });
 
                 infoText.showTextOverlay(info, Duration.seconds(4));
+
             } else {
                 currentPlayer.setValue(activePlayers[0]);
 
@@ -319,20 +268,17 @@ public class MadnGameL {
 
             figure.setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, destinationIndex));
 
-            gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
         } else if (figurePos.getFigurePlacement() == MadnFigurePlacement.WAYPOINTS) {
-            int startIndex = player.getStartIndex();
             int homeIndex = player.getHomeIndex();
             int fieldIndex = figurePos.getFieldIndex();
 
-            waypoints[startIndex] = null;
+            waypoints[fieldIndex] = null;
 
             if (fieldIndex <= homeIndex && fieldIndex + player.getLastRoll() > homeIndex) {
                 MadnFigureL[] home = homes.get(player.getPlayerID());
                 int destinationIndex = fieldIndex + player.getLastRoll() - homeIndex - 1;
 
                 home[destinationIndex] = figure;
-
                 figure.setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.HOME, destinationIndex));
 
             } else {
@@ -343,14 +289,23 @@ public class MadnGameL {
                 }
 
                 waypoints[destinationIndex] = figure;
-
                 figure.setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.WAYPOINTS, destinationIndex));
-
-                gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
             }
 
+        } else if (figurePos.getFigurePlacement() == MadnFigurePlacement.HOME) {
+            int oldIndex = figurePos.getFieldIndex();
+            int newIndex = oldIndex + player.getLastRoll();
+            MadnFigureL[] home = homes.get(player.getPlayerID());
+
+            if (newIndex < home.length && home[newIndex] == null) {
+                home[oldIndex] = null;
+                home[newIndex] = figure;
+
+                figure.setFigurePosition(new MadnFigurePosition(MadnFigurePlacement.HOME, newIndex));
+            }
         }
 
+        gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
 
         System.out.println(figure + " has been Clicked!");
     }
@@ -361,11 +316,11 @@ public class MadnGameL {
             infoText.setOnFinished(event -> {
                 MadnFigurePosition basePos = backToBase.getBasePosition();
                 MadnFigureL[] base = bases.get(backToBase.getPlayer().getPlayerID());
+
+                gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
                 base[basePos.getFieldIndex()] = backToBase;
                 backToBase.setFigurePosition(basePos);
                 backToBase = null;
-
-                afterFigureAnimations();
             });
 
             infoText.showTextOverlay(switch (backToBase.getPlayer().getPlayerID()) {
@@ -374,7 +329,7 @@ public class MadnGameL {
                 case GREEN -> "Grün";
                 case RED -> "Rot";
                 case NONE -> "NONE";
-            } + " wurde geworfen!", Duration.seconds(1));
+            } + " wurde geworfen!", Duration.millis(750));
 
         } else {
             afterFigureAnimations();
@@ -391,7 +346,7 @@ public class MadnGameL {
         gamePhase.setValue(MadnGamePhase.DICE_ROLL);
         dice.setEnabled(true);
 
-        System.out.println("After Animation triggered!"); // TODO: Entfernen
+        System.out.println("Waypoint Layout: " + Arrays.toString(waypoints)); // TODO: Entfernen
     }
 
 
@@ -409,10 +364,6 @@ public class MadnGameL {
 
     public MadnPlayerL getCurrentPlayer() {
         return currentPlayer.getValue();
-    }
-
-    public MadnGamePhase getGamePhase() {
-        return gamePhase.getValue();
     }
 
     public void setGamePhase(MadnGamePhase phase) {

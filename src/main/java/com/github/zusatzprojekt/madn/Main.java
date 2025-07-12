@@ -43,7 +43,7 @@ public class Main extends Application {
         Map<String, String> namedArgs = getParameters().getNamed();
 
         // Setzt die Startparameter
-        stage.setTitle("Mensch Ärgere Dich Nicht");
+        stage.setTitle("Mensch ärgere Dich nicht");
         stage.getIcons().add(new Image(Resources.getStream("images/madn_icon.png")));
         stage.setMinWidth(800);
         stage.setMinHeight(450);
