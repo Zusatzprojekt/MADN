@@ -77,10 +77,14 @@ public class EndViewController implements FxmlValueReceiver {
      */
     @Override
     public void receiveValues(Map<String, Object> values) {
-        MadnPlayerL[] players = Arrays.stream(((MadnPlayerL[]) values.get("playerObjectArray"))).sorted(Comparator.comparingInt(MadnPlayerL::getFinishedPos)).toArray(MadnPlayerL[]::new);
+        MadnPlayerL[] players = Arrays.stream(((MadnPlayerL[]) values.remove("playerObjectArray"))).sorted(Comparator.comparingInt(MadnPlayerL::getFinishedPos)).toArray(MadnPlayerL[]::new);
 
-        values.remove("playerObjectArray");
         lastActivePlayers = values;
+
+        firstPlace.setText("");
+        secondPlace.setText("");
+        thirdPlace.setText("");
+        fourthPlace.setText("");
 
         for (MadnPlayerL player : players) {
             String playerColorName = switch (player.getPlayerID()) {
@@ -90,11 +94,6 @@ public class EndViewController implements FxmlValueReceiver {
                 case RED -> "Rot";
                 case NONE -> "NONE";
             };
-
-            firstPlace.setText("");
-            secondPlace.setText("");
-            thirdPlace.setText("");
-            fourthPlace.setText("");
 
             switch (player.getFinishedPos()) {
                 case 1:

@@ -378,8 +378,6 @@ public class MadnFigureV extends Group {
 
         List<Animation> animations = new ArrayList<>();
 
-        System.out.println("Old Index: " + oldIndex + ", New Index: " + newIndex);
-
         if (oldIndex != entryIndex) {
             animations.addAll(List.of(calcAnimationSameContainer(MadnFigurePlacement.WAYPOINTS, oldIndex, entryIndex)));
         }
@@ -388,10 +386,7 @@ public class MadnFigureV extends Group {
         tt.setToX(homeFields[newIndex].getCenterAbsoluteX() - radius);
         tt.setToY(homeFields[newIndex].getCenterAbsoluteY() - radius);
 
-        System.out.println("CenterX: " + homeFields[newIndex].getCenterAbsoluteX() + ", Radius: " + radius);
-        System.out.println("CenterY: " + homeFields[newIndex].getCenterAbsoluteY() + ", Radius: " + radius);
-
-        animations.add(tt); // TODO: Errors
+        animations.add(tt);
 
         return animations.toArray(Animation[]::new);
     }

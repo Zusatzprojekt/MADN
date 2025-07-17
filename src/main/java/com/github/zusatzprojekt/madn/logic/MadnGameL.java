@@ -179,9 +179,16 @@ public class MadnGameL {
     private void switchPlayer(MadnPlayerL[] players) {
         int pLength = players.length;
         int curIndex = Arrays.asList(players).indexOf(currentPlayer.getValue());
+        int counter = 0;
 
         while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).filter(MadnPlayerL::isFinished).count() > 1) {
+
+            if (counter > pLength * 2) {
+                throw new RuntimeException(new Exception("switchPlayer exceeded max loop count"));
+            }
+
             curIndex = (curIndex + 1) % pLength;
+            counter++;
         }
 
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
@@ -342,7 +349,7 @@ public class MadnGameL {
         int figuresInHome = (int) Arrays.stream(homes.get(getCurrentPlayer().getPlayerID())).filter(Objects::nonNull).count();
         System.out.println("Figuren daheim Filter: " + figuresInHome);
 
-        if (figuresInHome >= playerList.length) {
+        if (figuresInHome >= getCurrentPlayer().getFigures().length && !getCurrentPlayer().isFinished()) {
             setPlayerFinishPos();
         }
 
@@ -352,18 +359,16 @@ public class MadnGameL {
             switchPlayer(playerList);
         }
 
-        if (finishedPlayers >= playerList.length) {
+        if (finishedPlayers >= playerList.length - 1) {
             setPlayerFinishPos();
 
             AppManager.loadScene("ui/end-view.fxml", createDataPacket());
+            System.out.println("Finish Scene loaded!"); //TODO: Entfernen
 
         } else  {
             gamePhase.setValue(MadnGamePhase.DICE_ROLL);
             dice.setEnabled(true);
         }
-
-
-        System.out.println("Waypoint Layout: " + Arrays.toString(waypoints)); // TODO: Entfernen
     }
 
     private void setPlayerFinishPos() {

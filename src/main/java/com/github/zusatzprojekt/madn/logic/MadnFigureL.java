@@ -10,7 +10,6 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 
 public class MadnFigureL {
-    //TODO: Testen
     private final ObjectProperty<MadnFigurePosition> figurePosition = new SimpleObjectProperty<>();
     private final BooleanProperty canMoveProp = new SimpleBooleanProperty(false);
     private final MadnFigurePosition basePosition;
