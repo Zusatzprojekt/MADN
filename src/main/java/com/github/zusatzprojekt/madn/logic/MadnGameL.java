@@ -339,10 +339,11 @@ public class MadnGameL {
     }
 
     private void afterFigureAnimations() {
-        int figuresInHome = (int) Arrays.stream(homes.get(currentPlayer.getValue().getPlayerID())).filter(Objects::nonNull).count();
+        int figuresInHome = (int) Arrays.stream(homes.get(getCurrentPlayer().getPlayerID())).filter(Objects::nonNull).count();
+        System.out.println("Figuren daheim Filter: " + figuresInHome);
 
         if (figuresInHome >= playerList.length) {
-            setFinishPos();
+            setPlayerFinishPos();
         }
 
         if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
@@ -351,8 +352,8 @@ public class MadnGameL {
             switchPlayer(playerList);
         }
 
-        if (finishedPlayers >= playerList.length - 1) {
-            setFinishPos();
+        if (finishedPlayers >= playerList.length) {
+            setPlayerFinishPos();
 
             AppManager.loadScene("ui/end-view.fxml", createDataPacket());
 
@@ -365,9 +366,11 @@ public class MadnGameL {
         System.out.println("Waypoint Layout: " + Arrays.toString(waypoints)); // TODO: Entfernen
     }
 
-    private void setFinishPos() {
+    private void setPlayerFinishPos() {
         finishedPlayers++;
         currentPlayer.getValue().setFinishedPos(finishedPlayers);
+
+        System.out.println("Finished player count: " + finishedPlayers);
     }
 
     private Map<String, Object> createDataPacket() {

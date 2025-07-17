@@ -35,8 +35,9 @@ public class MadnPlayerL {
     public void enableCanMove(MadnFigureL[] waypoints, Map<MadnPlayerId, MadnFigureL[]> homes) {
         int roll = lastRoll.getValue();
 
+        MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
+
         if (roll == 6 && (waypoints[startIndex] == null || waypoints[startIndex].getPlayer().getPlayerID() != playerID)) {
-            MadnFigureL[] baseFigures = Arrays.stream(figures).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).toArray(MadnFigureL[]::new);
 
             for (MadnFigureL figure : baseFigures) {
                 figure.setCanMove(true);
@@ -50,8 +51,22 @@ public class MadnPlayerL {
 
             for (MadnFigureL figure : homeFigures) {
                 int newFigIndex = figure.getFigurePosition().getFieldIndex() + roll;
+                boolean validMove = true;
 
-                figure.setCanMove(newFigIndex < home.length && home[newFigIndex] == null);
+                if (newFigIndex < home.length && home[newFigIndex] == null) {
+
+                    for (int i = 0; i < newFigIndex; i++) {
+                        if (home[i] != null) {
+                            validMove = false;
+                            break;
+                        }
+                    }
+
+                    figure.setCanMove(validMove);
+
+                } else {
+                    figure.setCanMove(false);
+                }
             }
         }
 
@@ -94,13 +109,23 @@ public class MadnPlayerL {
             }
         }
 
-        if (waypoints[startIndex] != null && waypoints[startIndex].canMove()) {
+        if (baseFigures.length > 0 && waypoints[startIndex] != null && waypoints[startIndex].canMove()) {
 
             for (MadnFigureL figure : figures) {
                 figure.setCanMove(false);
             }
 
             waypoints[startIndex].setCanMove(true);
+
+        } else if (baseFigures.length > 0 && roll == 6 && (waypoints[startIndex] == null || waypoints[startIndex].getPlayer().getPlayerID() != playerID)) {
+
+            for (MadnFigureL figure : wayFigures) {
+                figure.setCanMove(false);
+            }
+
+            for (MadnFigureL figure : homeFigures) {
+                figure.setCanMove(false);
+            }
         }
     }
 
