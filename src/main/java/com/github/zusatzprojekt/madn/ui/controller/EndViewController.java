@@ -91,6 +91,11 @@ public class EndViewController implements FxmlValueReceiver {
                 case NONE -> "NONE";
             };
 
+            firstPlace.setText("");
+            secondPlace.setText("");
+            thirdPlace.setText("");
+            fourthPlace.setText("");
+
             switch (player.getFinishedPos()) {
                 case 1:
                     winnerTitle.setText(playerColorName + " hat gewonnen!");

@@ -64,14 +64,43 @@ public class MadnPlayerL {
 
                 if (figure.getFigurePosition().getFieldIndex() <= getHomeIndex() && newFigIndex > getHomeIndex()) {
                     MadnFigureL[] home = homes.get(playerID);
+                    boolean validMove = true;
+
                     int inHomeIndex = newFigIndex - getHomeIndex() - 1;
 
-                    figure.setCanMove(inHomeIndex < home.length && home[inHomeIndex] == null);
+                    if (inHomeIndex < home.length && home[inHomeIndex] == null) {
+
+                        for (int i = 0; i < inHomeIndex; i++) {
+                            if (home[i] != null) {
+                                validMove = false;
+                                break;
+                            }
+                        }
+
+                        figure.setCanMove(validMove);
+
+                    } else {
+                        figure.setCanMove(false);
+                    }
+
+
+
+
+
 
                 } else {
                     figure.setCanMove(waypoints[newFigIndex % waypoints.length] == null || waypoints[newFigIndex % waypoints.length].getPlayer().getPlayerID() != playerID);
                 }
             }
+        }
+
+        if (waypoints[startIndex] != null && waypoints[startIndex].canMove()) {
+
+            for (MadnFigureL figure : figures) {
+                figure.setCanMove(false);
+            }
+
+            waypoints[startIndex].setCanMove(true);
         }
     }
 

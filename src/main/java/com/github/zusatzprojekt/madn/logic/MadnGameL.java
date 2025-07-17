@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class MadnGameL {
+    private final int MAX_ROLL_COUNT = 3;
     private final MadnDiceL dice;
     private final MadnInfoTextV infoText;
     private final MadnPlayerL[] playerList;
@@ -159,7 +160,7 @@ public class MadnGameL {
         if (canMoveCount > 0) {
             gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
 
-        } else if (rollCount < 3){
+        } else if (rollCount < MAX_ROLL_COUNT){
             dice.setEnabled(true);
 
         } else {
@@ -179,7 +180,7 @@ public class MadnGameL {
         int pLength = players.length;
         int curIndex = Arrays.asList(players).indexOf(currentPlayer.getValue());
 
-        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).filter(MadnPlayerL::isFinished).count() > 2) {
+        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).filter(MadnPlayerL::isFinished).count() > 1) {
             curIndex = (curIndex + 1) % pLength;
         }
 
@@ -338,15 +339,14 @@ public class MadnGameL {
     }
 
     private void afterFigureAnimations() {
+        int figuresInHome = (int) Arrays.stream(homes.get(currentPlayer.getValue().getPlayerID())).filter(Objects::nonNull).count();
 
-        if (rollCount >= 3 || getCurrentPlayer().getLastRoll() != 6) {
+        if (figuresInHome >= playerList.length) {
+            setFinishPos();
+        }
+
+        if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
             rollCount = 0;
-
-            int figureInHome = (int) Arrays.stream(homes.get(currentPlayer.getValue().getPlayerID())).filter(Objects::nonNull).count();
-
-            if (figureInHome >= 4) {
-                setFinishPos();
-            }
 
             switchPlayer(playerList);
         }

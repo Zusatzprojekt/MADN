@@ -76,33 +76,34 @@
                         </ImagePattern>
                     </fill>
                 </Rectangle>
-                <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="480.0" prefWidth="900.0">
-                    <Label text="Rangliste">
+                <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="900.0">
+                    <Label text="Rangliste:">
                         <font>
-                            <Font size="56.0"/>
+                            <Font name="Arial Bold" size="56.0"/>
                         </font>
                     </Label>
-                    <Label fx:id="firstPlace" text="1. Farbe">
-                        <font>
-                            <Font size="56.0"/>
-                        </font>
-                    </Label>
-                    <Label fx:id="secondPlace" text="2. Farbe">
-                        <font>
-                            <Font size="56.0"/>
-                        </font>
-                    </Label>
-                    <Label fx:id="thirdPlace" text="3. Farbe">
-                        <font>
-                            <Font size="56.0"/>
-                        </font>
-                    </Label>
-                    <Label fx:id="fourthPlace" text="4. Farbe">
-                        <font>
-                            <Font size="56.0"/>
-                        </font>
-                    </Label>
+                    <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
+                        <Label fx:id="firstPlace" text="1. Farbe">
+                            <font>
+                                <Font name="Arial" size="56.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="secondPlace" text="2. Farbe">
+                            <font>
+                                <Font name="Arial" size="56.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="thirdPlace" text="3. Farbe">
+                            <font>
+                                <Font name="Arial" size="56.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="fourthPlace" text="4. Farbe">
+                            <font>
+                                <Font name="Arial" size="56.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
                 </VBox>
             </HBox>
         </ScalePane>
