@@ -171,7 +171,7 @@ public class MadnGameL {
     }
 
     private int getMovableFigureCount() {
-        getCurrentPlayer().enableCanMove(waypoints, homes);
+        getCurrentPlayer().enableCanMove(waypoints, bases, homes);
 
         return (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(MadnFigureL::canMove).count();
     }
