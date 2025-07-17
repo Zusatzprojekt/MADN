@@ -382,7 +382,6 @@ public class MadnFigureV extends Group {
 
         if (oldIndex != entryIndex) {
             animations.addAll(List.of(calcAnimationSameContainer(MadnFigurePlacement.WAYPOINTS, oldIndex, entryIndex)));
-            System.out.println("Animations to '" + animations.getLast().getCuePoints().toString() + "' added");
         }
 
         TranslateTransition tt = new TranslateTransition(MOVE_ANIMATION_DURATION.multiply(newIndex + 1), this);
