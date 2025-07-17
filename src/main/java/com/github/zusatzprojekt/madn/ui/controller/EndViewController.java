@@ -1,11 +1,14 @@
 package com.github.zusatzprojekt.madn.ui.controller;
 
 import com.github.zusatzprojekt.madn.interfaces.FxmlValueReceiver;
+import com.github.zusatzprojekt.madn.logic.MadnPlayerL;
 import com.github.zusatzprojekt.madn.ui.AppManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -23,7 +26,7 @@ public class EndViewController implements FxmlValueReceiver {
     private Map<String, Object> lastActivePlayers;
 
     @FXML
-    private Label firstPlace, secondPlace, thirdPlace, fourthPlace;
+    private Label winnerTitle, firstPlace, secondPlace, thirdPlace, fourthPlace;
 
     /**
      * Event-Handler für die Schaltfläche „Erneut spielen“.
@@ -74,7 +77,36 @@ public class EndViewController implements FxmlValueReceiver {
      */
     @Override
     public void receiveValues(Map<String, Object> values) {
+        MadnPlayerL[] players = Arrays.stream(((MadnPlayerL[]) values.get("playerObjectArray"))).sorted(Comparator.comparingInt(MadnPlayerL::getFinishedPos)).toArray(MadnPlayerL[]::new);
+
+        values.remove("playerObjectArray");
         lastActivePlayers = values;
+
+        for (MadnPlayerL player : players) {
+            String playerColorName = switch (player.getPlayerID()) {
+                case BLUE -> "Blau";
+                case YELLOW -> "Gelb";
+                case GREEN -> "Grün";
+                case RED -> "Rot";
+                case NONE -> "NONE";
+            };
+
+            switch (player.getFinishedPos()) {
+                case 1:
+                    winnerTitle.setText(playerColorName + " hat gewonnen!");
+                    firstPlace.setText("1. " + playerColorName);
+                    break;
+                case 2:
+                    secondPlace.setText("2. " + playerColorName);
+                    break;
+                case 3:
+                    thirdPlace.setText("3. " + playerColorName);
+                    break;
+                case 4:
+                    fourthPlace.setText("4. " + playerColorName);
+                    break;
+            }
+        }
     }
 
 }

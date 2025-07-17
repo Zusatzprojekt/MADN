@@ -4,6 +4,7 @@ import com.github.zusatzprojekt.madn.enums.MadnFigurePlacement;
 import com.github.zusatzprojekt.madn.enums.MadnGamePhase;
 import com.github.zusatzprojekt.madn.enums.MadnPlayerId;
 import com.github.zusatzprojekt.madn.logic.components.MadnFigurePosition;
+import com.github.zusatzprojekt.madn.ui.AppManager;
 import com.github.zusatzprojekt.madn.ui.components.MadnBoardV;
 import com.github.zusatzprojekt.madn.ui.components.MadnDiceV;
 import com.github.zusatzprojekt.madn.ui.components.MadnFigureV;
@@ -16,15 +17,13 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MadnGameL {
     private final MadnDiceL dice;
     private final MadnInfoTextV infoText;
     private final MadnPlayerL[] playerList;
+    private final Map<String, Object> playersInGame;
     private final Map<MadnPlayerId, MadnFigureL[]> bases;
     private final Map<MadnPlayerId, MadnFigureL[]> homes;
     private final MadnFigureL[] waypoints = new MadnFigureL[40];
@@ -39,6 +38,8 @@ public class MadnGameL {
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
         dice = new MadnDiceL(vDice);
         infoText = iTxt;
+
+        playersInGame = players;
         playerList = initPlayers(players);
         bases = initBases();
         homes = initHomes();
@@ -340,16 +341,41 @@ public class MadnGameL {
 
         if (rollCount >= 3 || getCurrentPlayer().getLastRoll() != 6) {
             rollCount = 0;
+
+            int figureInHome = (int) Arrays.stream(homes.get(currentPlayer.getValue().getPlayerID())).filter(Objects::nonNull).count();
+
+            if (figureInHome >= 4) {
+                setFinishPos();
+            }
+
             switchPlayer(playerList);
         }
 
-        gamePhase.setValue(MadnGamePhase.DICE_ROLL);
-        dice.setEnabled(true);
+        if (finishedPlayers >= playerList.length - 1) {
+            setFinishPos();
+
+            AppManager.loadScene("ui/end-view.fxml", createDataPacket());
+
+        } else  {
+            gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+            dice.setEnabled(true);
+        }
+
 
         System.out.println("Waypoint Layout: " + Arrays.toString(waypoints)); // TODO: Entfernen
     }
 
+    private void setFinishPos() {
+        finishedPlayers++;
+        currentPlayer.getValue().setFinishedPos(finishedPlayers);
+    }
 
+    private Map<String, Object> createDataPacket() {
+        Map<String, Object> map = new HashMap<>(playersInGame);
+        map.put("playerObjectArray", playerList);
+
+        return map;
+    }
 
 
 

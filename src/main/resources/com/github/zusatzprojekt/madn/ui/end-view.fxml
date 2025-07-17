@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zusatzprojekt.madn.ui.controller.EndViewController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.github.zusatzprojekt.madn.ui.controller.EndViewController">
 
     <!--Gitter-Layout-->
     <GridPane style="-fx-background-color: #FFECD2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -61,52 +61,50 @@
 
         <!--Gewinner Beschriftung-->
         <ScalePane GridPane.columnIndex="2" GridPane.rowIndex="4">
-            <Label text="Farbe hat gewonnen!" />
+            <Label fx:id="winnerTitle" text="Farbe hat gewonnen!" />
         </ScalePane>
 
         <!--Patrick GIF-->
         <ScalePane maxHeight="400.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
-         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="1100.0">
-            <children>
-                  <Rectangle arcHeight="50.0" arcWidth="50.0" height="480.0" stroke="#6F6F6F" width="480.0">
-                      <fill>
-                          <ImagePattern>
-                              <image>
-                                  <Image preserveRatio="true" smooth="true" url="@../images/patrick.gif" />
-                              </image>
-                          </ImagePattern>
-                      </fill>
-                  </Rectangle>
-               <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="900.0">
-                  <children>
-                     <Label text="Rangliste">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="1100.0">
+                <Rectangle arcHeight="50.0" arcWidth="50.0" height="480.0" stroke="#6F6F6F" width="480.0">
+                    <fill>
+                        <ImagePattern>
+                            <image>
+                                <Image preserveRatio="true" smooth="true" url="@../images/patrick.gif"/>
+                            </image>
+                        </ImagePattern>
+                    </fill>
+                </Rectangle>
+                <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                      minWidth="-Infinity" prefHeight="480.0" prefWidth="900.0">
+                    <Label text="Rangliste">
                         <font>
-                           <Font size="56.0" />
-                        </font></Label>
-                     <Label fx:id="firstPlace" text="1. Farbe">
-                        <font>
-                           <Font size="56.0" />
+                            <Font size="56.0"/>
                         </font>
-                     </Label>
-                     <Label fx:id="secondPlace" text="2. Farbe">
+                    </Label>
+                    <Label fx:id="firstPlace" text="1. Farbe">
                         <font>
-                           <Font size="56.0" />
+                            <Font size="56.0"/>
                         </font>
-                     </Label>
-                     <Label fx:id="thirdPlace" text="3. Farbe">
+                    </Label>
+                    <Label fx:id="secondPlace" text="2. Farbe">
                         <font>
-                           <Font size="56.0" />
+                            <Font size="56.0"/>
                         </font>
-                     </Label>
-                     <Label fx:id="fourthPlace" text="4. Farbe">
+                    </Label>
+                    <Label fx:id="thirdPlace" text="3. Farbe">
                         <font>
-                           <Font size="56.0" />
+                            <Font size="56.0"/>
                         </font>
-                     </Label>
-                  </children>
-               </VBox>
-            </children>
-         </HBox>
+                    </Label>
+                    <Label fx:id="fourthPlace" text="4. Farbe">
+                        <font>
+                            <Font size="56.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+            </HBox>
         </ScalePane>
 
         <!--Buttons-->
