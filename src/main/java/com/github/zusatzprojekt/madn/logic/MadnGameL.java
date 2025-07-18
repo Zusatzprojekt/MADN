@@ -155,18 +155,45 @@ public class MadnGameL {
 
     private void diceRoll() {
         int canMoveCount = getMovableFigureCount();
+        int baseFigureCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).count();
+        int homeFigureCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.HOME).count();
+        MadnFigureL[] home = homes.get(getCurrentPlayer().getPlayerID());
+        boolean figuresOptimalHome = true;
         rollCount++;
+
+        for (int i = 0; i < home.length - homeFigureCount; i++) {
+            if (home[i] != null) {
+                figuresOptimalHome = false;
+                break;
+            }
+        }
 
         if (canMoveCount > 0) {
             gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
 
-        } else if (rollCount < MAX_ROLL_COUNT){
+        } else if (rollCount < MAX_ROLL_COUNT && ((baseFigureCount > 0 && figuresOptimalHome) || getCurrentPlayer().getLastRoll() == 6)) {
             dice.setEnabled(true);
 
         } else {
-            rollCount = 0;
-            switchPlayer(playerList);
-            dice.setEnabled(true);
+
+            if (baseFigureCount < getCurrentPlayer().getFigures().length) {
+
+                infoText.setOnFinished(event ->  {
+                    switchPlayer(playerList);
+                    rollCount = 0;
+
+                    infoText.setOnFinished(e -> dice.setEnabled(true));
+                    infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
+                });
+                infoText.showTextOverlay("Kein Zug möglich!", Duration.millis(500));
+
+            } else {
+                switchPlayer(playerList);
+                rollCount = 0;
+
+                infoText.setOnFinished(event -> dice.setEnabled(true));
+                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
+            }
         }
     }
 
@@ -194,6 +221,16 @@ public class MadnGameL {
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
     }
 
+    private String getPlayerString(MadnPlayerL player) {
+        return switch (player.getPlayerID()) {
+            case BLUE -> "Blau";
+            case YELLOW -> "Gelb";
+            case GREEN -> "Grün";
+            case RED -> "Rot";
+            case NONE -> "NONE";
+        };
+    }
+
     private void startRoll() {
         if (currentPlayer.getValue() == activePlayers[activePlayers.length - 1]) {
             activePlayers = getHighestRoll();
@@ -218,13 +255,7 @@ public class MadnGameL {
                     System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt"); //TODO: Entfernen
                 });
 
-                infoText.showTextOverlay( switch (currentPlayer.getValue().getPlayerID()) {
-                    case BLUE -> "Blau";
-                    case YELLOW -> "Gelb";
-                    case GREEN -> "Grün";
-                    case RED -> "Rot";
-                    case NONE -> "NONE";
-                } + " beginnt!", Duration.seconds(2));
+                infoText.showTextOverlay( getPlayerString(getCurrentPlayer()) + " beginnt!", Duration.seconds(2));
             }
 
         } else {
@@ -234,24 +265,18 @@ public class MadnGameL {
     }
 
     private String generateInfoText() {
-        StringBuilder info = new StringBuilder("Spieler mit gleichem Wurf: ");
+        StringBuilder sb = new StringBuilder("Spieler mit gleichem Wurf: ");
 
         for (int i = 0; i < activePlayers.length; i++) {
-            info.append(switch (activePlayers[i].getPlayerID()) {
-                case BLUE -> "Blau";
-                case YELLOW -> "Gelb";
-                case GREEN -> "Grün";
-                case RED -> "Rot";
-                case NONE -> "NONE";
-            });
+            sb.append(getPlayerString(activePlayers[i]));
 
             if (i < activePlayers.length - 1) {
-                info.append(", ");
+                sb.append(", ");
             }
         }
 
-        info.append("\nWeiter würfeln!");
-        return info.toString();
+        sb.append("\nWeiter würfeln!");
+        return sb.toString();
     }
 
     private MadnPlayerL[] getHighestRoll() {
@@ -332,13 +357,7 @@ public class MadnGameL {
                 backToBase = null;
             });
 
-            infoText.showTextOverlay(switch (backToBase.getPlayer().getPlayerID()) {
-                case BLUE -> "Blau";
-                case YELLOW -> "Gelb";
-                case GREEN -> "Grün";
-                case RED -> "Rot";
-                case NONE -> "NONE";
-            } + " wurde geworfen!", Duration.millis(750));
+            infoText.showTextOverlay(getPlayerString(backToBase.getPlayer()) + " wurde geworfen!", Duration.millis(750));
 
         } else {
             afterFigureAnimations();
@@ -353,21 +372,30 @@ public class MadnGameL {
             setPlayerFinishPos();
         }
 
-        if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
-            rollCount = 0;
-
-            switchPlayer(playerList);
-        }
-
         if (finishedPlayers >= playerList.length - 1) {
+            switchPlayer(playerList);
             setPlayerFinishPos();
 
             AppManager.loadScene("ui/end-view.fxml", createDataPacket());
-            System.out.println("Finish Scene loaded!"); //TODO: Entfernen
 
         } else  {
-            gamePhase.setValue(MadnGamePhase.DICE_ROLL);
-            dice.setEnabled(true);
+
+            if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
+                rollCount = 0;
+
+                switchPlayer(playerList);
+
+                infoText.setOnFinished(event -> {
+                    gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+                    dice.setEnabled(true);
+                });
+
+                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
+
+            } else {
+                gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+                dice.setEnabled(true);
+            }
         }
     }
 
