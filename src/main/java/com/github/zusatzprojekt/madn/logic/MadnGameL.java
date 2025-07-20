@@ -156,6 +156,7 @@ public class MadnGameL {
         int baseFigureCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).count();
         int homeFigureCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.HOME).count();
         MadnFigureL[] home = homes.get(getCurrentPlayer().getPlayerID());
+        boolean wayFigure = Arrays.stream(getCurrentPlayer().getFigures()).anyMatch(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.WAYPOINTS);
         boolean figuresOptimalHome = true;
         rollCount++;
 
@@ -169,7 +170,7 @@ public class MadnGameL {
         if (canMoveCount > 0) {
             gamePhase.setValue(MadnGamePhase.FIGURE_SELECT);
 
-        } else if (rollCount < MAX_ROLL_COUNT && ((baseFigureCount > 0 && figuresOptimalHome) || getCurrentPlayer().getLastRoll() == 6)) {
+        } else if (rollCount < MAX_ROLL_COUNT && ((baseFigureCount > 0 && figuresOptimalHome && !wayFigure) || getCurrentPlayer().getLastRoll() == 6)) {
             dice.setEnabled(true);
 
         } else {
@@ -183,7 +184,7 @@ public class MadnGameL {
                     infoText.setOnFinished(e -> dice.setEnabled(true));
                     infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
                 });
-                infoText.showTextOverlay("Kein Zug möglich!", Duration.millis(500));
+                infoText.showTextOverlay("Kein Zug möglich!", Duration.millis(750));
 
             } else {
                 switchPlayer(playerList);
@@ -378,7 +379,7 @@ public class MadnGameL {
                 infoText.setOnFinished(event -> {
                     nextPlayerInfoAndSwitch();
                 });
-                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()) + " ist fertig!", Duration.millis(500));
+                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()) + " ist fertig!", Duration.millis(750));
 
             } else if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
                 nextPlayerInfoAndSwitch();
