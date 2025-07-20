@@ -15,7 +15,7 @@ import javafx.util.Duration;
 /**
  * Eine Komponente zur Anzeige temporärer Info-Overlays (Texte) im Spiel "Mensch ärgere dich nicht".
  *
- * Zeigt eine Nachricht mit Einblend- und Ausblendeffekt für eine bestimmte Dauer an.
+ * Zeigt eine Nachricht mit Einblende- und Ausblendeffekt für eine bestimmte Dauer an.
  */
 public class MadnInfoTextV extends ScalePane {
     private final ObjectProperty<EventHandler<ActionEvent>> onFinishedProp = new SimpleObjectProperty<>();

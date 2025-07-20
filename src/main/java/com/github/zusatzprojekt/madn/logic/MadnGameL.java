@@ -32,9 +32,9 @@ public class MadnGameL {
     private final ObjectProperty<MadnGamePhase> gamePhase = new SimpleObjectProperty<>(MadnGamePhase.INIT);
     private final ObjectProperty<EventHandler<MouseEvent>> figureClicked = new SimpleObjectProperty<>(this::onFigureClicked);
     private MadnPlayerL[] activePlayers;
-    private int rollCount = 0;
-    private int finishedPlayers = 0;
     private MadnFigureL backToBase;
+    private int finishedPlayers = 0;
+    private int rollCount = 0;
 
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
         dice = new MadnDiceL(vDice);
@@ -106,7 +106,6 @@ public class MadnGameL {
         });
 
         gamePhase.addListener((observable, oldPhase, newPhase) -> {
-            System.out.println("Spielphase " + oldPhase + " -> " + newPhase); // TODO: Entfernen
 
             if (oldPhase == MadnGamePhase.MOVE_ANIMATION && newPhase == MadnGamePhase.THROW_TRIGGER) {
                 throwPlayer();
@@ -139,7 +138,6 @@ public class MadnGameL {
     }
 
     private void rollFinished() {
-        System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat eine " + currentPlayer.getValue().getLastRoll() + " gewürfelt!"); // TODO: Entfernen
 
         switch (gamePhase.getValue()) {
             case START_ROLL:
@@ -251,8 +249,6 @@ public class MadnGameL {
                 infoText.setOnFinished(event -> {
                     gamePhase.setValue(MadnGamePhase.DICE_ROLL);
                     dice.setEnabled(true);
-
-                    System.out.println("Spieler " + currentPlayer.getValue().getPlayerID() + " hat die höchste Zahl (" + currentPlayer.getValue().getLastRoll() + ") gewürfelt. Dieser Spieler beginnt"); //TODO: Entfernen
                 });
 
                 infoText.showTextOverlay( getPlayerString(getCurrentPlayer()) + " beginnt!", Duration.seconds(2));
@@ -340,8 +336,6 @@ public class MadnGameL {
         }
 
         gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
-
-        System.out.println(figure + " has been Clicked!");
     }
 
     private void throwPlayer() {
@@ -364,10 +358,8 @@ public class MadnGameL {
         }
     }
 
-//TODO: gewonnene spieler überspringen --OK?-- + ebene von "geworfenen" spielern ändern + Infotext wenn spieler fertig --OK?-- + spieler auf startfeld kann nicht ziehen aber es wird nicht in FIGURE_SELECT gewechselt --OK?--
     private void afterFigureAnimations() {
         int figuresInHome = (int) Arrays.stream(homes.get(getCurrentPlayer().getPlayerID())).filter(Objects::nonNull).count();
-        System.out.println("Figuren daheim Filter: " + figuresInHome);
 
         if (figuresInHome >= getCurrentPlayer().getFigures().length && !getCurrentPlayer().isFinished()) {
             setPlayerFinishPos();
@@ -414,8 +406,6 @@ public class MadnGameL {
     private void setPlayerFinishPos() {
         finishedPlayers++;
         currentPlayer.getValue().setFinishedPos(finishedPlayers);
-
-        System.out.println("Finished player count: " + finishedPlayers);
     }
 
     private Map<String, Object> createDataPacket() {
@@ -424,13 +414,6 @@ public class MadnGameL {
 
         return map;
     }
-
-
-
-
-
-
-
 
     public MadnPlayerL[] getPlayerList() {
         return playerList;

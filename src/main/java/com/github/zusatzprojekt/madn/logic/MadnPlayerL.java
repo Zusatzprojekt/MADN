@@ -32,7 +32,6 @@ public class MadnPlayerL {
         };
     }
 
-    // TODO: Movement-Überprüfung + Fertigstellen
     public void enableCanMove(MadnFigureL[] waypoints, Map<MadnPlayerId, MadnFigureL[]> bases, Map<MadnPlayerId, MadnFigureL[]> homes) {
         int roll = lastRoll.getValue();
         MadnFigureL[] baseFigures = Arrays.stream(bases.get(playerID)).filter(Objects::nonNull).toArray(MadnFigureL[]::new);
