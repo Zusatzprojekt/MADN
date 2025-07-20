@@ -52,7 +52,7 @@ public class MadnPlayerL {
         if (startFigure != null) {
             startFigure.setCanMove(figureMovementCheck(startFigure, waypoints, homes.get(playerID), roll));
 
-            if (baseFigures.length > 0) {
+            if (baseFigures.length > 0 && startFigure.canMove()) {
                 return;
             }
 
@@ -69,9 +69,6 @@ public class MadnPlayerL {
         Arrays.stream(wayFigures).forEach(figure -> {
             figure.setCanMove(figureMovementCheck(figure, waypoints, homes.get(playerID), roll));
         });
-
-
-        // TODO rewrite logic
     }
 
     private boolean figureMovementCheck(MadnFigureL figure, MadnFigureL[] waypoints, MadnFigureL[] home, int roll) {

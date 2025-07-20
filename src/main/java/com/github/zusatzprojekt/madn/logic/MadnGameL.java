@@ -208,7 +208,7 @@ public class MadnGameL {
         int curIndex = Arrays.asList(players).indexOf(currentPlayer.getValue());
         int counter = 0;
 
-        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).filter(MadnPlayerL::isFinished).count() > 1) {
+        while (players[(curIndex + 1) % pLength].isFinished() && Arrays.stream(players).anyMatch(player -> !player.isFinished())) {
 
             if (counter > pLength * 2) {
                 throw new RuntimeException(new Exception("switchPlayer exceeded max loop count"));
@@ -364,6 +364,7 @@ public class MadnGameL {
         }
     }
 
+//TODO: gewonnene spieler überspringen --OK?-- + ebene von "geworfenen" spielern ändern + Infotext wenn spieler fertig --OK?-- + spieler auf startfeld kann nicht ziehen aber es wird nicht in FIGURE_SELECT gewechselt --OK?--
     private void afterFigureAnimations() {
         int figuresInHome = (int) Arrays.stream(homes.get(getCurrentPlayer().getPlayerID())).filter(Objects::nonNull).count();
         System.out.println("Figuren daheim Filter: " + figuresInHome);
@@ -380,23 +381,34 @@ public class MadnGameL {
 
         } else  {
 
-            if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
-                rollCount = 0;
-
-                switchPlayer(playerList);
+            if (getCurrentPlayer().isFinished()) {
 
                 infoText.setOnFinished(event -> {
-                    gamePhase.setValue(MadnGamePhase.DICE_ROLL);
-                    dice.setEnabled(true);
+                    nextPlayerInfoAndSwitch();
                 });
+                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()) + " ist fertig!", Duration.millis(500));
 
-                infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
+            } else if (rollCount >= MAX_ROLL_COUNT || getCurrentPlayer().getLastRoll() != 6 || getCurrentPlayer().isFinished()) {
+                nextPlayerInfoAndSwitch();
 
             } else {
                 gamePhase.setValue(MadnGamePhase.DICE_ROLL);
                 dice.setEnabled(true);
             }
         }
+    }
+
+    private void nextPlayerInfoAndSwitch() {
+        rollCount = 0;
+
+        switchPlayer(playerList);
+
+        infoText.setOnFinished(event -> {
+            gamePhase.setValue(MadnGamePhase.DICE_ROLL);
+            dice.setEnabled(true);
+        });
+
+        infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
     }
 
     private void setPlayerFinishPos() {
