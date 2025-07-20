@@ -17,7 +17,11 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Comparator;
 
 /**
  * Hauptklasse zur Spiellogik für „Mensch ärgere Dich nicht“.
@@ -240,7 +244,7 @@ public class MadnGameL {
 
         } else {
 
-            if (baseFigureCount < getCurrentPlayer().getFigures().length) {
+            if (baseFigureCount < getCurrentPlayer().getFigures().length && (!figuresOptimalHome || wayFigure)) {
 
                 infoText.setOnFinished(event ->  {
                     switchPlayer(playerList);
