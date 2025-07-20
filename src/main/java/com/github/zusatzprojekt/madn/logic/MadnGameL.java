@@ -19,6 +19,11 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+/**
+ * Hauptklasse zur Spiellogik für „Mensch ärgere Dich nicht“.
+ * Sie verwaltet Spieler, Spielfiguren, Spielphasen und -abläufe, inklusive Würfelmechanik,
+ * Bewegungen, Wechseln der Spieler und Siegbedingungen.
+ */
 public class MadnGameL {
     private final int MAX_ROLL_COUNT = 3;
     private final MadnDiceL dice;
@@ -36,6 +41,14 @@ public class MadnGameL {
     private int finishedPlayers = 0;
     private int rollCount = 0;
 
+    /**
+     * Konstruktor. Initialisiert die Spiellogik mit UI-Komponenten und Spielern.
+     *
+     * @param players Spielereinstellungen (aktivierte Farben / Anzahl der Spieler)
+     * @param board   das visuelle Spielfeld
+     * @param vDice   die visuelle Würfelkomponente
+     * @param iTxt    die Text-Info-Komponente
+     */
     public MadnGameL(Map<String, Object> players, MadnBoardV board, MadnDiceV vDice, MadnInfoTextV iTxt) {
         dice = new MadnDiceL(vDice);
         infoText = iTxt;
@@ -51,6 +64,11 @@ public class MadnGameL {
         initHandlers(vDice);
     }
 
+    /**
+     * Initialisiert die Startpositionen (Basen) der Figuren aller Spieler.
+     *
+     * @return Gibt die Basis für jeden Spieler und dessen Figur als HashMap zurück.
+     */
     private Map<MadnPlayerId, MadnFigureL[]> initBases() {
         Map<MadnPlayerId, MadnFigureL[]> bases = new HashMap<>();
 
@@ -66,6 +84,11 @@ public class MadnGameL {
         return bases;
     }
 
+    /**
+     * Initialisiert die Zielbereiche (HOME) aller Spieler.
+     *
+     * @return Gibt die Zielpositionen für jeden Spieler und dessen Figuren als HashMap zurück.
+     */
     private Map<MadnPlayerId, MadnFigureL[]> initHomes() {
         Map<MadnPlayerId, MadnFigureL[]> homes = new HashMap<>();
 
@@ -76,6 +99,12 @@ public class MadnGameL {
         return homes;
     }
 
+    /**
+     * Erstellt die Spieler basierend auf der übergebenen Konfiguration.
+     *
+     * @param players Spielereinstellungen (aktivierte Farben / Anzahl der Spieler)
+     * @return  Gibt die Spielerliste mit allen aktiven Spielern als Array zurück
+     */
     private MadnPlayerL[] initPlayers(Map<String, Object> players) {
         int playerCount = (int) players.get("playerCount");
         MadnPlayerL[] playerList = new MadnPlayerL[playerCount];
@@ -99,6 +128,11 @@ public class MadnGameL {
         return playerList;
     }
 
+    /**
+     * Verbindet Listener mit dem visuellen Spielfeld und den Spielphasen, wie z. B. das Werfen anderer Spielfiguren.
+     *
+     * @param board das visuelle Spielfeld
+     */
     private void initListeners(MadnBoardV board) {
 
         currentPlayer.addListener((observableValue, oldPlayer, player) -> {
@@ -113,6 +147,11 @@ public class MadnGameL {
         });
     }
 
+    /**
+     * Initialisiert UI-Handler für Würfelinteraktion.
+     *
+     * @param vDice die visuelle Würfelkomponente
+     */
     private void initHandlers(MadnDiceV vDice) {
 
         vDice.setOnDiceClicked(event -> {
@@ -127,16 +166,26 @@ public class MadnGameL {
         });
     }
 
+    /**
+     * Setzt das Spiel initial auf den ersten aktiven Spieler.
+     */
     public void setupGame() {
         activePlayers = playerList;
         currentPlayer.setValue(activePlayers[0]);
     }
 
+    /**
+     * Startet das Spiel und aktiviert den Würfel.
+     */
     public void startGame() {
         gamePhase.setValue(MadnGamePhase.START_ROLL);
         dice.setEnabled(true);
     }
 
+    /**
+     * Wird nach Abschluss der Würfelanimation aufgerufen.
+     * Leitet je nach Spielphasen entsprechend weiter.
+     */
     private void rollFinished() {
 
         switch (gamePhase.getValue()) {
@@ -151,6 +200,22 @@ public class MadnGameL {
 
     }
 
+    /**
+     * Führt die Spiel-Logik nach einem Würfelwurf aus.
+     *
+     * <p>Diese Methode entscheidet basierend auf dem aktuellen Würfelergebnis und dem Zustand
+     * der Spielfiguren, ob der Spieler eine Figur auswählen darf, erneut würfeln darf oder ob
+     * der nächste Spieler an der Reihe ist.</p>
+     *
+     * <p>Berücksichtigt dabei:
+     * <ul>
+     *   <li>Ob eine Figur bewegt werden kann</li>
+     *   <li>Ob eine Figur aus der BASE ins Spiel darf</li>
+     *   <li>Ob Figuren optimal im HOME-Bereich stehen</li>
+     *   <li>Ob der Spieler eine 6 geworfen hat</li>
+     *   <li>Ob das Wurflimit erreicht ist</li>
+     * </ul></p>
+     */
     private void diceRoll() {
         int canMoveCount = getMovableFigureCount();
         int baseFigureCount = (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(figure -> figure.getFigurePosition().getFigurePlacement() == MadnFigurePlacement.BASE).count();
@@ -196,12 +261,27 @@ public class MadnGameL {
         }
     }
 
+    /**
+     * Bestimmt die Anzahl beweglicher Figuren des aktuellen Spielers.
+     *
+     * @return Gibt die Anzahl der Figuren zurück, die bewegt werden können
+     */
     private int getMovableFigureCount() {
         getCurrentPlayer().enableCanMove(waypoints, bases, homes);
 
         return (int) Arrays.stream(getCurrentPlayer().getFigures()).filter(MadnFigureL::canMove).count();
     }
 
+    /**
+     * Wechselt den aktuellen Spieler zum nächsten, der das Spiel noch nicht beendet hat.
+     *
+     * <p>Die Methode überspringt alle Spieler, deren Spielstatus bereits als "finished" markiert ist.
+     * Sollte kein gültiger Spieler mehr gefunden werden (was theoretisch nicht passieren darf), wird
+     * nach einer bestimmten Anzahl eine {@link RuntimeException} geworfen, um Endlosschleifen zu vermeiden.</p>
+     *
+     * @param players Ein Array aller Spieler im Spiel (in Spielreihenfolge)
+     * @throws RuntimeException falls eine unerwartete Schleifenbedingung auftritt
+     */
     private void switchPlayer(MadnPlayerL[] players) {
         int pLength = players.length;
         int curIndex = Arrays.asList(players).indexOf(currentPlayer.getValue());
@@ -220,6 +300,12 @@ public class MadnGameL {
         currentPlayer.setValue(players[(curIndex + 1) % pLength]);
     }
 
+    /**
+     * Gibt den Namen eines Spielers basierend auf seiner ID zurück.
+     *
+     * @param player Der Spieler, welcher ausgewertet werden soll
+     * @return Gibt die Spielerfarbe als String zurück
+     */
     private String getPlayerString(MadnPlayerL player) {
         return switch (player.getPlayerID()) {
             case BLUE -> "Blau";
@@ -230,6 +316,18 @@ public class MadnGameL {
         };
     }
 
+    /**
+     * Regelt den Spielstart nach den Startwürfen aller Spieler.
+     *
+     * <p>Wenn alle Spieler ihren Startwurf gemacht haben, bestimmt diese Methode:
+     * <ul>
+     *   <li>Welcher Spieler das Spiel beginnt (höchster Wurf)</li>
+     *   <li>Ob ein Stechen bei Gleichstand nötig ist</li>
+     *   <li>Wer als nächstes würfeln darf</li>
+     * </ul>
+     * Das Ergebnis wird über ein Overlay dem Spieler mitgeteilt, und anschließend wird entweder
+     * das Spiel gestartet oder das Stechen fortgeführt.</p>
+     */
     private void startRoll() {
         if (currentPlayer.getValue() == activePlayers[activePlayers.length - 1]) {
             activePlayers = getHighestRoll();
@@ -261,6 +359,11 @@ public class MadnGameL {
         }
     }
 
+    /**
+     * Erzeugt einen Infotext für Spieler, die einen gleich hohen Startwurf hatten.
+     *
+     * @return Gibt den Infotext als String zurück
+     */
     private String generateInfoText() {
         StringBuilder sb = new StringBuilder("Spieler mit gleichem Wurf: ");
 
@@ -276,11 +379,28 @@ public class MadnGameL {
         return sb.toString();
     }
 
+    /**
+     * Ermittelt den Spieler mit dem höchsten Startwurf.
+     *
+     * @return Gibt den Spieler mit dem höchsten Startwurf als Array zurück.
+     */
     private MadnPlayerL[] getHighestRoll() {
         MadnPlayerL[] players = Arrays.stream(activePlayers).sorted(Comparator.comparingInt(MadnPlayerL::getLastRoll).reversed()).toArray(MadnPlayerL[]::new);
         return Arrays.stream(players).filter(player -> player.getLastRoll() == players[0].getLastRoll()).toArray(MadnPlayerL[]::new);
     }
 
+    /**
+     * Wird aufgerufen, wenn eine Spielfigur angeklickt wird.
+     * Diese Methode verarbeitet den Spielzug der angeklickten Figur
+     * abhängig von ihrer aktuellen Position (BASE, WAYPOINTS, HOME)
+     * und dem letzten Würfelergebnis des Spielers.
+     *
+     * <p>Die Methode überprüft die Zugmöglichkeiten und bewegt
+     * die Figur ggf. auf das Spielfeld, in den HOME-Bereich oder
+     * setzt sie zurück in die BASE (bei Schlagzug).</p>
+     *
+     * @param mouseEvent das MouseEvent, das durch den Klick auf eine Figur ausgelöst wurde
+     */
     private void onFigureClicked(MouseEvent mouseEvent) {
         MadnFigureL figure = ((MadnFigureV) ((Node) mouseEvent.getSource()).getParent()).getLogicalFigure();
         MadnFigurePosition figurePos = figure.figurePositionObservable().getValue();
@@ -339,6 +459,13 @@ public class MadnGameL {
         gamePhase.setValue(MadnGamePhase.MOVE_ANIMATION);
     }
 
+    /**
+     * Behandelt das Zurückwerfen einer gegnerischen Figur auf das BASE-Feld.
+     *
+     * <p>Falls {@code backToBase} gesetzt ist, wird die betroffene Figur an ihre ursprüngliche
+     * Position in der BASE zurückgesetzt und eine entsprechende Overlay-Nachricht angezeigt.
+     * Ist keine Figur zurückzuwerfen, wird direkt die nächste Spielaktion eingeleitet.</p>
+     */
     private void throwPlayer() {
         if (backToBase != null) {
 
@@ -359,6 +486,17 @@ public class MadnGameL {
         }
     }
 
+    /**
+     * Führt die Spiellogik nach dem Abschluss von Figuren-Animationen aus.
+     *
+     * <p>Diese Methode prüft:
+     * <ul>
+     *     <li>Ob ein Spieler das Spiel abgeschlossen hat (alle Figuren im HOME-Bereich)</li>
+     *     <li>Ob das Spiel beendet ist (alle bis auf einen Spieler fertig)</li>
+     *     <li>Ob der nächste Spieler am Zug ist oder der aktuelle Spieler erneut würfeln darf</li>
+     * </ul>
+     * Falls das Spiel beendet ist, wird zur Endansicht gewechselt.</p>
+     */
     private void afterFigureAnimations() {
         int figuresInHome = (int) Arrays.stream(homes.get(getCurrentPlayer().getPlayerID())).filter(Objects::nonNull).count();
 
@@ -391,6 +529,12 @@ public class MadnGameL {
         }
     }
 
+    /**
+     * Setzt den nächsten Spieler als aktiv, zeigt dessen Namen im Overlay an
+     * und aktiviert anschließend den Würfel.
+     *
+     * <p>Wird typischerweise nach dem Abschluss eines Zuges oder nach einem ungültigen Zug aufgerufen.</p>
+     */
     private void nextPlayerInfoAndSwitch() {
         rollCount = 0;
 
@@ -404,11 +548,24 @@ public class MadnGameL {
         infoText.showTextOverlay(getPlayerString(getCurrentPlayer()), Duration.millis(500));
     }
 
+    /**
+     * Markiert den aktuellen Spieler als „fertig“ und weist ihm die nächste Platzierungsposition zu.
+     *
+     * <p>Die Methode erhöht den Zähler {@code finishedPlayers} und
+     * speichert die Position, an welcher der Spieler das Spiel abgeschlossen hat.</p>
+     */
     private void setPlayerFinishPos() {
         finishedPlayers++;
         currentPlayer.getValue().setFinishedPos(finishedPlayers);
     }
 
+    /**
+     * Erstellt ein Datenpaket (Map), das an die Startansicht oder Endansicht übergeben werden kann.
+     *
+     * <p>Enthält u.a. die Spielerinformationen im Array {@code playerObjectArray}.</p>
+     *
+     * @return eine Map mit Spielerinformationen
+     */
     private Map<String, Object> createDataPacket() {
         Map<String, Object> map = new HashMap<>(playersInGame);
         map.put("playerObjectArray", playerList);
@@ -416,26 +573,60 @@ public class MadnGameL {
         return map;
     }
 
+    /**
+     * Gibt die vollständige Spielerliste zurück.
+     *
+     * @return Array aller Spieler im Spiel
+     */
     public MadnPlayerL[] getPlayerList() {
         return playerList;
     }
 
+    /**
+     * Gibt den aktuell aktiven Spieler zurück.
+     *
+     * @return das {@link MadnPlayerL}-Objekt des aktuellen Spielers
+     */
     public MadnPlayerL getCurrentPlayer() {
         return currentPlayer.getValue();
     }
 
+    /**
+     * Setzt die aktuelle Spielphase.
+     *
+     * @param phase die neue Spielphase
+     */
     public void setGamePhase(MadnGamePhase phase) {
         gamePhase.setValue(phase);
     }
 
+    /**
+     * Gibt die observable Property für den aktuellen Spieler zurück.
+     *
+     * @return ObservableValue des aktuellen Spielers
+     */
     public ObservableValue<MadnPlayerL> currentPlayerObservable() {
         return currentPlayer;
     }
 
+    /**
+     * Gibt die observable Property für das Klick-Event auf Figuren zurück.
+     *
+     * <p>Diese Property kann von der View gebunden werden, um auf Spielfigur-Klicks zu reagieren.</p>
+     *
+     * @return ObservableValue für den {@code EventHandler<MouseEvent>}
+     */
     public ObservableValue<EventHandler<MouseEvent>> figureClickedObservable() {
         return figureClicked;
     }
 
+    /**
+     * Gibt die Property der aktuellen Spielphase zurück.
+     *
+     * <p>Nützlich zum Binden oder Beobachten durch die UI.</p>
+     *
+     * @return ObjectProperty der {@link MadnGamePhase}
+     */
     public ObjectProperty<MadnGamePhase> gamePhaseProperty() {
         return gamePhase;
     }
