@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
  *   <li>Sichere Verwaltung von {@code Stage} und Startparametern</li>
  * </ul>
  *
- * <p><strong>Hinweis:</strong> Alle Methoden sind statisch. Die Klasse darf nur einmal initialisiert werden.</p>
+ * <p><strong>Hinweis:</strong> Alle Methoden sind statisch. Es soll keine Instanz dieser Klasse erzeugt werden.</p>
  */
 public class AppManager {
     private static Stage mainStage;
