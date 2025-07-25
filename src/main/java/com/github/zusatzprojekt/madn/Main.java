@@ -6,8 +6,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Hauptklasse der JavaFX-Anwendung "Mensch ärgere Dich nicht".
@@ -38,9 +36,6 @@ public class Main extends Application {
 
         // Lädt die Startszene aus der FXML-Datei mit angegebener Breite und Höhe
         AppManager.loadScene("ui/start-view.fxml", 1280.0, 720.0);
-
-        List<String> rawArgs = getParameters().getRaw();
-        Map<String, String> namedArgs = getParameters().getNamed();
 
         // Setzt die Startparameter
         stage.setTitle("Mensch ärgere Dich nicht");
