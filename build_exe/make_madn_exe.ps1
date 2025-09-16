@@ -38,32 +38,33 @@ Write-Host "";
 
 Write-Host "---- Starte Verbindungstest ----".PadRight([System.Console]::WindowWidth, '-');
 Write-Host "Teste Verbindung zu $(($uris | ForEach-Object { $_.Host }) -join ', ') ...";
-& "$TOOL_DIR\toolbox\Test-UrlConnections.ps1" -URL ($uris | ForEach-Object { $_.Host }) -TimeoutMillis 10000 | Out-Null;
+& "$TOOL_DIR\toolbox\Test-UrlConnections.ps1" -URL ($uris | ForEach-Object { $_.Host }) -TimeoutMillis 30000 | Out-Null;
 Write-Host "Verbindungen erfolgreich!";
 Write-Host "---- Verbindungstest abgeschlossen ----".PadRight([System.Console]::WindowWidth, '-');
 Write-Host "";
 
 
 Write-Host "---- Bereite Build-Umgebung vor ----".PadRight([System.Console]::WindowWidth, '-');
-Write-Host "Teste Ordner 'programme' ...";
+Write-Host "Teste Ordner 'target' ...";
 if (Test-Path -Path "$BASE_DIR\target" -PathType Container) {
     Write-Host "Ordner 'target' existiert bereits. Bereinige ...";
     Remove-Item -Path "$BASE_DIR\target\*" -Recurse | Out-Null;
-    Write-Host "Ordner 'target' bereinigt";
+    Write-Host "Ordner 'target' bereinigt!";
 } else {
     Write-Host "Erzeuge Ordner 'target' ...";
     New-Item -Path "$BASE_DIR\" -Name 'target' -ItemType Directory | Out-Null;
-    Write-Host "Ordner 'target' erzeugt";
+    Write-Host "Ordner 'target' erzeugt!";
 }
 
+Write-Host "Teste Ordner 'programs' ...";
 if (Test-Path -Path "$TOOL_DIR\programs" -PathType Container) {
     Write-Host "Ordner 'programs' existiert bereits. Bereinige ...";
     Remove-Item -Path "$TOOL_DIR\programs\*" -Recurse | Out-Null;
-    Write-Host "Ordner 'programs' bereinigt";
+    Write-Host "Ordner 'programs' bereinigt!";
 } else {
     Write-Host "Erzeuge Ordner 'programs' ...";
     New-Item -Path "$TOOL_DIR\" -Name 'programs' -ItemType Directory | Out-Null;
-    Write-Host "Ordner 'programs' erzeugt";
+    Write-Host "Ordner 'programs' erzeugt!";
 }
 
 Write-Host "---- Build-Umgebung vorbereitet ----".PadRight([System.Console]::WindowWidth, '-');
@@ -95,7 +96,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "curl.exe failed with exit code $LASTEXITCODE";
 }
 [System.Console]::SetCursorPosition(0, [System.Console]::CursorTop - 1);
-Write-Host "'$($java.name)' heruntergeladen!".PadRight([System.Console]::WindowWidth);
+Write-Host "Herunterladen von '$($java.name)' abgeschlossen!".PadRight([System.Console]::WindowWidth);
 
 Write-Host "${ue_gr}berpr${ue}fe checksumme von '$($java.name)' ...";
 $java_checksum = (Get-FileHash -Path "$TOOL_DIR\programs\$JDK_FOLDER_NAME.zip" -Algorithm "$($java.checksum.Keys[0])").Hash;
@@ -110,7 +111,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "curl.exe failed with exit code $LASTEXITCODE";
 }
 [System.Console]::SetCursorPosition(0, [System.Console]::CursorTop - 1);
-Write-Host "'$($nsis.name)' heruntergeladen!".PadRight([System.Console]::WindowWidth);
+Write-Host "Herunterladen von '$($nsis.name)' abgeschlossen!".PadRight([System.Console]::WindowWidth);
 
 Write-Host "${ue_gr}berpr${ue}fe checksumme von '$($nsis.name)' ...";
 $nsis_checksum = (Get-FileHash -Path "$TOOL_DIR\programs\$NSIS_FOLDER_NAME.zip" -Algorithm "$($nsis.checksum.Keys[0])").Hash;
@@ -125,14 +126,14 @@ Write-Host "";
 Write-Host "---- Extrahiere Downloads ----".PadRight([System.Console]::WindowWidth, '-');
 Write-Host "Erstelle Ziel-Ordner '$JDK_FOLDER_NAME' ...";
 New-Item -Path "$TOOL_DIR\programs\" -Name "$JDK_FOLDER_NAME" -ItemType Directory | Out-Null;
-Write-Host "Ziel-Ordener '$JDK_FOLDER_NAME' erstellt!";
+Write-Host "Ziel-Ordner '$JDK_FOLDER_NAME' erstellt!";
 
-Write-Host "Extrahiere '$JDK_FOLDER_NAME.zip' into '$JDK_FOLDER_NAME' ...";
+Write-Host "Extrahiere '$JDK_FOLDER_NAME.zip' nach '$JDK_FOLDER_NAME' ...";
 tar.exe -xf "$TOOL_DIR\programs\$JDK_FOLDER_NAME.zip" -C "$TOOL_DIR\programs\$JDK_FOLDER_NAME\";
 if ($LASTEXITCODE -ne 0) {
     throw "tar.exe failed with exit code $LASTEXITCODE";
 }
-Write-Host "'$JDK_FOLDER_NAME.zip' extrahiert!";
+Write-Host "Archiv '$JDK_FOLDER_NAME.zip' extrahiert!";
 
 Write-Host "Entferne Archiv '$JDK_FOLDER_NAME.zip' ...";
 Remove-Item -Path "$TOOL_DIR\programs\$JDK_FOLDER_NAME.zip" -Force | Out-Null;
@@ -140,14 +141,14 @@ Write-Host "Archiv '$JDK_FOLDER_NAME.zip' entfernt!";
 
 Write-Host "Erstelle Ziel-Ordner '$NSIS_FOLDER_NAME' ...";
 New-Item -Path "$TOOL_DIR\programs\" -Name "$NSIS_FOLDER_NAME" -ItemType Directory | Out-Null;
-Write-Host "Ziel-Ordener '$NSIS_FOLDER_NAME' erstellt!";
+Write-Host "Ziel-Ordner '$NSIS_FOLDER_NAME' erstellt!";
 
-Write-Host "Extrahiere '$NSIS_FOLDER_NAME.zip' into '$NSIS_FOLDER_NAME' ...";
+Write-Host "Extrahiere '$NSIS_FOLDER_NAME.zip' nach '$NSIS_FOLDER_NAME' ...";
 tar.exe -xf "$TOOL_DIR\programs\$NSIS_FOLDER_NAME.zip" -C "$TOOL_DIR\programs\$NSIS_FOLDER_NAME\";
 if ($LASTEXITCODE -ne 0) {
     throw "tar.exe failed with exit code $LASTEXITCODE";
 }
-Write-Host "'$NSIS_FOLDER_NAME.zip' extrahiert!";
+Write-Host "Archiv '$NSIS_FOLDER_NAME.zip' extrahiert!";
 
 Write-Host "Entferne Archiv '$NSIS_FOLDER_NAME.zip' ...";
 Remove-Item -Path "$TOOL_DIR\programs\$NSIS_FOLDER_NAME.zip" -Force | Out-Null;
@@ -160,16 +161,16 @@ Write-Host "---- Setze Umgebungsvariablen ----".PadRight([System.Console]::Windo
 Write-Host "Setze 'JAVA_HOME' auf '$($java.name)' ...";
 $jdk_path = (Get-ChildItem -Path "$TOOL_DIR\programs\$JDK_FOLDER_NAME\" -Directory)[0].FullName;
 $env:JAVA_HOME = $jdk_path;
-Write-Host "'JAVA_HOME' gesetzt!";
+Write-Host "Umgebungsvariable 'JAVA_HOME' gesetzt!";
 
 Write-Host "F${ue}ge '$($java.name)' zu 'Path' hinzu ...";
 $env:Path = "$jdk_path\bin;" + $env:Path;
-Write-Host "'$($java.name)' zu 'Path' hinzuge${ue}gt!";
+Write-Host "Pfad '$($java.name)' zu 'Path' hinzuge${ue}gt!";
 
 Write-Host "F${ue}ge '$($nsis.name)' zu 'Path' hinzu ...";
 $nsis_path = (Get-ChildItem -Path "$TOOL_DIR\programs\$NSIS_FOLDER_NAME\" -Directory)[0].FullName;
 $env:Path = "$nsis_path;" + $env:Path;
-Write-Host "'$($nsis.name)' zu 'Path' hinzugef${ue}gt!";
+Write-Host "Pfad '$($nsis.name)' zu 'Path' hinzugef${ue}gt!";
 Write-Host "---- Umgebungsvariablen gesetzt ----".PadRight([System.Console]::WindowWidth, '-');
 Write-Host "";
 
